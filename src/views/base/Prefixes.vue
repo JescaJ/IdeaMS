@@ -1,7 +1,7 @@
 <template>
   <div>
     <CCardBody>
-      <CDataTable :items="ideas" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
+      <CDataTable :items="prefixes" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
         <CIcon name="cil-grid" /> Simple Table
         <template #update="{ item }">
           <td class="py-2">
@@ -10,7 +10,7 @@
               variant="outline"
               square
               size="sm"
-              @click="viewIdea(item), (warningModal = true)"
+              @click="viewPrefix(item), (warningModal = true)"
             >
               Update
             </CButton>
@@ -35,29 +35,29 @@
     <!-- the modal for update -->
 
     <CModal
-      title="Update Idea"
+      title="Update Prefix"
       :show.sync="warningModal"
       :no-close-on-backdrop="true"
       :centered="true"
       size="lg"
-      ><CForm @submit.prevent="saveUpdatedIdea(myIdea)" v-if="!update">
-        <CInput type="hidden" :value="myIdea.idea_id" />
+      ><CForm @submit.prevent="saveUpdatedPrefix(myPrefix)" v-if="!update">
+        <CInput type="hidden" :value="myPrefix.idea_id" />
         <CInput
-          label="Idea Title"
-          name="idea_title"
-          :placeholder="myIdea.idea_title"
+          label="Prefix Name"
+          name="prefix_name"
+          :placeholder="myPrefix.prefix_name"
           id="idea_title"
-          v-model="myIdea.idea_title"
+          v-model="myPrefix.prefix_name"
           horizontal
         />
         <CTextarea
-          label="Description"
+          label="Prefix Description"
           horizontal
           rows="9"
-          name="idea_description"
-          id="idea_description"
-          :placeholder="myIdea.idea_description"
-          v-model="myIdea.idea_description"
+          name="prefix_description"
+          id="prefix_description"
+          :placeholder="myPrefix.prefix_description"
+          v-model="myPrefix.prefix_description"
         />
         <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;"
           ><CIcon name="cil-check-circle" /> Submit</CButton
@@ -82,11 +82,11 @@
 
     <!-- modal for delete -->
     <CModal
-      title="Delete Idea"
+      title="Delete Prefix"
       :show.sync="deleteModal"
       
     >
-    <CForm @submit.prevent="deleteIdea(myIdeaDelete)" v-if="!submitted">
+    <CForm @submit.prevent="deletePrefix(myPrefixDelete)" v-if="!submitted">
      <p> Are you sure you want to delete this item?</p>
       <CButton type="submit" size="sm" color="danger" style="float: right;"
           ><CIcon name="cil-check-circle" /> Delete</CButton
@@ -118,29 +118,25 @@ import CTableWrapper from "./Table.vue";
 import axios from "axios";
 
 export default {
-  name: "Ideas",
+  name: "Prefixes",
   components: { CTableWrapper },
   props:{
         small: Boolean,
   },
   data() {
     return {
-      idea_id: "",
-      idea_title: "",
-      idea_description: "",
-      category_id: "",
-      global_user_id: "",
+      prefix_id: "",
+      prefix_name: "",
+      prefix_description: "",
       update: false,
       submitted: false,
-      ideas: [],
-      myIdea: "",
-      myIdeaDelete:"",
+      prefixes: [],
+      myPrefix: "",
+      myPrefixDelete:"",
       fields: [
-        { key: "idea_id" },
-        { key: "idea_title" },
-        { key: "idea_description" },
-        { key: "category_id" },
-        { key: "global_user_id" },
+        { key: "prefix_id" },
+        { key: "prefix_name" },
+        { key: "prefix_description" },
         {
           key: "update",
           label: "",
@@ -162,19 +158,17 @@ export default {
     };
   },
   methods: {
-    viewIdea(item) {
-      this.myIdea = {
-        idea_id: this.idea_id,
-        idea_title: this.idea_title,
-        idea_description: this.idea_description,
-        category_id: this.category_id,
-        global_user_id: this.global_user_id,
+    viewPrefix(item) {
+      this.myPrefix = {
+        prefix_id: this.prefix_id,
+        prefix_name: this.prefix_name,
+        prefix_description: this.prefix_description,
       };
-      this.myIdea = item;
+      this.myPrefix = item;
     },
-    saveUpdatedIdea(myIdea) {
+    saveUpdatedPrefix(myPrefix) {
       axios
-        .put(`http://localhost:8080/ideas/save/${myIdea.idea_id}`, myIdea)
+        .put(`http://localhost:8080/prefix/save/${myPrefix.prefix_id}`, myPrefix)
         .then((response) => {
         })
         .catch((e) => {
@@ -183,18 +177,16 @@ export default {
       this.update = true;
     },
     confirmDelete(item){
-        this.myIdeaDelete = {
-        idea_id: this.idea_id,
-        idea_title: this.idea_title,
-        idea_description: this.idea_description,
-        category_id: this.category_id,
-        global_user_id: this.global_user_id,
+        this.myPrefixDelete = {
+        prefix_id: this.prefix_id,
+        prefix_name: this.prefix_name,
+        prefix_description: this.prefix_description,
       };
-      this.myIdeaDelete = item;
+      this.myPrefixDelete = item;
     },
-    deleteIdea(myIdeaDelete) {
+    deletePrefix(myPrefixDelete) {
         axios
-        .delete(`http://localhost:8080/idea/delete/${myIdeaDelete.idea_id}`)
+        .delete(`http://localhost:8080/prefix/delete/${myPrefixDelete.prefix_id}`)
         .then((response) => {
         })
         .catch((e) => {
@@ -207,9 +199,9 @@ export default {
     // this is the function for returning all the ideas
   mounted: function () {
     axios
-      .get("http://localhost:8080/list_ideas/")
+      .get("http://localhost:8080/list_prefix/")
       .then((response) => {
-        this.ideas = response.data;
+        this.prefixes = response.data;
       })
       .catch((error) => console.log(error));
   },

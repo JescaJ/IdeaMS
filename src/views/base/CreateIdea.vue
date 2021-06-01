@@ -20,14 +20,6 @@
               id="idea_description"
               v-model="idea_description"
             />
-            <!-- <CInput
-              label="Category ID"
-              name="category_id"
-              type="number"
-              id="category_id"
-              v-model="category_id"
-              horizontal
-            /> -->
             <CSelect
               label="Category"
               name="category_id"
@@ -92,7 +84,6 @@ export default {
     axios
       .get("http://localhost:8080/list_category")
       .then((response) => {
-        //  console.log(response[0]['idea_title'])
         const results = response.data.map((category) => {
           return {
             value: category.category_id,
@@ -105,7 +96,6 @@ export default {
       .catch((error) => console.log(error));
   },
   methods: {
-    /* eslint-disable no-console */
     saveIdea() {
       const idea = {
         idea_id: this.idea_id,
@@ -118,7 +108,6 @@ export default {
       axios
         .post("http://localhost:8080/process_add_idea", idea)
         .then((response) => {
-          //   console.log(response);
         })
         .catch((e) => {
           console.log(e);
@@ -130,7 +119,6 @@ export default {
       this.submitted = false;
       this.idea = {};
     },
-    /* eslint-enable no-console */
   },
 };
 </script>

@@ -18,6 +18,10 @@ const Cards = () => import('@/views/base/Cards')
 const Forms = () => import('@/views/base/Forms')
 const Ideas = () => import('@/views/base/Ideas')
 const CreateIdea = () => import('@/views/base/CreateIdea')
+const CreatePrefix = () => import('@/views/base/CreatePrefix')
+const Prefixes = () => import('@/views/base/Prefixes')
+const CreateGender = () => import('@/views/base/CreateGender')
+const Genders = () => import('@/views/base/Genders')
 const Switches = () => import('@/views/base/Switches')
 const Tables = () => import('@/views/base/Tables')
 const Tabs = () => import('@/views/base/Tabs')
@@ -240,7 +244,7 @@ function configRoutes () {
         {
           path: 'buttons',
           redirect: '/buttons/standard-buttons',
-          name: 'Buttons',
+          name: 'Lookups',
           component: {
             render (c) { return c('router-view') }
           },
@@ -280,10 +284,26 @@ function configRoutes () {
               name: 'Icons library',
               component: CoreUIIcons
             },
+            
             {
-              path: 'brands',
-              name: 'Brands',
-              component: Brands
+              path: 'createPrefix',
+              name: 'createPrefix',
+              component: CreatePrefix
+            },
+            {
+              path: 'prefixes',
+              name: 'Prefixes',
+              component: Prefixes
+            },
+            {
+              path: 'createGender',
+              name: 'createGender',
+              component: CreateGender
+            },
+            {
+              path: 'genders',
+              name: 'Genders',
+              component: Prefixes
             },
             {
               path: 'flags',

@@ -1,7 +1,7 @@
 <template>
   <div>
     <CCardBody>
-      <CDataTable :items="ideas" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
+      <CDataTable :items="genders" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
         <CIcon name="cil-grid" /> Simple Table
         <template #update="{ item }">
           <td class="py-2">
@@ -10,7 +10,7 @@
               variant="outline"
               square
               size="sm"
-              @click="viewIdea(item), (warningModal = true)"
+              @click="viewGender(item), (warningModal = true)"
             >
               Update
             </CButton>
@@ -35,29 +35,29 @@
     <!-- the modal for update -->
 
     <CModal
-      title="Update Idea"
+      title="Update Gender"
       :show.sync="warningModal"
       :no-close-on-backdrop="true"
       :centered="true"
       size="lg"
-      ><CForm @submit.prevent="saveUpdatedIdea(myIdea)" v-if="!update">
-        <CInput type="hidden" :value="myIdea.idea_id" />
+      ><CForm @submit.prevent="saveUpdatedGender(myGender)" v-if="!update">
+        <CInput type="hidden" :value="myGender.gender_id" />
         <CInput
-          label="Idea Title"
-          name="idea_title"
-          :placeholder="myIdea.idea_title"
+          label="Prefix Name"
+          name="prefix_name"
+          :placeholder="myGender.gender_name"
           id="idea_title"
-          v-model="myIdea.idea_title"
+          v-model="myGender.gender_name"
           horizontal
         />
         <CTextarea
-          label="Description"
+          label="Gender Description"
           horizontal
           rows="9"
-          name="idea_description"
-          id="idea_description"
-          :placeholder="myIdea.idea_description"
-          v-model="myIdea.idea_description"
+          name="gender_description"
+          id="gender_description"
+          :placeholder="myGender.gender_description"
+          v-model="myGender.gender_description"
         />
         <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;"
           ><CIcon name="cil-check-circle" /> Submit</CButton
@@ -82,11 +82,11 @@
 
     <!-- modal for delete -->
     <CModal
-      title="Delete Idea"
+      title="Delete Gender"
       :show.sync="deleteModal"
       
     >
-    <CForm @submit.prevent="deleteIdea(myIdeaDelete)" v-if="!submitted">
+    <CForm @submit.prevent="deleteGender(myGenderDelete)" v-if="!submitted">
      <p> Are you sure you want to delete this item?</p>
       <CButton type="submit" size="sm" color="danger" style="float: right;"
           ><CIcon name="cil-check-circle" /> Delete</CButton
@@ -118,29 +118,25 @@ import CTableWrapper from "./Table.vue";
 import axios from "axios";
 
 export default {
-  name: "Ideas",
+  name: "Genders",
   components: { CTableWrapper },
   props:{
         small: Boolean,
   },
   data() {
     return {
-      idea_id: "",
-      idea_title: "",
-      idea_description: "",
-      category_id: "",
-      global_user_id: "",
+      gender_id: "",
+      gender_name: "",
+      gender_description: "",
       update: false,
       submitted: false,
-      ideas: [],
-      myIdea: "",
-      myIdeaDelete:"",
+      genders: [],
+      myGender: "",
+      myGenderDelete:"",
       fields: [
-        { key: "idea_id" },
-        { key: "idea_title" },
-        { key: "idea_description" },
-        { key: "category_id" },
-        { key: "global_user_id" },
+        { key: "gender_id" },
+        { key: "gender_name" },
+        { key: "gender_description" },
         {
           key: "update",
           label: "",
@@ -162,19 +158,17 @@ export default {
     };
   },
   methods: {
-    viewIdea(item) {
-      this.myIdea = {
-        idea_id: this.idea_id,
-        idea_title: this.idea_title,
-        idea_description: this.idea_description,
-        category_id: this.category_id,
-        global_user_id: this.global_user_id,
+    viewGender(item) {
+      this.myGender = {
+        gender_id: this.gender_id,
+        gender_name: this.gender_name,
+        gender_description: this.gender_description,
       };
-      this.myIdea = item;
+      this.myGender = item;
     },
-    saveUpdatedIdea(myIdea) {
+    saveUpdatedGender(myGender) {
       axios
-        .put(`http://localhost:8080/ideas/save/${myIdea.idea_id}`, myIdea)
+        .put(`http://localhost:8080/gender/save/${myGender.gender_id}`, myGender)
         .then((response) => {
         })
         .catch((e) => {
@@ -183,18 +177,16 @@ export default {
       this.update = true;
     },
     confirmDelete(item){
-        this.myIdeaDelete = {
-        idea_id: this.idea_id,
-        idea_title: this.idea_title,
-        idea_description: this.idea_description,
-        category_id: this.category_id,
-        global_user_id: this.global_user_id,
+        this.myGenderDelete = {
+        gender_id: this.gender_id,
+        gender_name: this.gender_name,
+        gender_description: this.gender_description,
       };
-      this.myIdeaDelete = item;
+      this.myGenderDelete = item;
     },
-    deleteIdea(myIdeaDelete) {
+    deleteGender(myGenderDelete) {
         axios
-        .delete(`http://localhost:8080/idea/delete/${myIdeaDelete.idea_id}`)
+        .delete(`http://localhost:8080/gender/delete/${myGenderDelete.gender_id}`)
         .then((response) => {
         })
         .catch((e) => {
@@ -207,9 +199,9 @@ export default {
     // this is the function for returning all the ideas
   mounted: function () {
     axios
-      .get("http://localhost:8080/list_ideas/")
+      .get("http://localhost:8080/list_gender/")
       .then((response) => {
-        this.ideas = response.data;
+        this.genders = response.data;
       })
       .catch((error) => console.log(error));
   },

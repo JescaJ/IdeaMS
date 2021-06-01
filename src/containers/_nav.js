@@ -142,30 +142,38 @@ export default [
       //   to: '/charts',
       //   icon: 'cil-chart-pie'
       // },
-      // {
-      //   _name: 'CSidebarNavDropdown',
-      //   name: 'Icons',
-      //   route: '/icons',
-      //   icon: 'cil-star',
-      //   items: [
-      //     {
-      //       name: 'CoreUI Icons',
-      //       to: '/icons/coreui-icons',
-      //       badge: {
-      //         color: 'info',
-      //         text: 'NEW'
-      //       }
-      //     },
-      //     {
-      //       name: 'Brands',
-      //       to: '/icons/brands'
-      //     },
-      //     {
-      //       name: 'Flags',
-      //       to: '/icons/flags'
-      //     }
-      //   ]
-      // },
+      {
+        _name: 'CSidebarNavDropdown',
+        name: 'Admin Lookups',
+        route: '/icons',
+        icon: 'cil-star',
+        items: [
+          // {
+          //   name: 'CoreUI Icons',
+          //   to: '/icons/coreui-icons',
+          //   badge: {
+          //     color: 'info',
+          //     text: 'NEW'
+          //   }
+          // },
+          {
+            name: 'Create Prefix',
+            to: '/icons/createPrefix'
+          },
+          {
+            name: 'Prefixes',
+            to: '/icons/prefixes'
+          },
+          {
+            name: 'Create Gender',
+            to: '/icons/createGender'
+          },
+          {
+            name: 'Genders',
+            to: '/icons/genders'
+          },
+        ]
+      },
       // {
       //   _name: 'CSidebarNavDropdown',
       //   name: 'Notifications',
