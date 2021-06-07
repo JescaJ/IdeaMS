@@ -18,6 +18,7 @@ public interface UserRepository extends JpaRepository<User, Integer>{
 	@Query("SELECT u FROM User u WHERE u.primary_email =?1")
 	User  findByEmail(String primary_email);
 	
+	
 	//for serach and pagination
 	@Query("SELECT u FROM User u WHERE u.first_name LIKE %?1%" 
 			+ "OR u.last_name LIKE %?1%")

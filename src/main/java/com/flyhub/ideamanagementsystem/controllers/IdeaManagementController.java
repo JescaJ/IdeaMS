@@ -3,30 +3,42 @@ package com.flyhub.ideamanagementsystem.controllers;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.flyhub.ideamanagementsystem.entities.AuthRequest;
+import com.flyhub.ideamanagementsystem.entities.CustomUserDetails;
 import com.flyhub.ideamanagementsystem.entities.Gender;
+import com.flyhub.ideamanagementsystem.entities.Idea;
 import com.flyhub.ideamanagementsystem.entities.Prefix;
 import com.flyhub.ideamanagementsystem.entities.Role;
 import com.flyhub.ideamanagementsystem.entities.User;
+import com.flyhub.ideamanagementsystem.response.JwtResponse;
 import com.flyhub.ideamanagementsystem.services.GenderService;
 import com.flyhub.ideamanagementsystem.services.PrefixService;
 import com.flyhub.ideamanagementsystem.services.UserService;
+import com.flyhub.ideamanagementsystem.util.JWTUtil;
 
 //@Controller 
 @RestController
@@ -42,11 +54,47 @@ public class IdeaManagementController {
 	@Autowired
 	private PrefixService prefixService;
 	
+	@Autowired
+    private JWTUtil jwtUtil;
+	
+    @Autowired
+    private AuthenticationManager authenticationManager;
 	
 	@GetMapping("")
 	public String viewHomePage() {
 		return "final_web";
 	}
+	
+	@PostMapping("/signin")
+    public ResponseEntity<?> generateToken(@RequestBody AuthRequest authRequest) throws Exception {
+//        try {
+        	Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(authRequest.getPrimary_email(), authRequest.getPassword())
+            );
+//        }
+	/*
+		 * catch (Exception ex) { throw new Exception("invalid username/password"); }
+		 */
+        String jwt = jwtUtil.generateToken(authRequest.getPrimary_email());
+		
+		CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();		
+		List<String> roles = userDetails.getAuthorities().stream()
+				.map(item -> item.getAuthority())
+				.collect(Collectors.toList());
+//        return jwtUtil.generateToken(authRequest.getPrimary_email());
+    
+	return ResponseEntity.ok(new JwtResponse(jwt, 
+			 userDetails.getGlobal_user_id(), 
+			 userDetails.getUsername(), 
+			 userDetails.getFullName(), 
+			 roles));
+	}
+	@RequestMapping("/user")
+	public CustomUserDetails viewUser(@AuthenticationPrincipal CustomUserDetails customdetails) {
+		System.out.println(SecurityContextHolder.getContext().getAuthentication().getDetails() );
+		return customdetails;
+	}
+	
 	
 	@GetMapping("/register")
 	public String showSignupForm(Model model) {
@@ -63,9 +111,9 @@ public class IdeaManagementController {
 	}
 	
 	@PostMapping("/process_register")
-	public String processRegistration(User user) {
-		service.saveUserWithDefaultRole(user);
-		return "registration_success";
+	public Object processRegistration(@RequestBody User user) {
+		
+		return service.saveUserWithDefaultRole(user);
 	}
 	
 	//original

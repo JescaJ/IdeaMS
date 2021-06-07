@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,9 +33,9 @@ public class GenderController {
 	
 	
 	@PostMapping("/process_gender")
-	public String processGender(Gender gender) {
-		genderService.save(gender);
-		return "index";
+	public Gender processGender(@RequestBody Gender gender) {
+		
+		return genderService.save(gender);
 	}
 	
 //	@GetMapping("/list_gender")
@@ -58,15 +60,15 @@ public class GenderController {
 	}
 	
 	
-	@PostMapping("/gender/save")
-	public String saveIdeaEdit(Gender gender) {
-		genderService.saveUpdatedGender(gender);
-		return "redirect:/list_gender";
+	@PutMapping("/gender/save/{gender_id}")
+	public Object saveIdeaEdit(@PathVariable("gender_id") int gender_id, @RequestBody Gender gender) {
+		
+		return genderService.saveUpdatedGender(gender, gender_id);
 	}
 	
 	@RequestMapping("/gender/delete/{gender_id}")
-	public String deleteIdea(@PathVariable(name = "gender_id") int gender_id) {
-		genderService.delete(gender_id);
-	    return "redirect:/list_gender";       
+	public void deleteIdea(@PathVariable(name = "gender_id") int gender_id) {
+		
+	    genderService.delete(gender_id);      
 	}
 }

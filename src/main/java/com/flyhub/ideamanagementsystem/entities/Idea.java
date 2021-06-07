@@ -19,7 +19,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity				//this is for the user table in my db
 @Table(name="idea", schema = "idea_ms")
 @DynamicUpdate
-public class Idea {
+public class Idea extends Auditable<Integer>{
 //	extends Auditable<Integer>
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)

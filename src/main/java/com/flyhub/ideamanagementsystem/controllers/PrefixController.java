@@ -9,6 +9,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,10 +32,15 @@ public class PrefixController {
 	}
 	
 	
+//	@PostMapping("/process_prefix")
+//	public String processPrefix(Prefix prefix) {
+//		prefixService.save(prefix);
+//		return "index";
+//	}
+	
 	@PostMapping("/process_prefix")
-	public String processPrefix(Prefix prefix) {
-		prefixService.save(prefix);
-		return "index";
+	public Object processPrefix(@RequestBody Prefix prefix) {
+		return prefixService.save(prefix);
 	}
 	
 //	@GetMapping("/list_prefix")
@@ -58,15 +65,28 @@ public class PrefixController {
 	}
 	
 	
-	@PostMapping("/prefix/save")
-	public String savePrefixEdit(Prefix prefix) {
-		prefixService.saveUpdatedPrefix(prefix);
-		return "redirect:/list_prefix";
+//	@PostMapping("/prefix/save")
+//	public String savePrefixEdit(Prefix prefix) {
+//		prefixService.saveUpdatedPrefix(prefix);
+//		return "redirect:/list_prefix";
+//	}
+	
+	@PutMapping("/prefix/save/{prefix_id}")
+	public Prefix savePrefixEdit(@PathVariable("prefix_id") int prefix_id, @RequestBody Prefix prefix) {
+		
+		return prefixService.saveUpdatedPrefix(prefix, prefix_id);
 	}
 	
+//	@RequestMapping("/prefix/delete/{prefix_id}")
+//	public String deletePrefix(@PathVariable(name = "prefix_id") int prefix_id) {
+//		prefixService.delete(prefix_id);
+//	    return "redirect:/list_prefix";       
+//	}
+	
+	
 	@RequestMapping("/prefix/delete/{prefix_id}")
-	public String deletePrefix(@PathVariable(name = "prefix_id") int prefix_id) {
+	public void deletePrefix(@PathVariable(name = "prefix_id") int prefix_id) {
 		prefixService.delete(prefix_id);
-	    return "redirect:/list_prefix";       
+	    return;       
 	}
 }

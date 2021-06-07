@@ -34,7 +34,7 @@ public class UserService {
 	@Autowired
 	private PrefixRepository prefixRepo;
 	
-	public void saveUserWithDefaultRole(User user) {
+	public Object saveUserWithDefaultRole(User user) {
 		//to store the encrypted password
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		String encodedPassword = encoder.encode(user.getPassword());
@@ -43,7 +43,7 @@ public class UserService {
 		Role roleUser = roleRepo.findByName("USER");
 		user.addRole(roleUser);
 		
-		userRepo.save(user);
+		return userRepo.save(user);
 	}
 	
 	public void saveUserUpdatedRoles(User user) {

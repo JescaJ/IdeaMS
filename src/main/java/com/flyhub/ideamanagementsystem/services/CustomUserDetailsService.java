@@ -4,11 +4,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import com.flyhub.ideamanagementsystem.entities.CustomUserDetails;
 import com.flyhub.ideamanagementsystem.entities.User;
 import com.flyhub.ideamanagementsystem.repositories.UserRepository;
 
+@Service
 public class CustomUserDetailsService implements UserDetailsService {
 	
 	// this service is to enable us load a user by username from the db table
@@ -24,5 +26,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 		}
 		return new CustomUserDetails(user);
 	}
+
 
 }

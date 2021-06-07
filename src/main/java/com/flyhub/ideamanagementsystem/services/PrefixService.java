@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.flyhub.ideamanagementsystem.entities.Idea;
 import com.flyhub.ideamanagementsystem.entities.Prefix;
 import com.flyhub.ideamanagementsystem.repositories.PrefixRepository;
 
@@ -16,9 +17,9 @@ public class PrefixService {
 	
 	
 	 //save the idea for first time
-    public void save(Prefix prefix) {
+    public Object save(Prefix prefix) {
     	
-    	prefixRepo.save(prefix);
+    	return prefixRepo.save(prefix);
     }
 
     //return all ideas original
@@ -32,8 +33,14 @@ public class PrefixService {
     }
     
     //save updated idea
-    public void saveUpdatedPrefix(Prefix prefix) {
-    	prefixRepo.save(prefix);
+    public Prefix saveUpdatedPrefix(Prefix prefix, int prefix_id) {
+    	
+    	Prefix currentPrefix = prefixRepo.getOne(prefix_id);
+//    	Prefix currentPrefix = prefixRepo.findById(prefix_id);
+    	
+    	currentPrefix.setPrefix_name(prefix.getPrefix_name());
+    	currentPrefix.setPrefix_description(prefix.getPrefix_description());
+    	return prefixRepo.save(prefix);
 	}
      
     //delete idea

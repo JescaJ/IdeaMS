@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "prefix", schema = "idea_ms")
 public class Prefix {
@@ -20,7 +22,7 @@ public class Prefix {
 
 	private String prefix_description;
 	
-	
+	@JsonIgnore
 	@OneToMany(mappedBy="userPrefixMapping")
 	private List<User> prefixToUser;
 		

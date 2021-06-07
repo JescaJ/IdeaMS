@@ -16,9 +16,9 @@ public class GenderService {
 	
 	
 	 //save the idea for first time
-    public void save(Gender gender) {
+    public Gender save(Gender gender) {
     	
-    	genderRepo.save(gender);
+    	return genderRepo.save(gender);
     }
 
     //return all ideas original
@@ -32,8 +32,8 @@ public class GenderService {
     }
     
     //save updated idea
-    public void saveUpdatedGender(Gender gender) {
-    	genderRepo.save(gender);
+    public Object saveUpdatedGender(Gender gender,int gender_id) {
+    	return genderRepo.save(gender);
 	}
      
     //delete idea

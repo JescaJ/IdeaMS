@@ -15,17 +15,17 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-//@EnableJpaAuditing(auditorAwareRef="auditorAware")
+@EnableJpaAuditing(auditorAwareRef="auditorAware")
 @SpringBootApplication
 
 //(exclude = {DataSourceAutoConfiguration.class})
 public class IdeamanagementsystemApplication {
 	
 	//auditing fields
-//	@Bean
-//	public AuditorAware<Integer> auditorAware() {
-//		return new SpringSecurityAuditorAware();
-//	}
+	@Bean
+	public AuditorAware<Integer> auditorAware() {
+		return new SpringSecurityAuditorAware();
+	}
 	
 	@Bean
 	public FilterRegistrationBean simpleCorsFilter() {
