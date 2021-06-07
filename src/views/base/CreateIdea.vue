@@ -29,23 +29,6 @@
               :value.sync="selectedValue"
               placeholder="Please select"
             />
-            <CInput
-              label="Global User ID"
-              name="global_user_id"
-              type="number"
-              id="global_user_id"
-              v-model="global_user_id"
-              horizontal
-            />
-            <!-- <CSelect
-              label="Global User ID"
-              name="global_user_id"
-              id="global_user_id"
-              horizontal
-              :options="optionsUsers"
-              v-model="global_user_id"
-              placeholder="Please select"
-            /> -->
             <CButton type="submit" size="sm" color="success"
               ><CIcon name="cil-check-circle" /> Submit</CButton
             >
@@ -77,7 +60,6 @@ export default {
       idea_description: "",
       global_user_id: "",
       submitted: false,
-        optionsUsers: [ 6,7],
     };
   },
   mounted: function () {
@@ -95,6 +77,11 @@ export default {
       })
       .catch((error) => console.log(error));
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    }
+  },
   methods: {
     saveIdea() {
       const idea = {
@@ -102,7 +89,7 @@ export default {
         idea_title: this.idea_title,
         idea_description: this.idea_description,
         category_id: this.selectedValue,
-        global_user_id: this.global_user_id,
+        global_user_id: this.currentUser.global_user_id,
       };
       console.log(idea);
       axios

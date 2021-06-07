@@ -56,20 +56,45 @@ const Modals = () => import('@/views/notifications/Modals')
 // Views - Pages
 const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
-const Login = () => import('@/views/pages/Login')
-const Register = () => import('@/views/pages/Register')
+// const Login = () => import('@/views/Login')
+// const Register = () => import('@/views/pages/Register')
 
 // Users
 const Users = () => import('@/views/users/Users')
-const User = () => import('@/views/users/User')
+// const User = () => import('@/views/users/User')
+
+//more personal routes
+const Home =() => import('@/views/Home')
+const Login =() => import('@/views/Login')
+const Register =() => import('@/views/Register')
+const Profile =() => import('@/views/Profile')
+const Admin =() => import('@/views/AdminDashboard')
+const User =() => import('@/views/UserDashboard')
 
 Vue.use(Router)
 
-export default new Router({
+// export default new Router
+export const router = new Router({
   mode: 'hash', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
-  routes: configRoutes()
+  routes: configRoutes(),
+  //personal edits
+  
+
+})
+router.beforeEach((to, from, next) => {
+  const publicPages = ['/login', '/register', '/home'];
+  const authRequired = !publicPages.includes(to.path);
+  const loggedIn = localStorage.getItem('user');
+
+  // trying to access a restricted page + not logged in
+  // redirect to login page
+  if (authRequired && !loggedIn) {
+    next('/login');
+  } else {
+    next();
+  }
 })
 
 function configRoutes () {
@@ -368,7 +393,38 @@ function configRoutes () {
           component: Register
         }
       ]
+    },
+    {
+      path:'/home',
+      name:'home',
+      component: Home
+    },
+    {
+      path:'/login',
+      name:'login',
+      component: Login
+    },
+    {
+      path:'/register',
+      name:'register',
+      component: Register
+    },
+    {
+      path:'/profile',
+      name:'profile',
+      component: Profile
+    },
+    {
+      path:'/admin',
+      name:'admin',
+      component: Admin
+    },
+    {
+      path:'/user',
+      name:'user',
+      component: User
     }
   ]
 }
+export default router
 

@@ -24,10 +24,10 @@
                   </CInput>
                   <CRow>
                     <CCol col="6" class="text-left">
-                      <CButton color="primary" class="px-4">Login</CButton>
+                      <CButton color="primary" class="px-4" type="submit">Login</CButton>
                     </CCol>
                     <CCol col="6" class="text-right">
-                      <CButton color="link" class="px-0">Forgot password?</CButton>
+                      <!-- <CButton color="link" class="px-0">Forgot password?</CButton> -->
                       <CButton color="link" class="d-lg-none">Register now!</CButton>
                     </CCol>
                   </CRow>
@@ -42,7 +42,7 @@
             >
               <CCardBody>
                 <h2>Sign up</h2>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+                <p>Welcome to the Idea Management System where we turn ideas to life.</p>
                 <CButton
                   color="light"
                   variant="outline"
@@ -60,7 +60,31 @@
 </template>
 
 <script>
+// import { mapActions } from 'vuex'
+
 export default {
-  name: 'Login'
+  name: 'Login',
+
+  // data(){
+  //   return{
+  //     form:{
+  //       primary_email:"",
+  //       password:""
+  //     }
+  //   }
+  // },
+  // methods:{
+  //   ...mapActions(['signin']),
+    
+  //   loggin(){
+  //     // console.log(this.form)
+  //     this.signin(this.form).then(() => {
+  //       this.$router.replace({
+  //         name:'Dashboard'
+  //       })
+  //     })
+      
+  //   }
+  // }
 }
 </script>
