@@ -139,8 +139,8 @@ export default {
         { key: "idea_id" },
         { key: "idea_title" },
         { key: "idea_description" },
-        { key: "category_id" },
-        { key: "global_user_id" },
+        { key: "category_id", label:"Category" },
+        { key: "global_user_id", label:"Created By" },
         {
           key: "update",
           label: "",

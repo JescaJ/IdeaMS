@@ -108,7 +108,7 @@ function configRoutes () {
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
+          component: Admin
         },
         {
           path: 'theme',
@@ -183,16 +183,6 @@ function configRoutes () {
               path: 'forms',
               name: 'Forms',
               component: Forms
-            },
-            {
-              path: 'ideas',
-              name: 'Ideas',
-              component: Ideas
-            },
-            {
-              path: 'createIdea',
-              name: 'CreateIdea',
-              component: CreateIdea
             },
             {
               path: 'switches',
@@ -309,27 +299,6 @@ function configRoutes () {
               name: 'Icons library',
               component: CoreUIIcons
             },
-            
-            {
-              path: 'createPrefix',
-              name: 'createPrefix',
-              component: CreatePrefix
-            },
-            {
-              path: 'prefixes',
-              name: 'Prefixes',
-              component: Prefixes
-            },
-            {
-              path: 'createGender',
-              name: 'createGender',
-              component: CreateGender
-            },
-            {
-              path: 'genders',
-              name: 'Genders',
-              component: Prefixes
-            },
             {
               path: 'flags',
               name: 'Flags',
@@ -361,7 +330,56 @@ function configRoutes () {
               component: Modals
             }
           ]
-        }
+        },
+        {
+          path:'/admin',
+          name:'Admin',
+          component: {
+            render (c) { return c('router-view') }
+          },
+          children: [
+            {
+              path: 'ideas',
+              name: 'Ideas',
+              component: Ideas
+            },
+            {
+              path: 'createIdea',
+              name: 'CreateIdea',
+              component: CreateIdea
+            },
+            // {
+            //   path: 'users',
+            //   name: 'Users',
+            //   component: Users
+            // },
+            // {
+            //   path: 'register',
+            //   name: 'Register',
+            //   component: Register
+            // },
+            {
+              path: 'createPrefix',
+              name: 'createPrefix',
+              component: CreatePrefix
+            },
+            {
+              path: 'prefixes',
+              name: 'Prefixes',
+              component: Prefixes
+            },
+            {
+              path: 'createGender',
+              name: 'createGender',
+              component: CreateGender
+            },
+            {
+              path: 'genders',
+              name: 'Genders',
+              component: Genders
+            },
+          ]
+        },
       ]
     },
     {
@@ -396,8 +414,9 @@ function configRoutes () {
     },
     {
       path:'/home',
+      redirect: '/home',
       name:'home',
-      component: Home
+      component: Home,
     },
     {
       path:'/login',
@@ -414,11 +433,7 @@ function configRoutes () {
       name:'profile',
       component: Profile
     },
-    {
-      path:'/admin',
-      name:'admin',
-      component: Admin
-    },
+    
     {
       path:'/user',
       name:'user',

@@ -2,16 +2,12 @@ export default [
   {
     _name: 'CSidebarNav',
     _children: [
-      // {
-        // _name: 'CSidebarNavItem',
-        // name: 'Dashboard',
-        // to: '/dashboard',
-        // icon: 'cil-speedometer',
-        // badge: {
-        //   color: 'primary',
-        //   text: 'NEW'
-        // }
-      // },
+      {
+        _name: 'CSidebarNavItem',
+        name: 'Dashboard',
+        to: '/dashboard',
+        icon: 'cil-speedometer',
+      },
       // {
       //   _name: 'CSidebarNavTitle',
       //   _children: ['Theme']
@@ -35,7 +31,7 @@ export default [
       {
         _name: 'CSidebarNavDropdown',
         name: 'Manage Ideas',
-        route: '/base',
+        route: '/admin',
         icon: 'cil-puzzle',
         items: [
           // {
@@ -60,11 +56,11 @@ export default [
           // },
           {
             name: 'Ideas',
-            to: '/base/ideas'
+            to: '/admin/ideas'
           },
           {
             name: 'Create Idea',
-            to: '/base/createIdea'
+            to: '/admin/createIdea'
           },
           // {
           //   name: 'Jumbotrons',
@@ -145,7 +141,7 @@ export default [
       {
         _name: 'CSidebarNavDropdown',
         name: 'Admin Lookups',
-        route: '/icons',
+        route: '/admin',
         icon: 'cil-star',
         items: [
           // {
@@ -158,19 +154,19 @@ export default [
           // },
           {
             name: 'Create Prefix',
-            to: '/icons/createPrefix'
+            to: '/admin/createPrefix'
           },
           {
             name: 'Prefixes',
-            to: '/icons/prefixes'
+            to: '/admin/prefixes'
           },
           {
             name: 'Create Gender',
-            to: '/icons/createGender'
+            to: '/admin/createGender'
           },
           {
             name: 'Genders',
-            to: '/icons/genders'
+            to: '/admin/genders'
           },
         ]
       },

@@ -9,6 +9,7 @@
       <CIcon 
         class="c-sidebar-brand-full" 
         name="logo" 
+        src={logos}
         size="custom-size" 
         :height="35" 
         viewBox="0 0 556 134"
@@ -16,6 +17,7 @@
       <CIcon 
         class="c-sidebar-brand-minimized" 
         name="logo" 
+        src={logos}
         size="custom-size" 
         :height="35" 
         viewBox="0 0 110 134"
@@ -32,6 +34,7 @@
 
 <script>
 import nav from './_nav'
+import logos from '../assets/icons/IDMSlogo.png';
 
 export default {
   name: 'TheSidebar',
@@ -46,3 +49,12 @@ export default {
   }
 }
 </script>
+
+<style>
+.c-sidebar.c-sidebar-fixed {
+    position: fixed;
+    top: 8%;
+    bottom: 0;
+    z-index: 1030;
+}
+</style>

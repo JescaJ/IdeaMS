@@ -10,7 +10,7 @@
           </router-link>
         </li>
         <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/dashboard" class="nav-link">Admin Board</router-link>
+          <router-link to="/admin" class="nav-link">Admin Board</router-link>
         </li>
         <li class="nav-item">
           <router-link v-if="currentUser" to="/user" class="nav-link">User</router-link>
