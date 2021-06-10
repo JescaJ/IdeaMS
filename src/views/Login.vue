@@ -89,7 +89,7 @@ export default {
           this.$store.dispatch('auth/login', this.user).then(
             () => {
               if (this.currentUser && this.currentUser.roles.includes('ADMIN')){
-                this.$router.push('/admin');
+                this.$router.push('/dashboard');
               }
               else{
                 this.$router.push('/profile');

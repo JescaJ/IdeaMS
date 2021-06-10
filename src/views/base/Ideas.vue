@@ -1,7 +1,7 @@
 <template>
   <div>
     <CCardBody>
-      <CDataTable :items="ideas" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
+      <CDataTable :items="ideas" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination @row-clicked="viewingIdea, (viewingModal = true)">
         <CIcon name="cil-grid" /> Simple Table
         <template #update="{ item }">
           <td class="py-2">
@@ -106,7 +106,39 @@
           >Accept</CButton
         >
       </template>
-      
+    </CModal>
+
+        <!-- the modal for viewing -->
+
+    <CModal
+      title="title"
+      :show.sync="viewingModal"
+      :no-close-on-backdrop="true"
+      :centered="true"
+      size="lg"
+      ><CForm>
+        <CInput type="hidden" :value="myViewIdea.idea_id" />
+        <CInput
+          label="Idea Title"
+          name="idea_title"
+          :placeholder="myViewIdea.idea_title"
+          id="idea_title"
+          v-model="myViewIdea.idea_title"
+          horizontal
+        />
+        <CTextarea
+          label="Description"
+          horizontal
+          rows="9"
+          name="idea_description"
+          id="idea_description"
+          :placeholder="myViewIdea.idea_description"
+          v-model="myViewIdea.idea_description"
+        />
+        <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;"
+          ><CIcon name="cil-check-circle" /> Submit</CButton
+        >
+      </CForm>
     </CModal>
   </div>
 </template>
@@ -135,12 +167,13 @@ export default {
       ideas: [],
       myIdea: "",
       myIdeaDelete:"",
+      myViewIdea:"",
       fields: [
         { key: "idea_id" },
         { key: "idea_title" },
         { key: "idea_description" },
-        { key: "category_id", label:"Category" },
-        { key: "global_user_id", label:"Created By" },
+        { key: "category_id", label:"Category"},
+        { key: "global_user_id", label:"Created By"},
         {
           key: "update",
           label: "",
@@ -159,6 +192,7 @@ export default {
 
       warningModal: false,
       deleteModal: false,
+      viewingModal:false
     };
   },
   methods: {
@@ -202,16 +236,43 @@ export default {
         });
       this.submitted = true;
     },
+    viewingIdea: function(item){
+      console.log(item)
+      this.myViewIdea = {
+        idea_id: this.idea_id,
+        idea_title: this.idea_title,
+        idea_description: this.idea_description,
+        category_id: this.category_id,
+        global_user_id: this.global_user_id,
+      };
+      this.myViewIdea = item;
+      console.log(this.myViewIdea)
+    }
   },
 
     // this is the function for returning all the ideas
   mounted: function () {
     axios
       .get("http://localhost:8080/list_ideas/")
+      // .then(response=> response.json())
       .then((response) => {
         this.ideas = response.data;
+        // console.log(data)
+
+        // const results = (response.data).map((idea) => {
+        //   return {
+        //     idea_id: idea.idea_id,
+        //     idea_title: idea.idea_title,
+        //     idea_description:idea.idea_description,
+        //     // created_by:idea.idea.ideaUserMapping.first_name,
+        //     // category_name:idea.ideaCategoryMapping.category_name
+        //   };
+        // });
+        // this.ideas = results;
+        // console.table(results)
       })
       .catch((error) => console.log(error));
   },
 };
 </script>
+

@@ -2,7 +2,7 @@
   <div>
     <div v-if="!submitted">
       <CCard>
-        <CCardHeader> <strong>Basic Form</strong> Elements </CCardHeader>
+        <!-- <CCardHeader> <strong>Basic Form</strong> Elements </CCardHeader> -->
         <CCardBody>
           <CForm @submit.prevent="saveIdea">
             <CInput
@@ -29,7 +29,7 @@
               :value.sync="selectedValue"
               placeholder="Please select"
             />
-            <CButton type="submit" size="sm" color="success"
+            <CButton type="submit" size="sm" color="success" @click="warningModal = true"
               ><CIcon name="cil-check-circle" /> Submit</CButton
             >
             <CButton type="reset" size="sm" color="danger"
@@ -40,8 +40,16 @@
       </CCard>
     </div>
     <div v-else>
+      <CModal
+      title="Update Idea"
+      :show.sync="warningModal"
+      :no-close-on-backdrop="true"
+      :centered="true"
+      size="lg"
+      >
       <h3>You submitted successfully!</h3>
-      <button class="btn btn-success" v-on:click="newIdea">Add</button>
+      <!-- <button class="btn btn-success" v-on:click="newIdea">Add</button> -->
+      </CModal>
     </div>
   </div>
 </template>
@@ -60,6 +68,7 @@ export default {
       idea_description: "",
       global_user_id: "",
       submitted: false,
+      warningModal: false,
     };
   },
   mounted: function () {
@@ -73,7 +82,6 @@ export default {
           };
         });
         this.categories = results;
-        console.log(results);
       })
       .catch((error) => console.log(error));
   },

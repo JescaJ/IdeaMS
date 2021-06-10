@@ -433,7 +433,16 @@ function configRoutes () {
       name:'profile',
       component: Profile
     },
-    
+    {
+      path:'/Ideas',
+      name:'Ideas',
+      component: Ideas
+    },
+    {
+      path:'/createIdea',
+      name:'createIdea',
+      component: CreateIdea
+    },
     {
       path:'/user',
       name:'user',

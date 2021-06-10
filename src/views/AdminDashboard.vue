@@ -9,14 +9,14 @@
                     <CCol sm="6">
                       <CCallout color="info">
                         <small class="text-muted">New Ideas</small><br />
-                        <strong class="h4">9,123</strong>
+                        <strong class="h4">3</strong>
                       </CCallout>
                     </CCol>
                     <CCol sm="6">
                       <CCallout color="danger">
                         <small class="text-muted">Total Ideas</small
                         ><br />
-                        <strong class="h4">22,643</strong>
+                        <strong class="h4">{{ideasNumber}}</strong>
                       </CCallout>
                     </CCol>
                   </CRow>
@@ -26,13 +26,13 @@
                     <CCol sm="6">
                       <CCallout color="warning">
                         <small class="text-muted">New Users</small><br />
-                        <strong class="h4">78,623</strong>
+                        <strong class="h4">3</strong>
                       </CCallout>
                     </CCol>
                     <CCol sm="6">
                       <CCallout color="success">
                         <small class="text-muted">Total Users</small><br />
-                        <strong class="h4">49,123</strong>
+                        <strong class="h4">{{usersNumber}}</strong>
                       </CCallout>
                     </CCol>
                   </CRow>
@@ -184,6 +184,8 @@ export default {
       update: false,
       submitted: false,
       ideas: [],
+      ideasNumber: '',
+      usersNumber:'',
       myIdea: "",
       myIdeaDelete: "",
       fields: [
@@ -227,7 +229,24 @@ export default {
     axios
       .get("http://localhost:8080/list_ideas/")
       .then((response) => {
+        var currentDate = new Date();
+            console.log(currentDate);
+        var formatted_date = new Date().toJSON().slice(0,10);
+            console.log(formatted_date);
         this.ideas = response.data;
+        this.ideasNumber = this.ideas.length
+        // this.ideas.forEach((idea,index) => {
+        //   console.log(index)
+        //   console.log(idea.create_date)
+        //   // var create_date_formatted = idea.create_date.toJSON().slice(0,10);
+        // });
+      })
+      .catch((error) => console.log(error));
+
+    axios
+      .get("http://localhost:8080/list_users/")
+      .then((response) => {
+        this.usersNumber = response.data.length
       })
       .catch((error) => console.log(error));
   },

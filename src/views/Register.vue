@@ -9,18 +9,32 @@
       <form name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
           <div class="form-group">
-            <label for="full_name">Full Name</label>
+            <label for="first_name">First Name</label>
             <input
-              v-model="user.full_name"
+              v-model="user.first_name"
               v-validate="'required|min:3|max:20'"
               type="text"
               class="form-control"
-              name="full_name"
+              name="first_name"
             />
             <div
-              v-if="submitted && errors.has('full_name')"
+              v-if="submitted && errors.has('first_name')"
               class="alert-danger"
-            >{{errors.first('full_name')}}</div>
+            >{{errors.first('first_name')}}</div>
+          </div>
+          <div class="form-group">
+            <label for="last_name">Last Name</label>
+            <input
+              v-model="user.last_name"
+              v-validate="'required|min:3|max:20'"
+              type="text"
+              class="form-control"
+              name="last_name"
+            />
+            <div
+              v-if="submitted && errors.has('last_name')"
+              class="alert-danger"
+            >{{errors.first('last_name')}}</div>
           </div>
           <!-- <div class="form-group">
             <label for="full_name">Prefix</label>
@@ -82,7 +96,7 @@ export default {
   name: 'Register',
   data() {
     return {
-      user: new User('', '', ''),
+      user: new User('','', '', ''),
       submitted: false,
       successful: false,
       message: '',

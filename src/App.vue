@@ -4,16 +4,19 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark">
       <a href class="navbar-brand" @click.prevent>IdeaMS</a>
       <div class="navbar-nav mr-auto">
-        <li class="nav-item">
+        <li v-if="showUserBoard" class="nav-item">
           <router-link to="/home" class="nav-link">
-            <font-awesome-icon icon="home" />Home
+            <font-awesome-icon icon="home"/>Home
           </router-link>
         </li>
         <li v-if="showAdminBoard" class="nav-item">
-          <router-link to="/admin" class="nav-link">Admin Board</router-link>
+          <router-link to="/dashboard" class="nav-link">Admin Board</router-link>
         </li>
-        <li class="nav-item">
-          <router-link v-if="currentUser" to="/user" class="nav-link">User</router-link>
+        <li v-if="showUserBoard" class="nav-item">
+          <router-link v-if="currentUser" to="/createIdea" class="nav-link">Create Idea</router-link>
+        </li>
+        <li v-if="showUserBoard" class="nav-item">
+          <router-link v-if="currentUser" to="/Ideas" class="nav-link">View Ideas</router-link>
         </li>
       </div>
 
@@ -58,6 +61,13 @@ export default {
     showAdminBoard() {
       if (this.currentUser && this.currentUser.roles) {
         return this.currentUser.roles.includes('ADMIN');
+      }
+
+      return false;
+    },
+    showUserBoard() {
+      if (this.currentUser && this.currentUser.roles) {
+        return this.currentUser.roles.includes('USER');
       }
 
       return false;

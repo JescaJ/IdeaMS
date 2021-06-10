@@ -24,7 +24,9 @@ class AuthService {
 
   register(user) {
     return axios.post("http://localhost:8080/process_register", {
-        full_name: user.full_name,
+        first_name: user.first_name,    
+        last_name: user.last_name,
+        full_name: user.first_name +" " + user.last_name,
         primary_email: user.primary_email,
       password: user.password
     });
