@@ -14,9 +14,15 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 
 @MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
+@JsonIgnoreProperties(
+        value = {"created_by_global_user_id", "modified_by_global_user_id"},
+        allowGetters = true
+)
 public abstract class Auditable<U> {
 
     @CreatedBy

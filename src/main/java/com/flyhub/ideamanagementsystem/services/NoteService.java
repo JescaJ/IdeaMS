@@ -20,11 +20,7 @@ public class NoteService {
 	private UserRepository userRepo;
 	
 	  //save the idea for first time
-    public void save(Note note, Authentication authentication) {
-    	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-    	User user = userRepo.findByEmail(userDetails.getUsername());
-    	note.setGlobal_user_id(user.getGlobal_user_id());
-    	
-    	noteRepo.save(note);
+    public Object save(Note note) {    	
+    	return noteRepo.save(note);
     }
 }

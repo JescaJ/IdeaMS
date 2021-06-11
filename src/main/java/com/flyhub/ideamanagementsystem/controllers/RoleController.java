@@ -10,11 +10,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.flyhub.ideamanagementsystem.entities.Role;
 import com.flyhub.ideamanagementsystem.services.RoleService;
 
-@Controller
+@RestController
 @EnableAutoConfiguration
 public class RoleController {
 
@@ -36,11 +37,9 @@ public class RoleController {
 	}
 	
 	@GetMapping("/list_role")
-	public String viewRoleList(Model model) {
-		List<Role> listRole = roleService.listAll();
-		model.addAttribute("listRole", listRole);
+	public List<Role> viewRoleList() {
 		
-		return "list_role";
+		return roleService.listAll();
 	}
 	
 	@GetMapping("/role/edit/{serial_id}")

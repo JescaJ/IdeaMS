@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -75,11 +77,11 @@ public class IdeaController {
 	
 //	//original list ideas with vue js
 	@GetMapping("/list_ideas")
-	public List<Idea> viewIdeasList() {
+	public ResponseEntity<List<Idea>> viewIdeasList() {
 //		List<Idea> listIdeas = ideaService.listAll();
 //		model.addAttribute("listIdeas", listIdeas);
-		
-		return ideaService.listAll();
+		List<Idea> idea = ideaService.listAll();
+		return ResponseEntity.status(HttpStatus.OK).body(idea);
 	}
 	
 	//list ideas with search and pagination
@@ -176,14 +178,19 @@ public class IdeaController {
 	
 	
 	@PostMapping("/add/comment")
-	public String addComment(Idea idea, Note note, Authentication authentication) { //added the note object so as to save the note as well
+	public Object addComment(@RequestBody Note note) { //added the note object so as to save the note as well
 //		note.setIdea_id(idea.getIdea_id());
 //		note.setGlobal_user_id(customdetails.getGlobal_user_id());
 //		ideaNoteService.save(idea, note);
-		noteService.save(note, authentication);
+//		noteService.save(note, authentication);
 //		ideaService.saveUpdatedIdea(idea);
 //		System.out.println(idea);
 		System.out.println(note.toString());
-		return "redirect:/list_ideas";
+		return noteService.save(note);
+	}
+	
+	@GetMapping("/list_comments")
+	public List<Note> viewCommentsList() {
+		return ideaService.listComments();
 	}
 }

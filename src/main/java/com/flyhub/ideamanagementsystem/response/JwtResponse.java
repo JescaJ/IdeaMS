@@ -6,21 +6,42 @@ public class JwtResponse {
 	private String token;
 	private String type = "Bearer";
 	private int global_user_id;
+	private int gender_id;
+	private int prefix_id;
 	private String fullname;
+	private String first_name;
+	private String last_name;
 	private String primary_email;
 	private List<String> roles;
 
-	public JwtResponse(String accessToken, int global_user_id, String primary_email, String fullname, List<String> roles) {
-		this.token = accessToken;
-		this.global_user_id = global_user_id;
-		this.primary_email = primary_email;
-		this.fullname = fullname;
-		this.roles = roles;
-	}
+//	public JwtResponse(String accessToken, int global_user_id, String primary_email, String fullname, String first_name, String last_name, List<String> roles) {
+//		this.token = accessToken;
+//		this.global_user_id = global_user_id;
+//		this.primary_email = primary_email;
+//		this.fullname = fullname;
+//		this.first_name = first_name;
+//		this.last_name = last_name;
+//		this.roles = roles;
+//	}
+
+	
 
 	public String getAccessToken() {
 		return token;
 	}
+
+	public JwtResponse(String accessToken, int global_user_id, String primary_email,String fullname, String first_name, String last_name,
+			int gender_id, int prefix_id,List<String> roles) {
+	this.token = accessToken;
+	this.global_user_id = global_user_id;
+	this.fullname = fullname;
+	this.first_name = first_name;
+	this.last_name = last_name;
+	this.primary_email = primary_email;
+	this.gender_id = gender_id;
+	this.prefix_id = prefix_id;
+	this.roles = roles;
+}
 
 	public void setAccessToken(String accessToken) {
 		this.token = accessToken;
@@ -36,6 +57,38 @@ public class JwtResponse {
 
 	
 	
+
+	public int getGender_id() {
+		return gender_id;
+	}
+
+	public void setGender_id(int gender_id) {
+		this.gender_id = gender_id;
+	}
+
+	public int getPrefix_id() {
+		return prefix_id;
+	}
+
+	public void setPrefix_id(int prefix_id) {
+		this.prefix_id = prefix_id;
+	}
+
+	public String getFirst_name() {
+		return first_name;
+	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
 
 	public int getGlobal_user_id() {
 		return global_user_id;

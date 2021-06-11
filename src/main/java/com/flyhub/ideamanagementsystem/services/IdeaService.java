@@ -15,8 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.flyhub.ideamanagementsystem.entities.Category;
 import com.flyhub.ideamanagementsystem.entities.Idea;
+import com.flyhub.ideamanagementsystem.entities.Note;
 import com.flyhub.ideamanagementsystem.repositories.CategoryRepository;
 import com.flyhub.ideamanagementsystem.repositories.IdeaRepository;
+import com.flyhub.ideamanagementsystem.repositories.NoteRepository;
 import com.flyhub.ideamanagementsystem.repositories.UserRepository;
 
 @Service
@@ -25,6 +27,9 @@ public class IdeaService {
 	
 	@Autowired
 	private IdeaRepository ideaRepo;
+	
+	@Autowired
+	private NoteRepository noteRepo;
 	
 	@Autowired
 	private UserRepository userRepo;
@@ -102,6 +107,11 @@ public class IdeaService {
   	public List<Category> getCategory(){
   		return categoryRepo.findAll();
   	}
+
+	public List<Note> listComments() {
+	     return noteRepo.findAll();
+	    
+	}
 
 
 }

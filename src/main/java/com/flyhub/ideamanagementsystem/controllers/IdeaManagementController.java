@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,7 +35,9 @@ import com.flyhub.ideamanagementsystem.entities.Idea;
 import com.flyhub.ideamanagementsystem.entities.Prefix;
 import com.flyhub.ideamanagementsystem.entities.Role;
 import com.flyhub.ideamanagementsystem.entities.User;
+import com.flyhub.ideamanagementsystem.repositories.UserRepository;
 import com.flyhub.ideamanagementsystem.response.JwtResponse;
+import com.flyhub.ideamanagementsystem.response.MessageResponse;
 import com.flyhub.ideamanagementsystem.services.GenderService;
 import com.flyhub.ideamanagementsystem.services.PrefixService;
 import com.flyhub.ideamanagementsystem.services.UserService;
@@ -47,6 +50,9 @@ public class IdeaManagementController {
 	
 	@Autowired
 	private UserService service;
+	
+	@Autowired
+	private UserRepository userRepo;
 	
 	@Autowired
 	private GenderService genderService;
@@ -87,6 +93,10 @@ public class IdeaManagementController {
 			 userDetails.getGlobal_user_id(), 
 			 userDetails.getUsername(), 
 			 userDetails.getFullName(), 
+			 userDetails.getFirst_name(), 
+			 userDetails.getLast_name(), 
+			 userDetails.getGender_id(), 
+			 userDetails.getPrefix_id(), 
 			 roles));
 	}
 	@RequestMapping("/user")
@@ -111,14 +121,14 @@ public class IdeaManagementController {
 	}
 	
 	@PostMapping("/process_register")
-	public Object processRegistration(@RequestBody User user) {
+	public ResponseEntity<?> processRegistration(@RequestBody User user) {
 		
-		return service.saveUserWithDefaultRole(user);
+		 service.saveUserWithDefaultRole(user);
+		return ResponseEntity.ok(new MessageResponse("User registered successfully! Now proceed to login"));
 	}
 	
 	//original
 	@GetMapping("/list_users")
-	@ResponseBody
 	public List<User> viewUsersList() {
 //		List<User> listUsers = service.listAll();
 //		model.addAttribute("listUsers", listUsers);
@@ -166,15 +176,20 @@ public class IdeaManagementController {
 	
 	
 	@PostMapping("/roles/save")
-	public String saveUserRoles(User user) {
-		service.saveUserUpdatedRoles(user);
-		return "redirect:/list_users";
+	public Object saveUserRoles(@RequestBody User user) {
+		return service.saveUserUpdatedRoles(user);
 	}
 	
+//	@PostMapping("/roles/save")
+//	public ResponseEntity<?> saveUserRoles(@RequestBody User user) {
+////		return service.saveUserUpdatedRoles(user);
+//		String<User> role = service.saveUserUpdatedRoles(user);
+//	}
+	
 	@RequestMapping("/user/delete/{global_user_id}")
-	public String deleteProduct(@PathVariable(name = "global_user_id") int global_user_id) {
+	public void deleteProduct(@PathVariable(name = "global_user_id") int global_user_id) {
 		service.delete(global_user_id);
-	    return "redirect:/list_users";       
+	    return ;      
 	}
 	
 //	@RequestMapping("/profile")
