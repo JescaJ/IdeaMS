@@ -115,8 +115,8 @@ export default [
         icon: 'cil-cursor',
         items: [
           {
-            name: 'Users',
-            to: '/buttons/standard-buttons'
+            name: 'Member',
+            to: '/admin/member'
           },
           {
             name: 'Create User',

@@ -18,6 +18,8 @@ const Cards = () => import('@/views/base/Cards')
 const Forms = () => import('@/views/base/Forms')
 const Ideas = () => import('@/views/base/Ideas')
 const CreateIdea = () => import('@/views/base/CreateIdea')
+const Member = () => import('@/views/base/Members')
+// const UpdateMember = () => import('@/views/base/UpdateMember')
 const CreatePrefix = () => import('@/views/base/CreatePrefix')
 const Prefixes = () => import('@/views/base/Prefixes')
 const CreateGender = () => import('@/views/base/CreateGender')
@@ -348,15 +350,15 @@ function configRoutes () {
               name: 'CreateIdea',
               component: CreateIdea
             },
+            {
+              path: 'member',
+              name: 'Member',
+              component: Member
+            },
             // {
-            //   path: 'users',
-            //   name: 'Users',
-            //   component: Users
-            // },
-            // {
-            //   path: 'register',
-            //   name: 'Register',
-            //   component: Register
+            //   path: 'updateMember',
+            //   name: 'UpdateMember',
+            //   component: UpdateMember
             // },
             {
               path: 'createPrefix',

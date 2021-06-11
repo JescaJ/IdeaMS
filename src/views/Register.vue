@@ -1,17 +1,37 @@
 <template>
   <div class="col-md-12">
+    <br/>
+    <h3 style="text-align:center;">User Registration</h3>
     <div class="card card-container">
       <img
         id="profile-img"
         src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
         class="profile-img-card"
       />
-      <form name="form" @submit.prevent="handleRegister">
+      <CForm name="form" @submit.prevent="handleRegister">
         <div v-if="!successful">
+          <CSelect
+            label="Prefix"
+            name="prefix_id"
+            id="prefix_id"
+            horizontal
+            :options="prefixes"
+            :value.sync="prefixSelectedValue"
+            placeholder="Please select"
+          />
+          <CSelect
+            label="Gender"
+            name="gender_id"
+            id="gender_id"
+            horizontal
+            :options="genders"
+            :value.sync="genderSelectedValue"
+            placeholder="Please select"
+          />
           <div class="form-group">
             <label for="first_name">First Name</label>
             <input
-              v-model="user.first_name"
+              v-model="first_name"
               v-validate="'required|min:3|max:20'"
               type="text"
               class="form-control"
@@ -20,12 +40,14 @@
             <div
               v-if="submitted && errors.has('first_name')"
               class="alert-danger"
-            >{{errors.first('first_name')}}</div>
+            >
+              {{ errors.first("first_name") }}
+            </div>
           </div>
           <div class="form-group">
             <label for="last_name">Last Name</label>
             <input
-              v-model="user.last_name"
+              v-model="last_name"
               v-validate="'required|min:3|max:20'"
               type="text"
               class="form-control"
@@ -34,21 +56,15 @@
             <div
               v-if="submitted && errors.has('last_name')"
               class="alert-danger"
-            >{{errors.first('last_name')}}</div>
+            >
+              {{ errors.first("last_name") }}
+            </div>
           </div>
-          <!-- <div class="form-group">
-            <label for="full_name">Prefix</label>
-            <select
-            id="input-3"
-            v-model="user.prefix_id"
-            :options="prefixes"
-            required
-          ></select>
-          </div> -->
+
           <div class="form-group">
-            <label for="primary_email">Primary Email</label>
+            <label for="primary_email">Email</label>
             <input
-              v-model="user.primary_email"
+              v-model="primary_email"
               v-validate="'required|email|max:50'"
               type="email"
               class="form-control"
@@ -57,12 +73,14 @@
             <div
               v-if="submitted && errors.has('primary_email')"
               class="alert-danger"
-            >{{errors.first('primary_email')}}</div>
+            >
+              {{ errors.first("primary_email") }}
+            </div>
           </div>
           <div class="form-group">
             <label for="password">Password</label>
             <input
-              v-model="user.password"
+              v-model="password"
               v-validate="'required|min:6|max:40'"
               type="password"
               class="form-control"
@@ -71,90 +89,104 @@
             <div
               v-if="submitted && errors.has('password')"
               class="alert-danger"
-            >{{errors.first('password')}}</div>
+            >
+              {{ errors.first("password") }}
+            </div>
           </div>
           <div class="form-group">
             <button class="btn btn-primary btn-block">Sign Up</button>
           </div>
         </div>
-      </form>
+      </CForm>
 
       <div
         v-if="message"
         class="alert"
         :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
+      >
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import User from '../models/user';
+import User from "../models/user";
 import axios from "axios";
 
 export default {
-  name: 'Register',
+  name: "Register",
   data() {
     return {
-      user: new User('','', '', ''),
+      // user: new User("", "", "", "","",""),
       submitted: false,
       successful: false,
-      message: '',
-      genders:[],
-      prefixes:[]
-
+      message: "",
+      genders: [],
+      prefixes: [],
+      first_name: "",    
+      last_name: "",
+      primary_email: "",
+      password: "",
+      genderSelectedValue: "",
+      prefixSelectedValue: "",
     };
   },
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
-    }
+    },
   },
   mounted() {
     if (this.loggedIn) {
-      this.$router.push('/profile');
+      this.$router.push("/profile");
     }
-    // axios
-    //   .get("http://localhost:8080/list_gender")
-    //   .then((response) => {
-    //     const results = response.data.map((gender) => {
-    //       return {
-    //         value: gender.gender_id,
-    //         label: gender.gender_name,
-    //       };
-    //     });
-    //     this.genders = results;
-    //     console.log(results);
-    //   })
-    //   .catch((error) => console.log(error));
-    //   axios
-    //   .get("http://localhost:8080/list_prefix")
-    //   .then((response) => {
-    //     const results2 = response.data.map((prefix) => {
-    //       return {
-    //         value: prefix.prefix_id,
-    //         label: prefix.prefix_name,
-    //       };
-    //     });
-    //     this.prefixes = results2;
-    //     console.log(results2);
-    //   })
-    //   .catch((error) => console.log(error));
-  
+    axios
+      .get("http://localhost:8080/list_gender")
+      .then((response) => {
+        const results = response.data.map((gender) => {
+          return {
+            value: gender.gender_id,
+            label: gender.gender_name,
+          };
+        });
+        this.genders = results;
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get("http://localhost:8080/list_prefix")
+      .then((response) => {
+        const results2 = response.data.map((prefix) => {
+          return {
+            value: prefix.prefix_id,
+            label: prefix.prefix_name,
+          };
+        });
+        this.prefixes = results2;
+      })
+      .catch((error) => console.log(error));
   },
-  
+
   methods: {
     handleRegister() {
-      this.message = '';
+      const user={
+        first_name: this.first_name,    
+        last_name: this.last_name,
+        primary_email: this.primary_email,
+        password: this.password,
+        prefix_id: this.prefixSelectedValue,
+        gender_id: this.genderSelectedValue
+      }
+      this.message = ""; 
       this.submitted = true;
-      this.$validator.validate().then(isValid => {
+      this.$validator.validate().then((isValid) => {
         if (isValid) {
-          this.$store.dispatch('auth/register', this.user).then(
-            data => {
+          this.$store.dispatch("auth/register", user).then(
+            (data) => {
               this.message = data.message;
               this.successful = true;
             },
-            error => {
+            (error) => {
               this.message =
                 (error.response && error.response.data) ||
                 error.message ||
@@ -164,8 +196,8 @@ export default {
           );
         }
       });
-    }
-  }
+    },
+  },
 };
 </script>
 

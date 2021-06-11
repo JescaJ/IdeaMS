@@ -92,7 +92,7 @@ export default {
                 this.$router.push('/dashboard');
               }
               else{
-                this.$router.push('/profile');
+                this.$router.push('/ideas');
               }
                   
               

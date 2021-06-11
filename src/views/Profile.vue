@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <header class="jumbotron">
+    <header class="jumbotron" style="height:10%;">
       <h3 style="text-align: center">
         <strong>{{ currentUser.fullname }}</strong> Profile
       </h3>
