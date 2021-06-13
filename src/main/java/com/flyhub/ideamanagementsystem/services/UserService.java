@@ -46,16 +46,16 @@ public class UserService {
 		return userRepo.save(user);
 	}
 	
-	public Object saveUserUpdatedRoles(User user) {
+	public User saveUserUpdatedRoles(String role_name, User user) {
 		//to store the encrypted password
 //		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 //		String encodedPassword = encoder.encode(user.getPassword());
 //		user.setPassword(encodedPassword);
 		
 		User currentUser = userRepo.getOne(user.getGlobal_user_id());
-    	
-		currentUser.setRoles(user.getRoles());
-//		currentUser.setIdea_description(user.getIdea_description());
+		Role roleaddUser2 = roleRepo.findByName(role_name);
+		
+		currentUser.addRole(roleaddUser2);
 		
 		return userRepo.save(currentUser);
 	}

@@ -34,19 +34,19 @@ public class Idea extends Auditable<Integer>{
 
 	private Integer global_user_id;
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="category_id", insertable=false, updatable=false)
 	private Category ideaCategoryMapping;
 	private Integer category_id;
 	
 //	@JsonIgnore
-//	@ManyToOne
-//	@JoinColumn(name="global_user_id", insertable=false, updatable=false) //probably the mapping should be created_by_global_user_id
-//	private User ideaUserMapping;
+	@ManyToOne
+	@JoinColumn(name="global_user_id", insertable=false, updatable=false) //probably the mapping should be created_by_global_user_id
+	private User ideaUserMapping;
 	
 	
-	@JsonIgnore
+//	@JsonIgnore
 	@OneToMany(mappedBy="ideaNoteMapping")
 	private List<Note> ideaToNote;
 	

@@ -175,9 +175,10 @@ public class IdeaManagementController {
 	}
 	
 	
-	@PostMapping("/roles/save")
-	public Object saveUserRoles(@RequestBody User user) {
-		return service.saveUserUpdatedRoles(user);
+	@PutMapping("/roles/save/{role_name}")
+	public User saveUserRoles(@PathVariable("role_name") String role_name, @RequestBody User user) {
+//		System.out.println(user);
+		return service.saveUserUpdatedRoles(role_name, user);
 	}
 	
 //	@PostMapping("/roles/save")
