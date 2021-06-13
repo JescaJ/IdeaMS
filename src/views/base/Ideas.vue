@@ -389,7 +389,7 @@ export default {
         this.mycategories = response.data
         this.categoryIdea = this.ideas.map((item, i) => Object.assign({}, item, this.mycategories[i])
         );
-        // console.log(this.categoryIdea);
+        console.log(this.categoryIdea);
         // console.log(i);
       })
       .catch((error)=> console.log(error));

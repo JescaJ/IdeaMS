@@ -46,7 +46,7 @@
               label="Roles"
               horizontal
               :options="myRoles"
-              :value.sync="selectedValue"
+              :checked.sync="myMember.roles"
             />
         <!-- <div class="form-group row">
 					<label class="col-form-label col-4">Roles</label>
@@ -139,8 +139,8 @@ export default {
       myMember: "",
       myMemberDelete:"",
       myRoles: [],
-      roles:[],
-      selectedValue: [],
+      roles:"",
+      selectedValue: "",
       fields: [
         { key: "global_user_id", label:"User ID"},
         { key: "first_name" },
@@ -168,19 +168,23 @@ export default {
   },
   methods: {
     viewMember(item) {
+      console.log(item.roles)
       this.myMember = {
         global_user_id: this.global_user_id,
         first_name: this.first_name,
         last_name: this.last_name,
         primary_email: this.primary_email,
-        roles: this.selectedValue
+        roles: this.roles
       };
+      // console.log(this.selectedValue)
       this.myMember = item;
       console.log(this.myMember)
     },
     saveUpdatedMember(myMember) {
+      // roles.role_name = this.myMember.roles
+      console.log(this.myMember.roles)
       axios
-        .put(`http://localhost:8080/roles/save${myMember.global_user_id}`, myMember)
+        .put(`http://localhost:8080/roles/save/${myMember.roles}`, myMember)
         .then((response) => {
           console.log(response)
         })
@@ -222,15 +226,15 @@ export default {
       axios
       .get("http://localhost:8080/list_role")
       .then((response) => {
-        console.log(response.data)
+        // console.log(response.data)
         const results = response.data.map((role) => {
           return {
-            value: role.serial_id,
+            value: role.role_name,
             label: role.role_name,
           };
         });
         this.myRoles = results;
-        console.log(this.roles)
+        // console.log(this.roles)
       })
       .catch((error) => console.log(error));
   },
