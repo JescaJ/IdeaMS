@@ -118,10 +118,10 @@ export default [
             name: 'Member',
             to: '/admin/member'
           },
-          {
-            name: 'Create User',
-            to: '/buttons/dropdowns'
-          },
+          // {
+          //   name: 'Create User',
+          //   to: '/buttons/dropdowns'
+          // },
       //     {
       //       name: 'Button Groups',
       //       to: '/buttons/button-groups'
@@ -209,20 +209,20 @@ export default [
       //   _name: 'CSidebarNavTitle',
       //   _children: ['Extras']
       // },
-      {
-        _name: 'CSidebarNavDropdown',
-        name: 'Pages',
-        route: '/pages',
-        icon: 'cil-star',
-        items: [
-          {
-            name: 'Login',
-            to: '/pages/login'
-          },
-          {
-            name: 'Register',
-            to: '/pages/register'
-          },
+      // {
+      //   _name: 'CSidebarNavDropdown',
+      //   name: 'Pages',
+      //   route: '/pages',
+      //   icon: 'cil-star',
+      //   items: [
+      //     {
+      //       name: 'Login',
+      //       to: '/pages/login'
+      //     },
+      //     {
+      //       name: 'Register',
+      //       to: '/pages/register'
+      //     },
       //     {
       //       name: 'Users',
       //       to: '/pages/register'
@@ -236,8 +236,8 @@ export default [
       //       name: 'Error 500',
       //       to: '/pages/500'
       //     }
-        ]
-      },
+      //   ]
+      // },
     //   {
     //     _name: 'CSidebarNavItem',
     //     name: 'Download CoreUI',

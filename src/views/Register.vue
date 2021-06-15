@@ -1,7 +1,7 @@
 <template>
-  <div class="col-md-12">
-    <br/>
-    <h3 style="text-align:center;">User Registration</h3>
+  <!-- <div class="col-md-12">
+    <br />
+    <h3 style="text-align: center">User Registration</h3>
     <div class="card card-container">
       <img
         id="profile-img"
@@ -41,7 +41,7 @@
               v-if="submitted && errors.has('first_name')"
               class="alert-danger"
             >
-              {{ errors.first("first_name") }}
+              {{ errors.first("First Name") }}
             </div>
           </div>
           <div class="form-group">
@@ -106,7 +106,150 @@
       >
         {{ message }}
       </div>
-    </div>
+    </div> -->
+
+  <!-- <template> -->
+  <div class="d-flex align-items-center min-vh-100">
+    <CContainer fluid>
+      <CRow class="justify-content-center">
+        <CCol md="6">
+          <CCard class="mx-4 mb-0">
+            <CCardBody class="p-4">
+              <img
+                id="profile-img"
+                src="//ssl.gstatic.com/accounts/ui/avatar_1x.png"
+                class="profile-img-card"
+              />
+              <CForm @submit.prevent="handleRegister">
+                <div v-if="!successful">
+                  <h1 style="text-align: center">Register</h1>
+                  <p class="text-muted" style="text-align: center">
+                    Create your account today!
+                  </p>
+
+                  <div class="row">
+                    <CSelect
+                      label="Prefix"
+                      name="prefix_id"
+                      id="prefix_id"
+                      horizontal
+                      :options="prefixes"
+                      :value.sync="prefixSelectedValue"
+                      placeholder="Please select"
+                      class="col"
+                    />
+                    <CSelect
+                      label="Gender"
+                      name="gender_id"
+                      id="gender_id"
+                      horizontal
+                      :options="genders"
+                      :value.sync="genderSelectedValue"
+                      placeholder="Please select"
+                    />
+                  </div>
+                  <div class="row">
+                    <CInput
+                      placeholder="First Name"
+                      autocomplete="first_name"
+                      v-model="first_name"
+                      class="col"
+                      name="first_name"
+                    >
+                      <template #prepend-content
+                        ><CIcon name="cil-user"
+                      /></template>
+                    </CInput>
+
+                    <CInput
+                      placeholder="Last Name"
+                      autocomplete="last_name"
+                      v-model="last_name"
+                      class="col"
+                      name="last_name"
+                    >
+                      <template #prepend-content
+                        ><CIcon name="cil-user"
+                      /></template>
+                    </CInput>
+                  </div>
+                  <!-- <div class="row">
+                    <CInput
+                      placeholder="Last Name"
+                      autocomplete="last_name"
+                      v-model="last_name"
+                      class="col"
+                      v-validate="'required|min:3|max:20'"
+                    >
+                      <template #prepend-content
+                        ><CIcon name="cil-user"
+                      /></template>
+                    </CInput>
+                  </div> -->
+
+                  <div class="row">
+                    <CInput
+                      placeholder="Email"
+                      autocomplete="primary_email"
+                      v-model="primary_email"
+                      class="col"
+                      prepend="@"
+                      name="primary_email"
+                    />
+                    <CInput
+                      placeholder="Password"
+                      type="password"
+                      v-model="password"
+                      class="col"
+                      name="password"
+                    >
+                      <template #prepend-content
+                        ><CIcon name="cil-lock-locked"
+                      /></template>
+                      <!-- <div
+              v-if="submitted && errors.has('password')"
+              class="alert-danger"
+            >
+              {{ errors.first("password") }}
+            </div> -->
+                    </CInput>
+                    <CButton type="submit" color="success" block
+                      >Create Account</CButton
+                    >
+                  </div>
+                </div>
+              </CForm>
+              <div>
+                <div
+                  v-if="message"
+                  class="alert"
+                  :class="successful ? 'alert-success' : 'alert-danger'"
+                >
+                  {{ message }}
+                </div>
+                <div v-if="message">
+                  <a href="/login"> <CButton color="primary">Login</CButton></a>
+                </div>
+              </div>
+            </CCardBody>
+            <!-- <CCardFooter class="p-4">
+              <CRow>
+                <CCol col="6">
+                  <CButton block color="facebook">
+                    Facebook
+                  </CButton>
+                </CCol>
+                <CCol col="6">
+                  <CButton block color="twitter">
+                    Twitter
+                  </CButton>
+                </CCol>
+              </CRow>
+            </CCardFooter> -->
+          </CCard>
+        </CCol>
+      </CRow>
+    </CContainer>
   </div>
 </template>
 
@@ -124,7 +267,7 @@ export default {
       message: "",
       genders: [],
       prefixes: [],
-      first_name: "",    
+      first_name: "",
       last_name: "",
       primary_email: "",
       password: "",
@@ -169,15 +312,15 @@ export default {
 
   methods: {
     handleRegister() {
-      const user={
-        first_name: this.first_name,    
+      const user = {
+        first_name: this.first_name,
         last_name: this.last_name,
         primary_email: this.primary_email,
         password: this.password,
         prefix_id: this.prefixSelectedValue,
-        gender_id: this.genderSelectedValue
-      }
-      this.message = ""; 
+        gender_id: this.genderSelectedValue,
+      };
+      this.message = "";
       this.submitted = true;
       this.$validator.validate().then((isValid) => {
         if (isValid) {

@@ -1,7 +1,8 @@
 <template>
 <div>
   <!-- this is the view that loads the different components -->
-  <nav class="navbar navbar-expand navbar-dark bg-dark">
+  <CNavbar expandable="md" class="fixed-top"
+          color="dark">
       <a href class="navbar-brand" @click.prevent>IdeaMS</a>
       <div class="navbar-nav mr-auto">
         <li v-if="showUserBoard" class="nav-item">
@@ -16,7 +17,7 @@
           <router-link v-if="currentUser" to="/createIdea" class="nav-link">Create Idea</router-link>
         </li>
         <li v-if="showUserBoard" class="nav-item">
-          <router-link v-if="currentUser" to="/Ideas" class="nav-link">View Ideas</router-link>
+          <router-link v-if="currentUser" to="/ideas" class="nav-link">View Ideas</router-link>
         </li>
       </div>
 
@@ -46,7 +47,7 @@
           </a>
         </li>
       </div>
-    </nav>
+  </CNavbar>
   <router-view></router-view> 
   </div>
 </template>

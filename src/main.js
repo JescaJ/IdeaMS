@@ -14,8 +14,23 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import {
   faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt
 } from '@fortawesome/free-solid-svg-icons'
+import axios from "axios";
 
 library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt)
+
+
+axios.interceptors.response.use(undefined, function(error) {
+  if (error) {
+    const originalRequest = error.config;
+    if (error.response.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      store.dispatch("LogOut");
+      return router.push("/login");
+    }
+  }
+});
+
+
 
 Vue.config.productionTip = false
 Vue.component('font-awesome-icon', FontAwesomeIcon)

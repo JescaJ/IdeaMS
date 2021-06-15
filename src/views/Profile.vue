@@ -89,27 +89,92 @@
           </div>
         </div>
       </div>
-      <!-- <div>
+      <div>
         <button
           type="button"
           class="edit btn btn-primary"
-          @click="inputToggle(event)"
+          @click="editProfile(currentUser), (profileModal=true)"
         >
           Edit
         </button>
-        <button type="submit" class="save btn btn-primary">Save</button>
-        <button type="button" class="cancel btn btn-primary">Cancel</button>
-      </div> -->
+      </div>
     </form>
+
+  
+    <!-- the modal for update -->
+
+    <CModal
+      title="Update Profile"
+      :show.sync="profileModal"
+      :centered="true"
+      size="lg"
+      ><CForm @submit.prevent="saveUpdatedProfile(myCurrentUser)" v-if="!update">
+        <CInput type="hidden" :value="myCurrentUser.global_user_id" />
+        <CInput
+          label="First Name"
+          name="first_name"
+          :placeholder="myCurrentUser.first_name"
+          id="first_name"
+          v-model="myCurrentUser.first_name"
+          horizontal
+        />
+        <CInput
+          label="Last Name"
+          name="last_name"
+          :placeholder="myCurrentUser.last_name"
+          id="last_name"
+          v-model="myCurrentUser.last_name"
+          horizontal
+        />
+        <CInput
+          label="Primary Email"
+          name="primary_email"
+          :placeholder="myCurrentUser.primary_email"
+          id="primary_email"
+          v-model="myCurrentUser.primary_email"
+          horizontal
+        />
+        <CButton
+          data-dismiss="modal"
+          type="submit"
+          size="sm"
+          color="success"
+          style="float: right"
+          ><CIcon name="cil-check-circle" /> Submit</CButton
+        >
+      </CForm>
+      <div v-else>
+        <h4>You Updated successfully!</h4>
+      </div>
+      <template #footer>
+        <CButton @click="darkModal = false" color="danger" style="display: none"
+          >Discard</CButton
+        >
+        <CButton
+          @click="darkModal = false"
+          color="success"
+          style="display: none"
+          >Accept</CButton
+        >
+      </template>
+    </CModal>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   name: "Profile",
   data() {
     return {
-      edit: true,
+      global_user_id: "",
+      first_name: "",
+      last_name: "",
+      primary_email: "",
+      myCurrentUser:[],
+      update:false,
+      profileModal:false
     };
   },
   computed: {
@@ -123,23 +188,25 @@ export default {
     }
   },
   methods: {
-    inputToggle(e) {
-      e.preventDefault();
-      ":input".prop("readonly", (edit = !edit));
-      ".edit".click(function () {
-        this.hide();
-        this.siblings(".save, .cancel").show();
-      });
-      ".cancel".click(function () {
-        this.siblings(".edit").show();
-        this.siblings(".save").hide();
-        this.hide();
-      });
-      ".save".click(function () {
-        this.siblings(".edit").show();
-        this.siblings(".cancel").hide();
-        this.hide();
-      });
+    editProfile(currentUser) {
+      this.myCurrentUser = {
+        global_user_id: this.global_user_id,
+        first_name: this.first_name,
+        last_name: this.last_name,
+        primary_email: this.primary_email
+      };
+      this.myCurrentUser = currentUser;
+    },
+    saveUpdatedProfile(myCurrentUser) {
+      this.currentUser = myCurrentUser
+      console.log(this.currentUser)
+      axios
+        .put(`http://localhost:8080/profile/save/${myCurrentUser.global_user_id}`, myCurrentUser)
+        .then((response) => {})
+        .catch((e) => {
+          console.log(e);
+        });
+      this.update = true;
     },
   },
 };

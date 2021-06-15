@@ -1,10 +1,17 @@
 <template>
   <div>
+    <CCard>
+    <CCardHeader>
+      <slot name="header">
+        <CIcon name="cil-grid"/> Ideas
+      </slot>
+    </CCardHeader>
     <CCardBody>
       <CDataTable
-        :items="categoryIdea"
+        :items="ideas"
         :hover="hover"
         :fields="fields"
+        :border="border"
         :small="small"
         :items-per-page="small ? 10 : 7"
         pagination
@@ -12,7 +19,7 @@
       >
         <CIcon name="cil-grid" /> Simple Table
         <template  #update="{ item }">
-          <td v-if="showAminBoard" class="py-2">
+          <td v-if="showAdminBoard" class="py-2">
             <CButton
               color="primary"
               variant="outline"
@@ -25,7 +32,7 @@
           </td>
         </template>
         <template #delete="{ item }">
-          <td v-if="showAminBoard" class="py-2">
+          <td v-if="showAdminBoard" class="py-2">
             <CButton
               color="primary"
               variant="outline"
@@ -37,8 +44,9 @@
             </CButton>
           </td>
         </template>
-      </CDataTable></CCardBody
-    >
+      </CDataTable>
+      </CCardBody>
+    </CCard>
 
     <!-- the modal for update -->
 
@@ -162,18 +170,18 @@
               <div class="row">
                 <div class="column image">
                   <!-- <img src=".../assets" alt="Flowers in Chania" /> -->
-                  <CImg
+                  <!-- <CImg
                       src=".../assets/icons/IDMSlogo.png"
                       block
                       shape= "rounded-circle"
                     />
-                  <i class="fa fa-image fa-5x fa-pull-left"></i>
+                  <i class="fa fa-image fa-5x fa-pull-left"></i> -->
                 </div>
                 <div class="column text" >
                   <!-- {{comments}} -->
                   <ul id="example-1">
-                    <li v-for="comm in comments" :key="comm.note_content">
-                      {{ comm.note_content }}
+                    <li v-for="comm in myViewIdea.ideaToNote" :key="comm.note_content">
+                      {{ comm.note_content }} commented by {{ comm.global_user_id }}
                     </li>
                   </ul>
                   Written by Ndagire Jesca
@@ -238,6 +246,7 @@ export default {
   props: {
     small: Boolean,
     hover: Boolean,
+    border: Boolean,
   },
   data() {
     return {
@@ -246,12 +255,15 @@ export default {
       idea_title: "",
       idea_description: "",
       category_id: "",
+      category_name:"",
+      ideaCategoryMapping:{},
       global_user_id: "",
       note_content: "",
       update: false,
       submitted: false,
       commented:false,
       ideas: [],
+      myCategories:[],
       categoryIdea:[],
       ideaUser:[],
       comments:[],
@@ -263,8 +275,8 @@ export default {
         { key: "idea_id" },
         { key: "idea_title" },
         { key: "idea_description" },
-        { key: "category_name", label: "Category" },
-        { key: "full_name", label: "Created By" },
+        { key: "category_name", label: "Category"},
+        { key: "global_user_id", label: "Created By" },
         {
           key: "update",
           label: "",
@@ -347,7 +359,7 @@ export default {
         global_user_id: this.global_user_id,
       };
       this.myViewIdea = item;
-      // console.log(this.myViewIdea);
+      console.log(this.myViewIdea);
     },
     addComment() {
       const myComment = {
@@ -363,43 +375,97 @@ export default {
           console.log(e);
         });
       this.commented = true;
-    }
+    },
+
+    // request_1() {
+    // //  this.first_request: 'first request began'
+    //  return axios.get('http://localhost:8080/list_ideas/')
+    // },
+    // request_2() {
+    // //  this.first_request: 'first request began'
+    //  return axios.get('http://localhost:8080/list_category/')
+    // }
   },
 
   // this is the function for returning all the ideas
   mounted: function () {
+    
+
+    //  axios.all([
+    //     this.request_1(), //or direct the axios request
+    //     this.request_2()
+    //   ])
+    // .then(axios.spread((ideas_response, categories_response) => {
+    //       console.log(ideas_response.data)
+    //       // this.message = 'Request finished'
+    //       this.ideas =  ideas_response.data
+    //       this.myCategories = categories_response.data
+    //       console.log(this.myCategories)
+    //       const results = this.ideas.map((item, i) => Object.assign({}, item, this.myCategories[i]));
+    //       this.categoryIdea = results
+    //       console.log(this.ideas)
+    //       console.log(this.myCategories)
+    //       console.log(this.categoryIdea.ideaCategoryMapping)
+    //     }))
+    //     .catch((error) => console.log(error));
+    // },
+    
+
+
+
+
+
     axios
       .get("http://localhost:8080/list_ideas/")
       .then((response) => {
         this.ideas = response.data;
-        // console.log(this.ideas)
+        
+        // const obj = this.ideas[0].ideaCategoryMapping
+        // const arr = obj.map((item, i) => Object.category_name)
+
+        // console.log(obj)
+        // console.log(arr)
+        // let obj = {"Best Fare Description": {"text": {"value": "One","type": "TEXT"}},"Brand ID": {"text": {"value": "test","type": "TEXT"}},"Program ID": {"text": {"value": "test","type": "TEXT"}},"Max Elapse Time": {"integer": {"value": 4,"type": "INTEGER"}},"Max Number of Connections": {"integer": {"value": 5,"type": "INTEGER"}}}
+
+        // let arr = Object.values(obj).flatMap(item => Object.values(item).map(inner => inner.value))
+        // console.log(arr)
       })
+      
       .catch((error) => console.log(error));
 
-      axios.get("http://localhost:8080/list_users/")
-      .then((response)=>{
-        this.myusers = response.data
-        this.ideaUser = this.ideas.map((item, i) => Object.assign({}, item, this.myusers[i]));
-        // console.log(this.ideaUser)
-      })
-      .catch((error)=> console.log(error));
-
-      axios.get("http://localhost:8080/list_category/")
-      .then((response)=>{
-        this.mycategories = response.data
-        this.categoryIdea = this.ideas.map((item, i) => Object.assign({}, item, this.mycategories[i])
-        );
-        console.log(this.categoryIdea);
-        // console.log(i);
-      })
-      .catch((error)=> console.log(error));
+    //   axios.get("http://localhost:8080/list_category/")
+    //   .then((response)=>{
+    //     this.mycategories = response.data
+    //     this.categoryIdea = this.mycategories.map((item, i) => Object.assign({}, item, this.ideas[i])
+    //     );
+    //     console.log(this.ideas);
+    //     // console.log(i);
+    //   })
+    //   .catch((error)=> console.log(error));
       
-      axios.get("http://localhost:8080/list_comments/")
-      .then((response)=>{
-        this.comments = response.data
-      })
-      .catch((error)=> console.log(error));
-  },
-};
+      // axios.get("http://localhost:8080/list_comments/")
+      // .then((response)=>{
+      //   this.comments = response.data
+      //   this.comments.forEach(item => {
+      //     console.log(this.myViewIdea.idea_id)
+      //     if (item.idea_id == myViewIdea.idea_id){
+      //       console.log(item.note_content)
+      //     }
+         
+      //   });
+      // })
+      // .catch((error)=> console.log(error));
+
+    //   axios.get("http://localhost:8080/list_users/")
+    //   .then((response)=>{
+    //     this.myusers = response.data
+    //     this.ideaUser = this.ideas.map((item, i) => Object.assign({}, item, this.myusers[i]));
+    //     // console.log(this.ideaUser)
+    //   })
+    //   .catch((error)=> console.log(error));
+
+  }  
+  }
+
 </script>
 

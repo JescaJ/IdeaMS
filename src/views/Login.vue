@@ -1,11 +1,10 @@
 <template>
   <div class="col-md-12">
     <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
+      <div style="text-align: center">
+      <h1>AIDEA</h1>
+      <p class="text-muted">Welcome, Let's get started</p>
+      </div>
       <form name="form" @submit.prevent="handleLogin">
         <div class="form-group">
           <label for="primary_email">Primary Email</label>
@@ -47,7 +46,14 @@
           <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
         </div>
       </form>
+      <div>
+        <br>
+        <br>
+        <br>
+      <p style="text-align:center;">New User? <a href="/register"><b>Sign Up</b></a></p>
     </div>
+    </div>
+    
   </div>
 </template>
 
@@ -100,9 +106,7 @@ export default {
             error => {
               this.loading = false;
               this.message =
-                (error.response && error.response.data) ||
-                error.message ||
-                error.toString();
+                (error.response && error.response.data) || error.message || error.toString();
             }
           );
         }

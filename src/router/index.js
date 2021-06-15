@@ -58,7 +58,7 @@ const Modals = () => import('@/views/notifications/Modals')
 // Views - Pages
 const Page404 = () => import('@/views/pages/Page404')
 const Page500 = () => import('@/views/pages/Page500')
-// const Login = () => import('@/views/Login')
+const LoginOrig = () => import('@/views/LoginOriginal')
 // const Register = () => import('@/views/pages/Register')
 
 // Users
@@ -403,9 +403,9 @@ function configRoutes () {
           component: Page500
         },
         {
-          path: 'login',
-          name: 'Login',
-          component: Login
+          path: 'loginorig',
+          name: 'LoginOrig',
+          component: LoginOrig
         },
         {
           path: 'register',
@@ -436,8 +436,8 @@ function configRoutes () {
       component: Profile
     },
     {
-      path:'/Ideas',
-      name:'Ideas',
+      path:'/ideas',
+      name:'ideas',
       component: Ideas
     },
     {
