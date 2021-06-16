@@ -1,7 +1,7 @@
 <template>
 <div>
   <!-- this is the view that loads the different components -->
-  <CNavbar expandable="md" class="fixed-top"
+  <CNavbar expandable="md" 
           color="dark">
       <a href class="navbar-brand" @click.prevent>IdeaMS</a>
       <div class="navbar-nav mr-auto">

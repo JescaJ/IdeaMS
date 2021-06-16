@@ -1,10 +1,22 @@
 <template>
   <div class="container">
-    <header class="jumbotron" style="height:10%;">
-      <h3 style="text-align: center">
+    
+    <!-- <header class="jumbotron" style="height:1%; text-align:center;"> -->
+      <!-- <h3 style="text-align: center">
         <strong>{{ currentUser.fullname }}</strong> Profile
-      </h3>
-    </header>
+      </h3> -->
+      <CCard>
+      <div style="text-align:center;">
+        <h2>Profile</h2>
+        <br>
+        <br>
+      <img
+        id="profile-img"
+        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
+        class="profile-img-card"
+        style="border-radius: 50%;"
+      /></div>
+    <!-- </header> -->
     <!-- <p>
       <strong>Token:</strong>
       {{currentUser.accessToken.substring(0, 20)}} ... {{currentUser.accessToken.substr(currentUser.accessToken.length - 20)}}
@@ -21,6 +33,7 @@
     <ul>
       <li v-for="(role,index) in currentUser.roles" :key="index">{{role}}</li>
     </ul> -->
+    
     <form
       style="width: 800px; margin: 0 auto; border-radius: 25px"
       data-toggle="validator"
@@ -99,7 +112,7 @@
         </button>
       </div>
     </form>
-
+    </CCard>
   
     <!-- the modal for update -->
 

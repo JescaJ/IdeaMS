@@ -2,7 +2,7 @@
   <div>
     <div v-if="!submitted">
       <CCard>
-        <!-- <CCardHeader> <strong>Basic Form</strong> Elements </CCardHeader> -->
+        <CCardHeader>Idea</CCardHeader>
         <CCardBody>
           <CForm @submit.prevent="saveIdea">
             <CInput

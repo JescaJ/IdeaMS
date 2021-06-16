@@ -1,50 +1,56 @@
 <template>
   <div>
+    <!-- <form >
+					
+					<input type="text" name="keyword" value=""/>
+					&nbsp;
+					<input type="submit" value="Search"/>
+					&nbsp;
+					<input type="button" value="Clear" onclick="clearSearch()"/>
+				</form> -->
     <CCard>
-    <CCardHeader>
-      <slot name="header">
-        <CIcon name="cil-grid"/> Ideas
-      </slot>
-    </CCardHeader>
-    <CCardBody>
-      <CDataTable
-        :items="ideas"
-        :hover="hover"
-        :fields="fields"
-        :border="border"
-        :small="small"
-        :items-per-page="small ? 10 : 7"
-        pagination
-        @row-clicked="viewingIdea"
-      >
-        <CIcon name="cil-grid" /> Simple Table
-        <template  #update="{ item }">
-          <td v-if="showAdminBoard" class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="viewIdea(item), (warningModal = true)"
-            >
-              Update
-            </CButton>
-          </td>
-        </template>
-        <template #delete="{ item }">
-          <td v-if="showAdminBoard" class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="confirmDelete(item), (deleteModal = true)"
-            >
-              Delete
-            </CButton>
-          </td>
-        </template>
-      </CDataTable>
+      <CCardHeader>
+        <slot name="header"> <CIcon name="cil-grid" /> Ideas </slot>
+      </CCardHeader>
+      <CCardBody>
+        <CDataTable
+          :items="ideas"
+          :hover="hover"
+          :fields="fields"
+          :border="border"
+          :small="small"
+          :items-per-page="small ? 10 : 7"
+          pagination
+          @row-clicked="viewingIdea"
+        >
+          <CIcon name="cil-grid" /> Simple Table
+          <template #update="{ item }">
+            <td v-if="showAdminBoard" class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="viewIdea(item), (warningModal = true)"
+              >
+                Update
+              </CButton>
+            </td>
+          </template>
+          <template #delete="{ item }">
+            <td v-if="showAdminBoard" class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="confirmDelete(item), (deleteModal = true)"
+              >
+                Delete
+              </CButton>
+            </td>
+          </template>
+        </CDataTable>
       </CCardBody>
     </CCard>
 
@@ -133,17 +139,24 @@
       :centered="true"
       size="lg"
     >
-      <form @submit.prevent="addComment" v-if="!commented" style="width: 700px; margin: 0 auto">
-        <input type="hidden" :value="myViewIdea.idea_id" />
+      <CForm
+        @submit.prevent="addComment"
+        v-if="!commented"
+        style="width: 700px; margin: 0 auto"
+      >
+        <CInput type="hidden" :value="myViewIdea.idea_id" />
+        <!-- <div class="d-inline p-2 bg-primary text-white">d-inline</div>
+        <div class="d-inline p-2 bg-dark text-white">d-inline</div> -->
+        <CCard>
         <div class="m-3">
           <div class="form-group row">
-            <label class="col-form-label col-4">Idea Title</label>
+            <label class="col-form-label col-4">Idea Category</label>
             <div class="col-8">
               <input
                 type="text"
                 readonly
                 class="form-control"
-                :value="myViewIdea.idea_title"
+                :value="myViewIdea.category_name"
               />
             </div>
           </div>
@@ -158,49 +171,46 @@
               />
             </div>
           </div>
-          <!-- 					<div class="form-group row">			  -->
-          <!-- 						<label class="col-form-label col-4">Add Note</label> -->
-          <!-- 						<div class="col-8"> -->
-          <!-- 							<textarea rows="5" cols="35" class="form-control" th:value="*{note.note_content}" name="note_content" ></textarea> -->
-          <!-- 						</div> -->
-          <!--  					</div>	 -->
-
-          <div class="form-group row">
-            <div class="center-align">
-              <div class="row">
-                <div class="column image">
-                  <!-- <img src=".../assets" alt="Flowers in Chania" /> -->
-                  <!-- <CImg
-                      src=".../assets/icons/IDMSlogo.png"
-                      block
-                      shape= "rounded-circle"
-                    />
-                  <i class="fa fa-image fa-5x fa-pull-left"></i> -->
-                </div>
-                <div class="column text" >
-                  <!-- {{comments}} -->
-                  <ul id="example-1">
-                    <li v-for="comm in myViewIdea.ideaToNote" :key="comm.note_content">
-                      {{ comm.note_content }} commented by {{ comm.global_user_id }}
-                    </li>
-                  </ul>
-                  Written by Ndagire Jesca
-                </div>
-              </div>
-            </div>
-          </div>
+          
           <br />
-          <CButton color="primary" @click="isShow = !isShow">Add Comment </CButton>
+          <CButton color="primary" @click="isShow = !isShow"
+            >Add Comment
+          </CButton>
+          <br>
+          <br>
+                <!-- <CCard> -->
+                  <ul>
+                    <p
+                      v-for="comm in comments"
+                      :key="comm.note_content"
+                    >
+                      <ul v-if="comm.idea_id == myViewIdea.idea_id">
+                        <CCard>
+                          <div class="row" style="margin:7; padding: 7;">
+                            <div class="col-1">
+                              <font-awesome-icon icon="user" class=" fa-pull-right"/>
+                            </div>
+                            <div class="col-6" style="margin: 0; padding: 0;">
+                              <p style="margin: 0; padding: 0; font-size: 10px;"><b>{{ comm.commented_by }}</b></p>
+                              <p style="margin: 0; padding: 0; font-size: 10px;">{{ comm.note_content}}</p>
+                            </div>
+                          </div>
+                          </CCard>
+                      </ul>
+                    </p>
+                  </ul>
+                <!-- </CCard> -->
+                
           <br />
           <div v-if="isShow" class="form-group row hidden-form">
             <label class="col-form-label col-4">Comment</label>
             <div class="col-8">
-              <textarea
+              <CTextarea
                 rows="5"
                 cols="35"
                 class="form-control"
                 v-model="note_content"
-              ></textarea>
+              ></CTextarea>
             </div>
             <div>
               <br />
@@ -215,7 +225,8 @@
             </div>
           </div>
         </div>
-      </form>
+        </CCard>
+      </CForm>
       <div v-else>
         <h4>Comment Saved!</h4>
       </div>
@@ -255,28 +266,22 @@ export default {
       idea_title: "",
       idea_description: "",
       category_id: "",
-      category_name:"",
-      ideaCategoryMapping:{},
       global_user_id: "",
-      note_content: "",
       update: false,
       submitted: false,
-      commented:false,
+      commented: false,
       ideas: [],
-      myCategories:[],
-      categoryIdea:[],
-      ideaUser:[],
-      comments:[],
+      myCategories: [],
+      ideaUser: [],
+      comments: [],
       myIdea: "",
       myIdeaDelete: "",
       myViewIdea: "",
-      note_content:"",
       fields: [
-        { key: "idea_id" },
         { key: "idea_title" },
         { key: "idea_description" },
-        { key: "category_name", label: "Category"},
-        { key: "global_user_id", label: "Created By" },
+        { key: "category_name" },
+        { key: "created_by" },
         {
           key: "update",
           label: "",
@@ -304,7 +309,7 @@ export default {
     },
     showAdminBoard() {
       if (this.currentUser && this.currentUser.roles) {
-        return this.currentUser.roles.includes('ADMIN');
+        return this.currentUser.roles.includes("ADMIN");
       }
 
       return false;
@@ -359,15 +364,13 @@ export default {
         global_user_id: this.global_user_id,
       };
       this.myViewIdea = item;
-      console.log(this.myViewIdea);
     },
     addComment() {
       const myComment = {
         note_content: this.note_content,
         global_user_id: this.currentUser.global_user_id,
-        idea_id:this.myViewIdea.idea_id
+        idea_id: this.myViewIdea.idea_id,
       };
-      console.log(myComment)
       axios
         .post("http://localhost:8080/add/comment", myComment)
         .then((response) => {})
@@ -376,96 +379,85 @@ export default {
         });
       this.commented = true;
     },
+    async ideaCategoryFetch() {
+      try {
+        const ideasFetched = await axios.get(
+          "http://localhost:8080/list_ideas/"
+        );
+        const categoriesFetched = await axios.get(
+          "http://localhost:8080/list_category/"
+        );
 
-    // request_1() {
-    // //  this.first_request: 'first request began'
-    //  return axios.get('http://localhost:8080/list_ideas/')
-    // },
-    // request_2() {
-    // //  this.first_request: 'first request began'
-    //  return axios.get('http://localhost:8080/list_category/')
-    // }
+        // for users
+        const usersFetched = await axios.get(
+          "http://localhost:8080/list_users/"
+        );
+
+        // for comments
+        const commentsFetched = await axios.get(
+          "http://localhost:8080/list_comments/"
+        );
+
+        const result = ideasFetched.data.map((idea) => {
+          return {
+            idea_id: idea.idea_id,
+            idea_title: idea.idea_title,
+            idea_description: idea.idea_description,
+            category_id: categoriesFetched.data.map((category) => {
+              if (idea.category_id == category.category_id) {
+                return category.category_name;
+              }
+            }),
+            created_by: usersFetched.data.map((user) => {
+              if (idea.global_user_id == user.global_user_id) {
+                return user.full_name;
+              }
+            }),
+          };
+        });
+
+        const results = commentsFetched.data.map((comment) => {
+          return {
+            idea_id: comment.idea_id,
+            note_content: comment.note_content,
+            commented_by: usersFetched.data.map((user) => {
+              if (comment.global_user_id == user.global_user_id) {
+                return user.full_name;
+              }
+            }),
+          };
+        });
+
+        const outputs = results.map((ress) => {
+          return {
+            idea_id: ress.idea_id,
+            note_content: ress.note_content,
+            commented_by: ress.commented_by.filter((h) => h !== undefined)[0],
+          };
+        });
+
+        this.comments = outputs;
+
+        const output = result.map((res) => {
+          return {
+            idea_id: res.idea_id,
+            idea_title: res.idea_title,
+            idea_description: res.idea_description,
+            category_name: res.category_id.filter((x) => x !== undefined)[0],
+            created_by: res.created_by.filter((y) => y !== undefined)[0],
+          };
+        });
+        this.ideas = output;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 
   // this is the function for returning all the ideas
   mounted: function () {
-    
-
-    //  axios.all([
-    //     this.request_1(), //or direct the axios request
-    //     this.request_2()
-    //   ])
-    // .then(axios.spread((ideas_response, categories_response) => {
-    //       console.log(ideas_response.data)
-    //       // this.message = 'Request finished'
-    //       this.ideas =  ideas_response.data
-    //       this.myCategories = categories_response.data
-    //       console.log(this.myCategories)
-    //       const results = this.ideas.map((item, i) => Object.assign({}, item, this.myCategories[i]));
-    //       this.categoryIdea = results
-    //       console.log(this.ideas)
-    //       console.log(this.myCategories)
-    //       console.log(this.categoryIdea.ideaCategoryMapping)
-    //     }))
-    //     .catch((error) => console.log(error));
-    // },
-    
-
-
-
-
-
-    axios
-      .get("http://localhost:8080/list_ideas/")
-      .then((response) => {
-        this.ideas = response.data;
-        
-        // const obj = this.ideas[0].ideaCategoryMapping
-        // const arr = obj.map((item, i) => Object.category_name)
-
-        // console.log(obj)
-        // console.log(arr)
-        // let obj = {"Best Fare Description": {"text": {"value": "One","type": "TEXT"}},"Brand ID": {"text": {"value": "test","type": "TEXT"}},"Program ID": {"text": {"value": "test","type": "TEXT"}},"Max Elapse Time": {"integer": {"value": 4,"type": "INTEGER"}},"Max Number of Connections": {"integer": {"value": 5,"type": "INTEGER"}}}
-
-        // let arr = Object.values(obj).flatMap(item => Object.values(item).map(inner => inner.value))
-        // console.log(arr)
-      })
-      
-      .catch((error) => console.log(error));
-
-    //   axios.get("http://localhost:8080/list_category/")
-    //   .then((response)=>{
-    //     this.mycategories = response.data
-    //     this.categoryIdea = this.mycategories.map((item, i) => Object.assign({}, item, this.ideas[i])
-    //     );
-    //     console.log(this.ideas);
-    //     // console.log(i);
-    //   })
-    //   .catch((error)=> console.log(error));
-      
-      // axios.get("http://localhost:8080/list_comments/")
-      // .then((response)=>{
-      //   this.comments = response.data
-      //   this.comments.forEach(item => {
-      //     console.log(this.myViewIdea.idea_id)
-      //     if (item.idea_id == myViewIdea.idea_id){
-      //       console.log(item.note_content)
-      //     }
-         
-      //   });
-      // })
-      // .catch((error)=> console.log(error));
-
-    //   axios.get("http://localhost:8080/list_users/")
-    //   .then((response)=>{
-    //     this.myusers = response.data
-    //     this.ideaUser = this.ideas.map((item, i) => Object.assign({}, item, this.myusers[i]));
-    //     // console.log(this.ideaUser)
-    //   })
-    //   .catch((error)=> console.log(error));
-
-  }  
-  }
-
+    this.ideaCategoryFetch();
+  },
+};
 </script>
 
