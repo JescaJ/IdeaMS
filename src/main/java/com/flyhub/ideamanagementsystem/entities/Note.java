@@ -30,10 +30,10 @@ public class Note extends Auditable<Integer>{
 	@JoinColumn(name="idea_id", insertable=false, updatable=false)
 	private Idea ideaNoteMapping;
 	
-//	
-//	@ManyToOne
-//	@JoinColumn(name="global_user_id", insertable=false, updatable=false)
-//	private Idea userNoteMapping;
+	@JsonIgnore
+	@ManyToOne
+	@JoinColumn(name="global_user_id", insertable=false, updatable=false)
+	private User userNoteMapping;
 	
 	
 	//constructor

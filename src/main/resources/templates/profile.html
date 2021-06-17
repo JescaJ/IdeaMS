@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Idea MS</title>
-<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <link th:href="@{/css/form.css}" rel="stylesheet" />
 <link th:href="@{/css/home_nav.css}" rel="stylesheet" />
 <script type="text/javascript" th:src="@{/js/settings.js}"></script>
@@ -13,126 +15,127 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 </head>
 <body>
 	<!-- navbar -->
-		<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-			<div class="container-fluid">
-				<a class="navbar-brand" th:href="@{/}">
-					<img alt="logo image" src="/images/logo.png" height="100" width="100">
-					<span class="blog-name">Idea Ms</span>
-				</a>
-<!-- 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"> -->
-<!-- 					<span class="navbar-toggler-icon"></span> -->
-<!-- 				</button> -->
-				<div class="dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
-				  <span th:onclick="myFunction()" class="nav-link dropbtn">Settings<i class="fa fa-caret-down"></i></span>
-				  <div id="myDropdown" class="dropdown-content">
-				    <a th:href="@{/list_gender}">Gender</a>
-				    <a th:href="@{/list_role}">Roles</a>
-				    <a th:href="@{/list_prefix}">Prefix</a> 
-				    <a th:href="@{/list_category}">Category</a>
-				  </div>
-				</div>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item">
-							<a class="nav-link active" th:href="@{/}">Home</a>
-						</li>
-						<li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-							<a class="nav-link" th:href="@{/list_users}">View Users</a>
-						</li>
-						<li class="nav-item" sec:authorize="!isAuthenticated()">
-							<a class="nav-link" th:href="@{/register}">Register</a>
-						</li>
-						<li class="nav-item" sec:authorize="!isAuthenticated()">
-							<a class="nav-link" th:href="@{/login}">Login</a>
-						</li>
-						<li class="nav-item" sec:authorize="isAuthenticated()">
-							<a class="nav-link"><b>[[${#request.userPrincipal.principal.fullName}]]</b></a>
-						</li>
-						<li class="nav-item" sec:authorize="isAuthenticated()">
-							<a class="nav-link" th:href="@{/logout}">Logout</a>
-						</li>
-					</ul>
+	<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}"> <img alt="logo image"
+				src="/images/logo.png" height="100" width="100"> <span
+				class="blog-name">Idea Ms</span>
+			</a>
+			<div class="dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
+				<span th:onclick="myFunction()" class="nav-link dropbtn">Settings<i
+					class="fa fa-caret-down"></i></span>
+				<div id="myDropdown" class="dropdown-content">
+					<a th:href="@{/list_gender}">Gender</a> <a th:href="@{/list_role}">Roles</a>
+					<a th:href="@{/list_prefix}">Prefix</a> <a
+						th:href="@{/list_category}">Category</a>
 				</div>
 			</div>
-		</nav>
-		<!-- my welcome section -->
-		
-		<div class="container text-center">
-			<div class="row welcome text-center">
-				<div class="col-12">
-					<h1 class="display-4" >My Profile</h1>
-				</div>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link active" th:href="@{/}">Home</a>
+					</li>
+					<li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+						<a class="nav-link" th:href="@{/list_users}">View Users</a>
+					</li>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" th:href="@{/register}">Register</a></li>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" th:href="@{/login}">Login</a></li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link"><b>[[${#request.userPrincipal.principal.fullName}]]</b></a>
+					</li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link" th:href="@{/logout}">Logout</a></li>
+				</ul>
 			</div>
+		</div>
+	</nav>
+	<!-- my welcome section -->
+
+	<div class="container text-center">
+		<div class="row welcome text-center">
+			<div class="col-12">
+				<h1 class="display-4">My Profile</h1>
+			</div>
+		</div>
 		<!-- For the profile view -->
 
 		<br>
-		<form th:action="@{/profile/save}" style="width:800px; margin: 0 auto; border-radius: 25px;" data-toggle="validator">
-				<input type="hidden" th:value="${user.global_user_id}"/>
-				<div class="m-3">
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>Prefix:</b></label>
-						<div class="col-8">
-							<select  class="form-control" readonly th:value="${user.userPrefixMapping.prefix_name}">
-								<option th:each="prefix : ${prefixList}" th:value="${prefix.prefix_id}"  th:text="${user.userPrefixMapping.prefix_name}"/>
-							</select>
-<!-- 							<input type="text" readonly class="form-control"  th:value="*{prefixValue}"> -->
-						</div>
+		<form th:action="@{/profile/save}"
+			style="width: 800px; margin: 0 auto; border-radius: 25px;"
+			data-toggle="validator">
+			<input type="hidden" th:value="${user.global_user_id}" />
+			<div class="m-3">
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>Prefix:</b></label>
+					<div class="col-8">
+						<select class="form-control" readonly
+							th:value="${user.userPrefixMapping.prefix_name}">
+							<option th:each="prefix : ${prefixList}"
+								th:value="${prefix.prefix_id}"
+								th:text="${user.userPrefixMapping.prefix_name}" />
+						</select>
+						<!-- 							<input type="text" readonly class="form-control"  th:value="*{prefixValue}"> -->
 					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>First Name:</b></label>
-						<div class="col-8">
-							<input type="text" readonly class="form-control"  th:value="${user.first_name}">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>Middle Name:</b></label>
-						<div class="col-8">
-							<input type="text" readonly class="form-control"  th:value="${user.middle_name}">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>Last Name:</b></label>
-						<div class="col-8">
-							<input type="text" readonly class="form-control"  th:value="${user.last_name}">
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>Gender:</b></label>
-						<div class="col-8">
-							<select  class="form-control" readonly>
-								<option th:each="gender : ${genderList}" th:value="${gender.gender_id}"  th:text="${user.userGenderMapping.gender_name}"/>
-							</select>
-						</div>
-					</div>
-					<div class="form-group row">
-						<label class="col-form-label col-4"><b>Email:</b></label>
-						<div class="col-8">
-							<input type="text" readonly class="form-control" th:value="${user.primary_email}">
-						</div>
-					</div>
-					
 				</div>
-				<div>
-<!-- 				<input th:href="@{'/profile/edit/' + ${global_user_id}}" type="submit" class="form-btn" value="Edit" onclick="inputToggle(event)" style="margin:10px;"/> -->
-<!-- 				<input class="edit" type="button" value="Edit" onclick="inputToggle(event)"/> -->
-<!-- 			    <input class="save" type="submit" value="Save" />  -->
-<!-- 			    <input class="cancel" type="button" value="Cancel" /> -->
-			    <button type="button" class="edit btn btn-primary" onclick="inputToggle(event)">Edit</button>
-			    <button type="submit" class="save btn btn-primary">Save</button>
-			    <button type="button" class="cancel btn btn-primary">Cancel</button>
-<!-- 			    <button type="submit"> Submit</button> -->
-			  </div>
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>First Name:</b></label>
+					<div class="col-8">
+						<input type="text" readonly class="form-control"
+							th:value="${user.first_name}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>Middle Name:</b></label>
+					<div class="col-8">
+						<input type="text" readonly class="form-control"
+							th:value="${user.middle_name}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>Last Name:</b></label>
+					<div class="col-8">
+						<input type="text" readonly class="form-control"
+							th:value="${user.last_name}">
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>Gender:</b></label>
+					<div class="col-8">
+						<select class="form-control" readonly>
+							<option th:each="gender : ${genderList}"
+								th:value="${gender.gender_id}"
+								th:text="${user.userGenderMapping.gender_name}" />
+						</select>
+					</div>
+				</div>
+				<div class="form-group row">
+					<label class="col-form-label col-4"><b>Email:</b></label>
+					<div class="col-8">
+						<input type="text" readonly class="form-control"
+							th:value="${user.primary_email}">
+					</div>
+				</div>
+
 			</div>
-			<br>
-				
-			</form>
-						
-			<!-- my footer -->
-			<div class="footer">
-				<hr class="light">
-				<h5>&copy; flyhubug.com</h5>
+			<div>
+				<button type="button" class="edit btn btn-primary"
+					onclick="inputToggle(event)">Edit</button>
+				<button type="submit" class="save btn btn-primary">Save</button>
+				<button type="button" class="cancel btn btn-primary">Cancel</button>
+				<!-- 			    <button type="submit"> Submit</button> -->
 			</div>
-			<script type="text/javascript">
+	</div>
+	<br>
+
+	</form>
+
+	<!-- my footer -->
+	<div class="footer">
+		<hr class="light">
+		<h5>&copy; flyhubug.com</h5>
+	</div>
+	<script type="text/javascript">
 				var edit = true;
 
 				function inputToggle(e) {
@@ -156,6 +159,6 @@ xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 				    $(this).hide();
 				});
 			</script>
-			
+
 </body>
 </html>

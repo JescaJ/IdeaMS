@@ -58,117 +58,42 @@ public class IdeaController {
 		
 		return "idea_form";
 	}
+
 	
-	
-//	@AuthenticationPrincipal CustomUserDetails customdetails,
-//	@PostMapping("/process_add_idea")
-//	public String processSubmission(Idea idea, Authentication authentication) {
-//		
-//		ideaService.save(idea,authentication);
-//		return "submission_success";
-//	}
-	
-	//for posting with vue js
 	@PostMapping("/process_add_idea")
 	public Object processSubmission(@RequestBody Idea idea) {
 		return ideaService.save(idea);
 	}
 	
-	
-//	//original list ideas with vue js
+
 	@GetMapping("/list_ideas")
 	public ResponseEntity<List<Idea>> viewIdeasList() {
-//		List<Idea> listIdeas = ideaService.listAll();
-//		model.addAttribute("listIdeas", listIdeas);
 		List<Idea> idea = ideaService.listAll();
 		return ResponseEntity.status(HttpStatus.OK).body(idea);
 	}
-	
-	//list ideas with search and pagination
-//	@GetMapping("/list_ideas")
-//	@RequestMapping(value = {"/list_ideas", "/"}, method = RequestMethod.GET)
-//	public String viewIdeasList(Model model, @Param("keyword") String keyword) {
-//		return viewIdeasListPaged(model, 1, keyword);
-//	}
-//	
-//	@GetMapping("/page/{pageNumber}")
-//	public String viewIdeasListPaged(Model model, @PathVariable("pageNumber") int currentPage, String keyword) {
-//		Page<Idea> page = ideaService.listAll(currentPage, keyword);
-//	 
-//		long totalIdeas = page.getTotalElements();
-//		int totalPages = page.getTotalPages();
-//		
-//		List<Idea> listIdeas = page.getContent();
-//		
-//		model.addAttribute("currentPage", currentPage);
-//		model.addAttribute("totalIdeas", totalIdeas);
-//		model.addAttribute("totalPages", totalPages);
-//		model.addAttribute("listIdeas", listIdeas);
-//		
-//		return "list_ideas";
-//	}
 	
 	
 	@GetMapping("/idea/edit/{idea_id}")
 	public String editIdea(@PathVariable("idea_id") int idea_id, Model model) {
 		Idea idea = ideaService.get(idea_id);
-//		System.out.println(idea);
-//		idea.setIdea_title(idea.getIdea_title());
-		
-//		model.addAttribute("note", new Note());
 		model.addAttribute("idea", idea);
 		return "idea_edit_form";
 	}
 	
-	
-//	@PostMapping("/ideas/save")
-//	public String saveIdeaEdit(Idea idea) { //added the note object so as to save the note as well
-////		noteService.save(note);
-//		ideaService.saveUpdatedIdea(idea);
-//		return "redirect:/list_ideas";
-//	}
-	
-//	@PutMapping("/ideas/save/{idea_id}")
-//	public String saveIdeaEdit(@PathVariable("idea_id") int idea_id, @RequestBody Idea idea) { 
-////		noteService.save(note);
-//		
-//		return "ideaService.saveUpdatedIdea(idea, idea_id)";
-//	}
-	
-	
-	// save the updated idea with vue js
+
 	@PutMapping("/ideas/save/{idea_id}")
 	public Idea update(@PathVariable("idea_id") int idea_id, @RequestBody Idea idea) {
 		return ideaService.saveUpdatedIdea(idea, idea_id);
 	}
 	
-//	@RequestMapping("/view/idea/{idea_id}")
-//	public String viewIdea(@PathVariable(name = "idea_id") int idea_id, Model model) {
-//		
-//		Idea idea = ideaService.get(idea_id);
-//		System.out.println(idea.toString());
-//		
-//		model.addAttribute("note", new Note());
-//		model.addAttribute("idea", idea);
-//	    return "view_idea";       
-//	}
-	
-	
-	// return a single idea with vue js
+
 	@GetMapping("/view/idea/{idea_id}")
 	public Idea viewIdea(@PathVariable(name = "idea_id") int idea_id) {
 		return ideaService.get(idea_id);       
 	}
 	
-//	original
-//	@RequestMapping("/idea/delete/{idea_id}")
-//	public String deleteIdea(@PathVariable(name = "idea_id") int idea_id) {
-//		ideaService.delete(idea_id);
-//	    return "redirect:/list_ideas";       
-//	}
 	
-	
-//	delete with vue js
+
 	@RequestMapping("/idea/delete/{idea_id}")
 	public void deleteIdea(@PathVariable(name = "idea_id") int idea_id) {
 	    ideaService.delete(idea_id);
@@ -176,16 +101,8 @@ public class IdeaController {
 	}
 	
 	
-	
 	@PostMapping("/add/comment")
-	public Object addComment(@RequestBody Note note) { //added the note object so as to save the note as well
-//		note.setIdea_id(idea.getIdea_id());
-//		note.setGlobal_user_id(customdetails.getGlobal_user_id());
-//		ideaNoteService.save(idea, note);
-//		noteService.save(note, authentication);
-//		ideaService.saveUpdatedIdea(idea);
-//		System.out.println(idea);
-		System.out.println(note.toString());
+	public Object addComment(@RequestBody Note note) { 
 		return noteService.save(note);
 	}
 	

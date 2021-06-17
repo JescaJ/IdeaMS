@@ -36,7 +36,6 @@ public class PrefixService {
     public Prefix saveUpdatedPrefix(Prefix prefix, int prefix_id) {
     	
     	Prefix currentPrefix = prefixRepo.getOne(prefix_id);
-//    	Prefix currentPrefix = prefixRepo.findById(prefix_id);
     	
     	currentPrefix.setPrefix_name(prefix.getPrefix_name());
     	currentPrefix.setPrefix_description(prefix.getPrefix_description());

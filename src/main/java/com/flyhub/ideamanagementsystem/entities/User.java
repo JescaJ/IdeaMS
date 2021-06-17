@@ -57,7 +57,7 @@ public class User{
 	private Integer prefix_id;
 	
 //	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(
 			name = "users_roles", 
@@ -66,12 +66,12 @@ public class User{
 			inverseJoinColumns = @JoinColumn(name = "serial_id"))
 	private Set<Role> roles = new HashSet<>();
 	
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="prefix_id", insertable=false, updatable=false)
 	private Prefix userPrefixMapping;
 	
-//	@JsonIgnore
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="gender_id", insertable=false, updatable=false)
 	private Gender userGenderMapping;
@@ -79,7 +79,10 @@ public class User{
 //	@JsonIgnore
 	@OneToMany(mappedBy="ideaUserMapping")
 	private List<Idea> ideaToUser;
-//	
+	
+	@JsonIgnore
+	@OneToMany(mappedBy="userNoteMapping")
+	private List<Note> noteToUser;
 	
 	public User() {
 

@@ -1,142 +1,35 @@
 <!Doctype html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="ISO-8859-1">
-		<title>Idea MS</title>
-		<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
-		<link th:href="@{/css/home_nav.css}" rel="stylesheet" />
-		<script src="/js/home_nav.js"></script>
-		
-	</head>
-	<body>
-		<div class="container text-center" id="top_header">
-			<!--  <div id="logo_left">
+<head>
+<meta charset="ISO-8859-1">
+<title>Idea MS</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
+<link th:href="@{/css/home_nav.css}" rel="stylesheet" />
+<script src="/js/home_nav.js"></script>
+
+</head>
+<body>
+	<div class="container text-center" id="top_header">
+		<!--  <div id="logo_left">
 				<a href="#default" id="logo">CompanyLogo</a>
 			</div>-->
-			<a href="#"><i class="fa-fa-user"></i></a>
-			<div>
-				<h1> Welcome to Idea MS</h1>
+		<a href="#"><i class="fa-fa-user"></i></a>
+		<div>
+			<h1>Welcome to Idea MS</h1>
+		</div>
+		<div id="navbar">
+			<div id="navbar-left">
+
+				<a th:href="@{/list_users}">View Users</a> <a class="active"
+					th:href="@{/list_ideas}">View Ideas</a>
 			</div>
-<!-- 			<div> -->
-<!-- 				<h3><a th:href="@{/register}">Register</a></h3> -->
-<!-- 				<h3><a th:href="@{/list_users}">View All Users</a></h3> -->
-<!-- 				<h3><a th:href="@{/login}">Login</a></h3> -->
-<!-- 				<h3><a th:href="@{/add_idea}">Create Idea</a></h3> -->
-<!-- 			</div> -->
-			<div id="navbar">
-				<div id="navbar-left">
-<!-- 					<a class="active" href="#home">Home</a> -->
-<!-- 					<ul> -->
-<!-- 						<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#login">About</a></li> -->
-<!-- 						<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#logintwo">Abouttwo</a></li> -->
-<!-- 						<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#loginthree">Aboutthree</a></li> -->
-<!-- 						<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#loginfour">Aboutfour</a></li> -->
-<!-- 					</ul> -->
-					
-				    <a th:href="@{/list_users}">View Users</a>
-				    <a class="active" th:href="@{/list_ideas}">View Ideas</a>
-				 </div>
-				 
-				 <div id="navbar-right">
-				    <a th:href="@{/register}">Register</a>
-				    <a th:href="@{/login}">Login</a>
-				 </div>
+
+			<div id="navbar-right">
+				<a th:href="@{/register}">Register</a> <a th:href="@{/login}">Login</a>
 			</div>
 		</div>
-		
-<!-- 		<section class="page-section" id="login"> -->
-		
-<!-- 			<h2>HEllo</h2> -->
-<!-- 		</section> -->
-<!-- 		<section class="page-section" id="logintwo"> -->
-		
-<!-- 			<h2>HEllo two</h2> -->
-<!-- 		</section> -->
-<!-- 		<section class="page-section" id="loginthree"> -->
-		
-<!-- 			<h2>HEllo three</h2> -->
-<!-- 		</section> -->
-<!-- 		<section class="page-section" id="loginfour"> -->
-		
-<!-- 			<h2>HEllo four</h2> -->
-<!-- 		</section> -->
-		
-		
-		
-		
-		
-		
-		
-		<!-- Navigation-->
-<!-- 	<nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" -->
-<!-- 		id="mainNav"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<a class="navbar-brand js-scroll-trigger" href="#page-top">Yo -->
-<!-- 				Idea</a> -->
-<!-- 			<button class="navbar-toggler navbar-toggler-right" type="button" -->
-<!-- 				data-toggle="collapse" data-target="#navbarResponsive" -->
-<!-- 				aria-controls="navbarResponsive" aria-expanded="false" -->
-<!-- 				aria-label="Toggle navigation"> -->
-<!-- 				<span class="navbar-toggler-icon"></span> -->
-<!-- 			</button> -->
-<!-- 			<div class="collapse navbar-collapse" id="navbarResponsive"> -->
-<!-- 				<ul class="navbar-nav ml-auto my-2 my-lg-0"> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#about">About</a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#services">Services</a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#portfolio">Our Team</a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="#contact">Contact</a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="/register">Sign Up</a></li> -->
-<!-- 					<li class="nav-item"><a class="nav-link js-scroll-trigger" -->
-<!-- 						href="/login">Login</a></li> -->
-<!-- 				</ul> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</nav> -->
-		
-		<!-- About-->
-<!-- 	<section class="page-section bg-primary" id="about"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<div class="row justify-content-center"> -->
-<!-- 				<div class="col-lg-8 text-center"> -->
-<!-- 					<h2 class="text-white mt-0">We've got what you need!</h2> -->
-<!-- 					<hr class="divider light my-4" /> -->
-<!-- 					<p class="text-white-50 mb-4">Start Bootstrap has everything -->
-<!-- 						you need to get your new website up and running in no time! Choose -->
-<!-- 						one of our open source, free to download, and easy to use themes! -->
-<!-- 						No strings attached!</p> -->
-<!-- 					<a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get -->
-<!-- 						Started!</a> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</section> -->
-	<!-- About--> 
-<!-- 	<section class="page-section bg-primary" id="services"> -->
-<!-- 		<div class="container"> -->
-<!-- 			<div class="row justify-content-center"> -->
-<!-- 				<div class="col-lg-8 text-center"> -->
-<!-- 					<h2 class="text-white mt-0">We've got what you need!</h2> -->
-<!-- 					<hr class="divider light my-4" /> -->
-<!-- 					<p class="text-white-50 mb-4">Start Bootstrap has everything -->
-<!-- 						you need to get your new website up and running in no time! Choose -->
-<!-- 						one of our open source, free to download, and easy to use themes! -->
-<!-- 						No strings attached!</p> -->
-<!-- 					<a class="btn btn-light btn-xl js-scroll-trigger" href="#services">Get -->
-<!-- 						Started!</a> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</section> -->
-		
-		
-	</body>
+	</div>
+
+</body>
 </html>

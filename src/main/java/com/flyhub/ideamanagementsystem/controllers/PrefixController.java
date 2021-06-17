@@ -31,25 +31,10 @@ public class PrefixController {
 		return "prefix_form";
 	}
 	
-	
-//	@PostMapping("/process_prefix")
-//	public String processPrefix(Prefix prefix) {
-//		prefixService.save(prefix);
-//		return "index";
-//	}
-	
 	@PostMapping("/process_prefix")
 	public Object processPrefix(@RequestBody Prefix prefix) {
 		return prefixService.save(prefix);
 	}
-	
-//	@GetMapping("/list_prefix")
-//	public String viewPrefixList(Model model) {
-//		List<Prefix> listPrefix = prefixService.listAll();
-//		model.addAttribute("listPrefix", listPrefix);
-//		
-//		return "list_prefix";
-//	}
 	
 	@GetMapping("/list_prefix")
 	public List<Prefix> viewPrefixList() {
@@ -65,24 +50,11 @@ public class PrefixController {
 	}
 	
 	
-//	@PostMapping("/prefix/save")
-//	public String savePrefixEdit(Prefix prefix) {
-//		prefixService.saveUpdatedPrefix(prefix);
-//		return "redirect:/list_prefix";
-//	}
-	
 	@PutMapping("/prefix/save/{prefix_id}")
 	public Prefix savePrefixEdit(@PathVariable("prefix_id") int prefix_id, @RequestBody Prefix prefix) {
 		
 		return prefixService.saveUpdatedPrefix(prefix, prefix_id);
 	}
-	
-//	@RequestMapping("/prefix/delete/{prefix_id}")
-//	public String deletePrefix(@PathVariable(name = "prefix_id") int prefix_id) {
-//		prefixService.delete(prefix_id);
-//	    return "redirect:/list_prefix";       
-//	}
-	
 	
 	@RequestMapping("/prefix/delete/{prefix_id}")
 	public void deletePrefix(@PathVariable(name = "prefix_id") int prefix_id) {

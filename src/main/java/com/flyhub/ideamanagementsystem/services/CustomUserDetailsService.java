@@ -12,8 +12,6 @@ import com.flyhub.ideamanagementsystem.repositories.UserRepository;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-	
-	// this service is to enable us load a user by username from the db table
 
 	@Autowired
 	private UserRepository repo;

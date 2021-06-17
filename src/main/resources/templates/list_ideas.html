@@ -1,145 +1,139 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Idea MS</title>
-<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
 <link th:href="@{/css/home_nav.css}" rel="stylesheet" />
 <script type="text/javascript" th:src="@{/js/settings.js}"></script>
 <!-- <script src="/js/settings.js"></script> -->
 </head>
 <body>
 	<!-- navbar -->
-		<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
-			<div class="container-fluid">
-				<a class="navbar-brand" th:href="@{/}">
-					<img alt="logo image" src="/images/logo.png" height="100" width="100">
-					<span class="blog-name">Idea Ms</span>
-				</a>
-<!-- 				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive"> -->
-<!-- 					<span class="navbar-toggler-icon"></span> -->
-<!-- 				</button> -->
-				<div class="dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
-				  <span th:onclick="myFunction()" class="nav-link dropbtn">Settings<i class="fa fa-caret-down"></i></span>
-				  <div id="myDropdown" class="dropdown-content">
-				    <a th:href="@{/list_gender}">Gender</a>
-				    <a th:href="@{/list_role}">Roles</a>
-				    <a th:href="@{/list_prefix}">Prefix</a> 
-				    <a th:href="@{/list_category}">Category</a>
-				  </div>
-				</div>
-				<div class="collapse navbar-collapse" id="navbarResponsive">
-					<ul class="navbar-nav ml-auto">
-						<li class="nav-item">
-							<a class="nav-link active" th:href="@{/}">Home</a>
-						</li>
-						<li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
-							<a class="nav-link" th:href="@{/list_users}">View Users</a>
-						</li>
-						<li class="nav-item" sec:authorize="!isAuthenticated()">
-							<a class="nav-link" th:href="@{/register}">Register</a>
-						</li>
-						<li class="nav-item" sec:authorize="!isAuthenticated()">
-							<a class="nav-link" th:href="@{/login}">Login</a>
-						</li>
-						<li class="nav-item" sec:authorize="isAuthenticated()">
-							<a class="nav-link" th:href="@{'/profile/' + ${#request.userPrincipal.principal.Global_user_id} }">My profile</a>
-						</li>
-						<li class="nav-item" sec:authorize="isAuthenticated()">
-							<a class="nav-link"><b>[[${#request.userPrincipal.principal.fullName}]]</b></a>
-						</li>
-						<li class="nav-item" sec:authorize="isAuthenticated()">
-							<a class="nav-link" th:href="@{/logout}">Logout</a>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</nav>
-		<!-- my welcome section -->
-		
-		<div class="container-fluid padding">
-			<div class="row welcome text-center">
-				<div class="col-12">
-					<h1 class="display-4">Submitted Ideas</h1>
-				</div>
-			</div>
-		</div>
-		
-		<!-- For the view ideas table -->
-		
-		<div class="container-fluid padding">
-			<div class="search_div ">
-				<form th:action="@{/list_ideas}">
-					
-					<input type="text" name="keyword" th:value="${keyword}"/>
-					&nbsp;
-					<input type="submit" value="Search"/>
-					&nbsp;
-					<input type="button" value="Clear" onclick="clearSearch()"/>
-				</form>
-			</div>
-			<br>
-			<br>
-			<a th:href="@{/add_idea}" class="container-fluid padding" sec:authorize="isAuthenticated()">
-				<button type="button" class="btn btn-primary" style="margin:5px;">
-			    	Create New Idea
-				</button>
+	<nav class="navbar navbar-expand-md navbar-light bg-light sticky-top">
+		<div class="container-fluid">
+			<a class="navbar-brand" th:href="@{/}"> <img alt="logo image"
+				src="/images/logo.png" height="100" width="100"> <span
+				class="blog-name">Idea Ms</span>
 			</a>
-			<div class="container-fluid padding">
-				<table class="table table-striped table-bordered">
-					<thead class="thead-dark">
-						<tr>
-							<th>Idea Title</th>
-							<th>Idea Category</th>
-							<th>Idea Description</th>
-							<th sec:authorize="hasAnyAuthority('ADMIN')">Submission Date</th>
-							<th sec:authorize="hasAnyAuthority('ADMIN')">Created By</th>
-							<th sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</th>
-							<th sec:authorize="hasAnyAuthority('ADMIN')">Modified By</th>
-							<th >Action</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="idea: ${listIdeas}">
-							<td th:text="${idea.idea_title}">Idea Title</td>
-							<td th:text="${idea.ideaCategoryMapping.category_name}">Idea Category</td>
-							<td th:text="${idea.idea_description}">Idea Description</td>
-							<td th:text="${idea.create_date}" sec:authorize="hasAnyAuthority('ADMIN')">Submission Date</td>
-<!-- 							<td th:text="${idea.created_by_global_user_id}" sec:authorize="hasAnyAuthority('ADMIN')">Created By</td> -->
-							<td th:text="${idea.ideaUserMapping.first_name}" sec:authorize="hasAnyAuthority('ADMIN')">Created By</td>
-							<td th:text="${idea.modified_date}" sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</td>
-							<td th:text="${idea.ideaUserMapping.first_name}" sec:authorize="hasAnyAuthority('ADMIN')">Modified By</td>
-							<td>
-								<a th:href="@{'/idea/edit/' + ${idea.idea_id}}" th:if="${#authentication.getPrincipal().global_user_id} == ${idea.global_user_id}" sec:authorize="isAuthenticated()">Edit</a>
-								&nbsp;&nbsp;&nbsp;
-<!-- 								<a th:href="@{'/add/comment/' + ${idea.idea_id}}" sec:authorize="isAuthenticated()">View</a> -->
-								<a th:href="@{'/view/idea/' + ${idea.idea_id}}">View</a>
-								&nbsp;&nbsp;&nbsp;
-								<div sec:authorize="hasAnyAuthority('ADMIN')">										
-									<a th:href="@{'/idea/delete/' + ${idea.idea_id}}">Delete</a>
-								</div>
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="dropdown" sec:authorize="hasAnyAuthority('ADMIN')">
+				<span th:onclick="myFunction()" class="nav-link dropbtn">Settings<i
+					class="fa fa-caret-down"></i></span>
+				<div id="myDropdown" class="dropdown-content">
+					<a th:href="@{/list_gender}">Gender</a> <a th:href="@{/list_role}">Roles</a>
+					<a th:href="@{/list_prefix}">Prefix</a> <a
+						th:href="@{/list_category}">Category</a>
+				</div>
 			</div>
+			<div class="collapse navbar-collapse" id="navbarResponsive">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item"><a class="nav-link active" th:href="@{/}">Home</a>
+					</li>
+					<li class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
+						<a class="nav-link" th:href="@{/list_users}">View Users</a>
+					</li>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" th:href="@{/register}">Register</a></li>
+					<li class="nav-item" sec:authorize="!isAuthenticated()"><a
+						class="nav-link" th:href="@{/login}">Login</a></li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link"
+						th:href="@{'/profile/' + ${#request.userPrincipal.principal.Global_user_id} }">My
+							profile</a></li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link"><b>[[${#request.userPrincipal.principal.fullName}]]</b></a>
+					</li>
+					<li class="nav-item" sec:authorize="isAuthenticated()"><a
+						class="nav-link" th:href="@{/logout}">Logout</a></li>
+				</ul>
 			</div>
-			<div class="container-fluid padding">
-				Total Ideas: [[${totalIdeas}]]&nbsp;&nbsp; - &nbsp;&nbsp; Page [[${currentPage}]] of [[${totalPages}]] &nbsp;&nbsp; -
-				&nbsp;&nbsp;
-				<span th:each="i: ${#numbers.sequence(1, totalPages)}">
-					<a th:if="${i != currentPage}" th:href="@{'/page/' +${i}}">[[${i}]]</a>
-					<span th:unless="${i != currentPage}">[[${i}]]</span>
-				</span>
-			</div>
-		
-		<!-- my footer -->
-		<div class="footer">
-			<hr class="light">
-			<h5>&copy; flyhubug.com</h5>
 		</div>
-		<script type="text/javascript">
+	</nav>
+	<!-- my welcome section -->
+
+	<div class="container-fluid padding">
+		<div class="row welcome text-center">
+			<div class="col-12">
+				<h1 class="display-4">Submitted Ideas</h1>
+			</div>
+		</div>
+	</div>
+
+	<!-- For the view ideas table -->
+
+	<div class="container-fluid padding">
+		<div class="search_div ">
+			<form th:action="@{/list_ideas}">
+
+				<input type="text" name="keyword" th:value="${keyword}" /> &nbsp; <input
+					type="submit" value="Search" /> &nbsp; <input type="button"
+					value="Clear" onclick="clearSearch()" />
+			</form>
+		</div>
+		<br> <br> <a th:href="@{/add_idea}"
+			class="container-fluid padding" sec:authorize="isAuthenticated()">
+			<button type="button" class="btn btn-primary" style="margin: 5px;">
+				Create New Idea</button>
+		</a>
+		<div class="container-fluid padding">
+			<table class="table table-striped table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>Idea Title</th>
+						<th>Idea Category</th>
+						<th>Idea Description</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Submission Date</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Created By</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Modified By</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="idea: ${listIdeas}">
+						<td th:text="${idea.idea_title}">Idea Title</td>
+						<td th:text="${idea.ideaCategoryMapping.category_name}">Idea
+							Category</td>
+						<td th:text="${idea.idea_description}">Idea Description</td>
+						<td th:text="${idea.create_date}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Submission Date</td>
+						<!-- 							<td th:text="${idea.created_by_global_user_id}" sec:authorize="hasAnyAuthority('ADMIN')">Created By</td> -->
+						<td th:text="${idea.ideaUserMapping.first_name}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Created By</td>
+						<td th:text="${idea.modified_date}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</td>
+						<td th:text="${idea.ideaUserMapping.first_name}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Modified By</td>
+						<td><a th:href="@{'/idea/edit/' + ${idea.idea_id}}"
+							th:if="${#authentication.getPrincipal().global_user_id} == ${idea.global_user_id}"
+							sec:authorize="isAuthenticated()">Edit</a> &nbsp;&nbsp;&nbsp; <!-- 								<a th:href="@{'/add/comment/' + ${idea.idea_id}}" sec:authorize="isAuthenticated()">View</a> -->
+							<a th:href="@{'/view/idea/' + ${idea.idea_id}}">View</a>
+							&nbsp;&nbsp;&nbsp;
+							<div sec:authorize="hasAnyAuthority('ADMIN')">
+								<a th:href="@{'/idea/delete/' + ${idea.idea_id}}">Delete</a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div class="container-fluid padding">
+		Total Ideas: [[${totalIdeas}]]&nbsp;&nbsp; - &nbsp;&nbsp; Page
+		[[${currentPage}]] of [[${totalPages}]] &nbsp;&nbsp; - &nbsp;&nbsp; <span
+			th:each="i: ${#numbers.sequence(1, totalPages)}"> <a
+			th:if="${i != currentPage}" th:href="@{'/page/' +${i}}">[[${i}]]</a>
+			<span th:unless="${i != currentPage}">[[${i}]]</span>
+		</span>
+	</div>
+
+	<!-- my footer -->
+	<div class="footer">
+		<hr class="light">
+		<h5>&copy; flyhubug.com</h5>
+	</div>
+	<script type="text/javascript">
 			function clearSearch(){
 				window.location='/';
 				}

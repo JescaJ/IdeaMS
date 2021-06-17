@@ -14,18 +14,6 @@ public class JwtResponse {
 	private String primary_email;
 	private List<String> roles;
 
-//	public JwtResponse(String accessToken, int global_user_id, String primary_email, String fullname, String first_name, String last_name, List<String> roles) {
-//		this.token = accessToken;
-//		this.global_user_id = global_user_id;
-//		this.primary_email = primary_email;
-//		this.fullname = fullname;
-//		this.first_name = first_name;
-//		this.last_name = last_name;
-//		this.roles = roles;
-//	}
-
-	
-
 	public String getAccessToken() {
 		return token;
 	}

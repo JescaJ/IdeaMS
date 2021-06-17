@@ -1,75 +1,78 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta charset="ISO-8859-1">
 <title>Idea MS</title>
-<link rel="stylesheet" type="text/css" href="/webjars/bootstrap/css/bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/css/bootstrap.min.css" />
 <link th:href="@{/css/home_nav.css}" rel="stylesheet" />
 </head>
 <body>
 	<div class="container-fluid padding">
-				<div class="container-fluid padding">
-					<div class="row welcome text-center">
-						<div class="col-12">
-							<h1 class="display-4">Prefix</h1>
-						</div>
-					</div>
+		<div class="container-fluid padding">
+			<div class="row welcome text-center">
+				<div class="col-12">
+					<h1 class="display-4">Prefix</h1>
 				</div>
-				
-				<div>
-				<h6><a th:href="@{/}">Back</a></h6>
-				</div>
-				<br>
-				<a th:href="@{/add_prefix}" class="container-fluid padding">
-					<button type="button" class="btn btn-primary" style="margin:5px;">
-				    	Add Prefix
-					</button>
-				</a>
-				
-				<div class="container-fluid padding">
-					<table class="table table-striped table-bordered">
-						<thead class="thead-dark">
-							<tr>
-								<th>Prefix ID</th>
-								<th>Prefix Name</th>
-								<th>Prefix Description</th>
-								<th sec:authorize="hasAnyAuthority('ADMIN')">Creation Date</th>
-								<th sec:authorize="hasAnyAuthority('ADMIN')">Created By</th>
-								<th sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</th>
-								<th sec:authorize="hasAnyAuthority('ADMIN')">Modified By</th>
-								<th sec:authorize="isAuthenticated()">Action</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="prefix: ${listPrefix}">
-								<td th:text="${prefix.prefix_id}">Prefix ID</td>
-								<td th:text="${prefix.prefix_name}">Prefix Name</td>
-								<td th:text="${prefix.prefix_description}">Prefix Description</td>
-								<td th:text="${prefix.create_date}" sec:authorize="hasAnyAuthority('ADMIN')">Creation Date</td>
-								<td th:text="${prefix.created_by_global_user_id}" sec:authorize="hasAnyAuthority('ADMIN')">Created By</td>
-								<td th:text="${prefix.modified_date}" sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</td>
-								<td th:text="${prefix.modified_by_global_user_id}" sec:authorize="hasAnyAuthority('ADMIN')">Modified By</td>
-								<td>
-									<a th:href="@{'/prefix/edit/' + ${prefix.prefix_id}}">Edit</a>
-									&nbsp;&nbsp;&nbsp;
-									<div sec:authorize="hasAnyAuthority('ADMIN')">
-										<a th:href="@{'/prefix/delete/' + ${prefix.prefix_id}}">Delete</a>
-									</div>
-								</td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-<!-- 				<div> -->
-<!-- 					Total Ideas: [[${totalIdeas}]]	-	Page [[${currentPage}]] of [[${totalPages}]]- -->
-<!-- 					&nbsp;&nbsp; -->
-<!-- 					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> -->
-<!-- 						<a th:if="${i != currentPage}" th:href="@{'/page/' +${i}}">[[${i}]]</a> &nbsp;&nbsp; -->
-<!-- 						<span th:unless="${i != currentPage}">[[${i}]]</span> -->
-<!-- 					</span> -->
-<!-- 				</div> -->
+			</div>
 		</div>
+
+		<div>
+			<h6>
+				<a th:href="@{/}">Back</a>
+			</h6>
+		</div>
+		<br> <a th:href="@{/add_prefix}" class="container-fluid padding">
+			<button type="button" class="btn btn-primary" style="margin: 5px;">
+				Add Prefix</button>
+		</a>
+
+		<div class="container-fluid padding">
+			<table class="table table-striped table-bordered">
+				<thead class="thead-dark">
+					<tr>
+						<th>Prefix ID</th>
+						<th>Prefix Name</th>
+						<th>Prefix Description</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Creation Date</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Created By</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</th>
+						<th sec:authorize="hasAnyAuthority('ADMIN')">Modified By</th>
+						<th sec:authorize="isAuthenticated()">Action</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="prefix: ${listPrefix}">
+						<td th:text="${prefix.prefix_id}">Prefix ID</td>
+						<td th:text="${prefix.prefix_name}">Prefix Name</td>
+						<td th:text="${prefix.prefix_description}">Prefix Description</td>
+						<td th:text="${prefix.create_date}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Creation Date</td>
+						<td th:text="${prefix.created_by_global_user_id}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Created By</td>
+						<td th:text="${prefix.modified_date}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Modified Date</td>
+						<td th:text="${prefix.modified_by_global_user_id}"
+							sec:authorize="hasAnyAuthority('ADMIN')">Modified By</td>
+						<td><a th:href="@{'/prefix/edit/' + ${prefix.prefix_id}}">Edit</a>
+							&nbsp;&nbsp;&nbsp;
+							<div sec:authorize="hasAnyAuthority('ADMIN')">
+								<a th:href="@{'/prefix/delete/' + ${prefix.prefix_id}}">Delete</a>
+							</div></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- 				<div> -->
+		<!-- 					Total Ideas: [[${totalIdeas}]]	-	Page [[${currentPage}]] of [[${totalPages}]]- -->
+		<!-- 					&nbsp;&nbsp; -->
+		<!-- 					<span th:each="i: ${#numbers.sequence(1, totalPages)}"> -->
+		<!-- 						<a th:if="${i != currentPage}" th:href="@{'/page/' +${i}}">[[${i}]]</a> &nbsp;&nbsp; -->
+		<!-- 						<span th:unless="${i != currentPage}">[[${i}]]</span> -->
+		<!-- 					</span> -->
+		<!-- 				</div> -->
+	</div>
 </body>
 </html>

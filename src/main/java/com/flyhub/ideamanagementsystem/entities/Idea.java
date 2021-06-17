@@ -16,11 +16,10 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-@Entity				//this is for the user table in my db
+@Entity			
 @Table(name="idea", schema = "idea_ms")
 @DynamicUpdate
 public class Idea extends Auditable<Integer>{
-//	extends Auditable<Integer>
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE)
 	@SequenceGenerator(name = "idea_id_gen", allocationSize = 1,initialValue = 1)
@@ -34,13 +33,15 @@ public class Idea extends Auditable<Integer>{
 
 	private Integer global_user_id;
 	
+	private Integer category_id;
+	
 //	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="category_id", insertable=false, updatable=false)
 	private Category ideaCategoryMapping;
-	private Integer category_id;
 	
-//	@JsonIgnore
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name="global_user_id", insertable=false, updatable=false) //probably the mapping should be created_by_global_user_id
 	private User ideaUserMapping;

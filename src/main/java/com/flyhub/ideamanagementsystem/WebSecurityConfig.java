@@ -61,25 +61,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		auth.authenticationProvider(authenticationProvider());
 	}
 	
-	
-	/// original method
-
-//	@Override
-//	protected void configure(HttpSecurity http) throws Exception {
-//		http.authorizeRequests().antMatchers("/list_users","/add_idea","/process_add_idea").permitAll()
-//		.anyRequest().permitAll()
-//		.and().csrf().disable()
-//		.formLogin()
-//			.usernameParameter("primary_email")
-//			.defaultSuccessUrl("/list_users")
-//			.permitAll()
-//		.and()
-//		.logout().logoutSuccessUrl("/list_ideas").permitAll();
-//	}
-	
-	
-	// end of original
-	
 	@Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable().authorizeRequests()
@@ -87,26 +68,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         	.antMatchers("/signup").permitAll()
         	.and().exceptionHandling().and().sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-//        	.antMatchers("/").permitAll()
-//            .antMatchers("/").hasAnyAuthority("USER", "ADMIN")
-//            .antMatchers("/edit/**").hasAnyAuthority("ADMIN", "USER")
-//            .antMatchers("/list_users").hasAnyAuthority("ADMIN")
-//            .antMatchers("/list_ideas").hasAnyAuthority("ADMIN", "USER")
-//            .antMatchers("/idea/delete/**").hasAnyAuthority("ADMIN")
-//            .antMatchers("/user/delete/**").hasAnyAuthority("ADMIN")
-//            .antMatchers("/delete/**").hasAuthority("ADMIN")
-//            .anyRequest().authenticated()
-//            .and()
-//            .formLogin()
-//            .defaultSuccessUrl("/")
-//            .permitAll()
-//            .and()
-//            .logout()
-//            .logoutSuccessUrl("/")
-//            .permitAll()
-//            .and()
-//            .exceptionHandling().accessDeniedPage("/403")
-//            ;
        http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
 	

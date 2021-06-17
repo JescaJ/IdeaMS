@@ -38,13 +38,6 @@ public class GenderController {
 		return genderService.save(gender);
 	}
 	
-//	@GetMapping("/list_gender")
-//	public String viewGenderList(Model model) {
-//		List<Gender> listGender = genderService.listAll();
-//		model.addAttribute("listGender", listGender);
-//		
-//		return "list_gender";
-//	}
 	
 	@GetMapping("/list_gender")
 	public List<Gender> viewGenderList() {

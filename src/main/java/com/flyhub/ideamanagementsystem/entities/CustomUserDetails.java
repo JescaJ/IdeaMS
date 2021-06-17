@@ -93,15 +93,8 @@ public class CustomUserDetails implements UserDetails {
 
 	@Override
 	public String toString() {
-		// TODO Auto-generated method stub
 		return user.toString();
 	}
-
-//	public User getUser() {
-//		// TODO Auto-generated method stub
-//		
-//		return null;
-//	}
 	
 	
 }

@@ -36,14 +36,6 @@ public class CategoryController {
 		return "index";
 	}
 	
-//	@GetMapping("/list_category")
-//	public String viewCategoryList(Model model) {
-//		List<Category> listCategory = categoryService.listAll();
-//		model.addAttribute("listCategory", listCategory);
-//		
-//		return "list_category";
-//	}
-	
 	@GetMapping("/list_category")
 	public List<Category> viewCategoryList() {		
 		return categoryService.listAll();

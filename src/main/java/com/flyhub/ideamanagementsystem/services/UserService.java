@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.flyhub.ideamanagementsystem.entities.Gender;
+import com.flyhub.ideamanagementsystem.entities.Idea;
 import com.flyhub.ideamanagementsystem.entities.Prefix;
 import com.flyhub.ideamanagementsystem.entities.Role;
 import com.flyhub.ideamanagementsystem.entities.User;
@@ -46,16 +47,12 @@ public class UserService {
 		return userRepo.save(user);
 	}
 	
-	public User saveUserUpdatedRoles(String role_name, User user) {
-		//to store the encrypted password
-//		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//		String encodedPassword = encoder.encode(user.getPassword());
-//		user.setPassword(encodedPassword);
+	public User saveUserUpdatedRoles(String roles, User user) {
 		
 		User currentUser = userRepo.getOne(user.getGlobal_user_id());
-		Role roleaddUser2 = roleRepo.findByName(role_name);
+		Role roleaddUser = roleRepo.findByName(roles);
 		
-		currentUser.addRole(roleaddUser2);
+		currentUser.addRole(roleaddUser);
 		
 		return userRepo.save(currentUser);
 	}
@@ -69,17 +66,6 @@ public class UserService {
 		return userRepo.findAll();
 	}
 	
-	//second
-//	 //return all ideas with pagination and searching
-//	public Page<User> listAll(int pageNumber, String keyword) {
-//		//searching
-//		if (keyword != null) {
-//			return userRepo.findAll(null, keyword);
-//		}
-//		//paging
-//		Pageable pageable = PageRequest.of(pageNumber - 1, 3);
-//       return userRepo.findAll(pageable);
-//   }
 	
 	//return user for edit
 	public User get(int global_user_id) {
@@ -87,8 +73,14 @@ public class UserService {
 	}
 	
 	//save updated profile
-	public void saveUserUpdatedProfile(User user) {
-		userRepo.save(user);
+	public User saveUserUpdatedProfile(int global_user_id, User user) {
+		
+		User currentUser = userRepo.getOne(global_user_id);
+    	
+    	currentUser.setFirst_name(user.getFirst_name());
+    	currentUser.setLast_name(user.getLast_name());
+    	currentUser.setPrimary_email(user.getPrimary_email());
+		return userRepo.save(currentUser);
 	}
 	
 	public List<Role> getRoles(){

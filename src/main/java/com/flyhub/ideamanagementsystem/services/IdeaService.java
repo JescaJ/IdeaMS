@@ -43,37 +43,10 @@ public class IdeaService {
         return ideaRepo.findAll();
     }
 	
-	//second
-//	 //return all ideas with pagination and searching
-//	public Page<Idea> listAll(int pageNumber, String keyword) {
-//		//searching
-//		if (keyword != null) {
-//			return ideaRepo.findAll(null, keyword);
-//		}
-//		//paging
-//		Pageable pageable = PageRequest.of(pageNumber - 1, 3);
-//        return ideaRepo.findAll(pageable);
-//    }
-
-	
-     //save the idea for first time
-//    public Object save(Idea idea, Authentication authentication) {
-//    	
-//    	UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-//    	User user = userRepo.findByEmail(userDetails.getUsername());
-//    	idea.setGlobal_user_id(user.getGlobal_user_id());
-//    	System.out.println(user);
-//    	return ideaRepo.save(idea);
-//    }
-	
 	public Object save(Idea idea) {
     	return ideaRepo.save(idea);
     }
     
-   //return single idea for edit original
-//    public Idea get(int idea_id) {
-//        return ideaRepo.findById(idea_id).get();
-//    }
     
   //return single idea for edit
     public Idea get(int idea_id) {
@@ -90,14 +63,7 @@ public class IdeaService {
     	return ideaRepo.save(currentIdea);
 	}
     
-//    //update with DTO
-//    public void updateIdea(IdeaDTO dto) {
-//        Idea myIdea = ideaRepo.findById(dto.idea_id);
-//        mapper.updateFromDto(dto, myIdea);
-//        ideaRepo.save(myIdea);
-//    }
-    
-     
+
     //delete idea
     public void delete(int idea_id) {
     	ideaRepo.deleteById(idea_id);
