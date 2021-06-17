@@ -58,14 +58,12 @@
       :show.sync="warningModal"
       :no-close-on-backdrop="true"
       :centered="true"
-      size="lg"
-      ><CForm @submit.prevent="saveUpdatedIdea(myIdea)" v-if="!update">
+      size="lg">
+      <CForm @submit.prevent="saveUpdatedIdea(myIdea)" v-if="!update">
         <CInput type="hidden" :value="myIdea.idea_id" />
         <CInput
           label="Idea Title"
-          name="idea_title"
           :placeholder="myIdea.idea_title"
-          id="idea_title"
           v-model="myIdea.idea_title"
           horizontal
         />
@@ -73,8 +71,7 @@
           label="Description"
           horizontal
           rows="9"
-          name="idea_description"
-          id="idea_description"
+          cols="15"
           :placeholder="myIdea.idea_description"
           v-model="myIdea.idea_description"
         />
@@ -107,23 +104,23 @@
     <CModal title="Delete Idea" :show.sync="deleteModal">
       <CForm @submit.prevent="deleteIdea(myIdeaDelete)" v-if="!submitted">
         <p>Are you sure you want to delete this item?</p>
-        <CButton type="submit" size="sm" color="danger" style="float: right"
-          ><CIcon name="cil-check-circle" /> Delete</CButton
-        >
+        <CButton type="submit" size="sm" color="danger" style="float: right">
+          <CIcon name="cil-check-circle" /> Delete
+        </CButton>
       </CForm>
       <div v-else>
         <h4>Deleted successfully!</h4>
       </div>
       <template #footer>
-        <CButton @click="darkModal = false" color="danger" style="display: none"
-          >Discard</CButton
-        >
+        <CButton @click="darkModal = false" color="danger" style="display: none">
+          Discard
+        </CButton>
         <CButton
           @click="darkModal = false"
           color="success"
-          style="display: none"
-          >Accept</CButton
-        >
+          style="display: none">
+          Accept
+        </CButton>
       </template>
     </CModal>
 
@@ -140,92 +137,62 @@
         v-if="!commented"
         style="width: 700px; margin: 0 auto">
         <CInput type="hidden" :value="myViewIdea.idea_id" />
-        <!-- <div class="d-inline p-2 bg-primary text-white">d-inline</div>
-        <div class="d-inline p-2 bg-dark text-white">d-inline</div> -->
         <CCard>
-        <div class="m-3">
-          <div class="form-group row">
-            <label class="col-form-label col-4">Idea Category</label>
-            <div class="col-8">
-              <input
-                type="text"
-                readonly
-                class="form-control"
-                :value="myViewIdea.category_name"
-              />
-            </div>
-          </div>
-          <div class="form-group row">
-            <label class="col-form-label col-4">Description</label>
-            <div class="col-8">
-              <input
-                type="text"
-                readonly
-                class="form-control"
-                :value="myViewIdea.idea_description"
-              />
-            </div>
-          </div>
-          <div style="float:right;">
-            <!-- {{myViewIdea}} -->
-              <CButton @click="viewIdea(myViewIdea), (warningModal = true)" size="sm" shape="pill" color="info" variant='outline' v-if="myViewIdea.created_by == currentUser.fullname">
-                Edit
-              </CButton>
-            </div>
-          
-          <br />
-          <CButton size="sm" shape="pill" color="info" variant='outline' @click="isShow = !isShow"
-            >Add Comment
-          </CButton>
-          <br>
-          <br>
-                <!-- <CCard> -->
-                  <ul>
-                    <p
-                      v-for="comm in comments"
-                      :key="comm.note_content"
-                    >
-                      <ul v-if="comm.idea_id == myViewIdea.idea_id">
-                        <CCard>
-                          <div class="row" style="margin:7; padding: 7;">
-                            <div class="col-1">
-                              <font-awesome-icon icon="user" class=" fa-pull-right"/>
-                            </div>
-                            <div class="col-6" style="margin: 0; padding: 0;">
-                              <p style="margin: 0; padding: 0; font-size: 10px;"><b>{{ comm.commented_by }}</b></p>
-                              <p style="margin: 0; padding: 0; font-size: 10px;">{{ comm.note_content}}</p>
-                            </div>
-                          </div>
-                          </CCard>
-                      </ul>
-                    </p>
-                  </ul>
-                <!-- </CCard> -->
-                
-          <br />
-          <div v-if="isShow" >
-            <div class="col-8">
+          <div class="m-3">
+            <CInput
+              label="Category Name"
+              placeholder="Disabled"
+              :value="myViewIdea.category_name"
+              horizontal
+              disabled
+            />
+            <CInput
+              label="Description"
+              placeholder="Disabled"
+              :value="myViewIdea.idea_description"
+              horizontal
+              disabled
+            />
+            <CButton style="float:right;" @click="viewIdea(myViewIdea), (warningModal = true)" size="sm" shape="pill" color="info" variant='outline' v-if="myViewIdea.created_by == currentUser.fullname">
+              Edit
+            </CButton>
+            <CButton size="sm" shape="pill" color="info" variant='outline' @click="isShow = !isShow"
+              >Add Comment
+            </CButton>
+            <ul>
+              <p v-for="comm in comments" :key="comm.note_content">
+                <ul v-if="comm.idea_id == myViewIdea.idea_id">
+                  <CCard>
+                    <div class="row" style="margin:7; padding: 7;">
+                      <div class="col-1" style="margin:7; padding: 7;"> 
+                        <font-awesome-icon icon="user" class=" fa-pull-right"/>
+                      </div>
+                      <div class="col-6" style="margin: 0; padding: 0;">
+                        <p style="margin: 0; padding: 0; font-size: 10px;"><b>{{ comm.commented_by }}</b></p>
+                        <p style="margin: 0; padding: 0; font-size: 10px;">{{ comm.note_content}}</p>
+                      </div>
+                    </div>  
+                  </CCard>
+                </ul>  
+              </p>
+            </ul>
+            <div v-if="isShow" >
               <CTextarea
                 label="Comment"
                 horizontal
-                rows="5"
-                cols="35"
+                rows="2"
+                cols="40"
                 v-model="note_content"
-              ></CTextarea>
-            </div>
-            <div>
-              <br />
+              />
               <CButton
                 data-dismiss="modal"
                 type="submit"
                 size="sm"
                 color="success"
                 style="float: right"
-                ><CIcon name="cil-check-circle" /> Submit</CButton
-              >
+                ><CIcon name="cil-check-circle" /> Submit</CButton>
             </div>
           </div>
-        </div>
         </CCard>
       </CForm>
       <div v-else>
@@ -233,14 +200,14 @@
       </div>
       <template #footer>
         <CButton @click="darkModal = false" color="danger" style="display: none"
-          >Discard</CButton
-        >
+          >Discard
+        </CButton>
         <CButton
           @click="darkModal = false"
           color="success"
           style="display: none"
-          >Accept</CButton
-        >
+          >Accept
+        </CButton>
       </template>
     </CModal>
   </div>
@@ -313,12 +280,12 @@ export default {
       if (this.currentUser && this.currentUser.roles) {
         return this.currentUser.roles.includes("ADMIN");
       }
-
-      return false;
+          return false;
     },
     filteredIdeas(){
+      const searchTerm = this.search.toLowerCase();
       return this.ideas.filter((idea) => {
-        return idea.idea_title.match(this.search);
+        return idea.idea_title.toLowerCase().match(searchTerm);
       });
     }
   },

@@ -1,54 +1,54 @@
 <template>
-  <div>
-    <div v-if="!submitted">
-      <CCard>
-        <CCardHeader>Idea</CCardHeader>
-        <CCardBody>
-          <CForm @submit.prevent="saveIdea">
-            <CInput
-              label="Idea Title"
-              name="idea_title"
-              id="idea_title"
-              v-model="idea_title"
-              horizontal
-            />
-            <CTextarea
-              label="Description"
-              horizontal
-              rows="9"
-              name="idea_description"
-              id="idea_description"
-              v-model="idea_description"
-            />
-            <CSelect
-              label="Category"
-              name="category_id"
-              id="category_id"
-              horizontal
-              :options="categories"
-              :value.sync="selectedValue"
-              placeholder="Please select"
-            />
-            <CButton type="submit" size="sm" color="success" @click="warningModal = true"
-              ><CIcon name="cil-check-circle" /> Submit</CButton
+  <div class="flex-row align-items-center">
+    <CContainer>
+      <CRow class="justify-content-center">
+        <CCol md="8">
+          <div v-if="!submitted">
+            <CCard class="p-4">
+              <CCardHeader>Idea</CCardHeader>
+              <CCardBody>
+                <CForm @submit.prevent="saveIdea">
+                  <CInput label="Idea Title" v-model="idea_title" horizontal />
+                  <CTextarea
+                    label="Description"
+                    horizontal
+                    rows="9"
+                    v-model="idea_description"
+                  />
+                  <CSelect
+                    label="Category"
+                    horizontal
+                    :options="categories"
+                    :value.sync="selectedValue"
+                    placeholder="Please select"
+                  />
+                  <CButton
+                    type="submit"
+                    size="sm"
+                    color="success"
+                    @click="warningModal = true"
+                    ><CIcon name="cil-check-circle" /> Submit</CButton
+                  >
+                  <CButton type="reset" size="sm" color="danger"
+                    ><CIcon name="cil-ban" /> Reset</CButton
+                  >
+                </CForm>
+              </CCardBody>
+            </CCard>
+          </div>
+          <div v-else>
+            <CModal
+              :show.sync="warningModal"
+              :no-close-on-backdrop="true"
+              :centered="true"
+              size="lg"
             >
-            <CButton type="reset" size="sm" color="danger"
-              ><CIcon name="cil-ban" /> Reset</CButton
-            >
-          </CForm>
-        </CCardBody>
-      </CCard>
-    </div>
-    <div v-else>
-      <CModal
-      :show.sync="warningModal"
-      :no-close-on-backdrop="true"
-      :centered="true"
-      size="lg"
-      >
-      <h4>You submitted successfully!</h4>
-      </CModal>
-    </div>
+              <h4>You submitted successfully!</h4>
+            </CModal>
+          </div>
+        </CCol>
+      </CRow>
+    </CContainer>
   </div>
 </template>
 
@@ -86,7 +86,7 @@ export default {
   computed: {
     currentUser() {
       return this.$store.state.auth.user;
-    }
+    },
   },
   methods: {
     saveIdea() {
@@ -101,7 +101,7 @@ export default {
       axios
         .post("http://localhost:8080/process_add_idea", idea)
         .then((response) => {
-          this.$router.push('/ideas');
+          this.$router.push("/ideas");
         })
         .catch((e) => {
           console.log(e);

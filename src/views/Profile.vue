@@ -187,7 +187,9 @@ export default {
       primary_email: "",
       myCurrentUser:[],
       update:false,
-      profileModal:false
+      profileModal:false,
+      genders:[],
+      prefixes:[]
     };
   },
   computed: {
@@ -199,6 +201,31 @@ export default {
     if (!this.currentUser) {
       this.$router.push("/login");
     }
+    axios
+      .get("http://localhost:8080/list_gender")
+      .then((response) => {
+        const results = response.data.map((gender) => {
+          return {
+            value: gender.gender_id,
+            label: gender.gender_name,
+          };
+        });
+        this.genders = results;
+      })
+      .catch((error) => console.log(error));
+    axios
+      .get("http://localhost:8080/list_prefix")
+      .then((response) => {
+        const results2 = response.data.map((prefix) => {
+          return {
+            value: prefix.prefix_id,
+            label: prefix.prefix_name,
+          };
+        });
+        this.prefixes = results2;
+        console.log(this.prefixes)
+      })
+      .catch((error) => console.log(error));
   },
   methods: {
     editProfile(currentUser) {

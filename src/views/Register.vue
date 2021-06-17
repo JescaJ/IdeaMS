@@ -1,114 +1,4 @@
 <template>
-  <!-- <div class="col-md-12">
-    <br />
-    <h3 style="text-align: center">User Registration</h3>
-    <div class="card card-container">
-      <img
-        id="profile-img"
-        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-        class="profile-img-card"
-      />
-      <CForm name="form" @submit.prevent="handleRegister">
-        <div v-if="!successful">
-          <CSelect
-            label="Prefix"
-            name="prefix_id"
-            id="prefix_id"
-            horizontal
-            :options="prefixes"
-            :value.sync="prefixSelectedValue"
-            placeholder="Please select"
-          />
-          <CSelect
-            label="Gender"
-            name="gender_id"
-            id="gender_id"
-            horizontal
-            :options="genders"
-            :value.sync="genderSelectedValue"
-            placeholder="Please select"
-          />
-          <div class="form-group">
-            <label for="first_name">First Name</label>
-            <input
-              v-model="first_name"
-              v-validate="'required|min:3|max:20'"
-              type="text"
-              class="form-control"
-              name="first_name"
-            />
-            <div
-              v-if="submitted && errors.has('first_name')"
-              class="alert-danger"
-            >
-              {{ errors.first("First Name") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="last_name">Last Name</label>
-            <input
-              v-model="last_name"
-              v-validate="'required|min:3|max:20'"
-              type="text"
-              class="form-control"
-              name="last_name"
-            />
-            <div
-              v-if="submitted && errors.has('last_name')"
-              class="alert-danger"
-            >
-              {{ errors.first("last_name") }}
-            </div>
-          </div>
-
-          <div class="form-group">
-            <label for="primary_email">Email</label>
-            <input
-              v-model="primary_email"
-              v-validate="'required|email|max:50'"
-              type="email"
-              class="form-control"
-              name="primary_email"
-            />
-            <div
-              v-if="submitted && errors.has('primary_email')"
-              class="alert-danger"
-            >
-              {{ errors.first("primary_email") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password">Password</label>
-            <input
-              v-model="password"
-              v-validate="'required|min:6|max:40'"
-              type="password"
-              class="form-control"
-              name="password"
-            />
-            <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >
-              {{ errors.first("password") }}
-            </div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-primary btn-block">Sign Up</button>
-          </div>
-        </div>
-      </CForm>
-
-      <div
-        v-if="message"
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >
-        {{ message }}
-      </div>
-    </div> -->
-
-  <!-- <template> -->
   <div class="d-flex align-items-center min-vh-100">
     <CContainer fluid>
       <CRow class="justify-content-center">
@@ -127,34 +17,30 @@
                     Create your account today!
                   </p>
 
-                  <div class="row">
+                  <CRow>
                     <CSelect
                       label="Prefix"
-                      name="prefix_id"
-                      id="prefix_id"
                       horizontal
+                      required
                       :options="prefixes"
                       :value.sync="prefixSelectedValue"
                       placeholder="Please select"
-                      class="col"
                     />
                     <CSelect
                       label="Gender"
-                      name="gender_id"
-                      id="gender_id"
                       horizontal
+                      required
                       :options="genders"
                       :value.sync="genderSelectedValue"
                       placeholder="Please select"
                     />
-                  </div>
-                  <div class="row">
+                  </CRow>
+                  <CRow>
                     <CInput
                       placeholder="First Name"
-                      autocomplete="first_name"
                       v-model="first_name"
-                      class="col"
-                      name="first_name"
+                      required
+                      :is-valid="validator"
                     >
                       <template #prepend-content
                         ><CIcon name="cil-user"
@@ -163,60 +49,36 @@
 
                     <CInput
                       placeholder="Last Name"
-                      autocomplete="last_name"
                       v-model="last_name"
-                      class="col"
-                      name="last_name"
+                      required
                     >
                       <template #prepend-content
                         ><CIcon name="cil-user"
                       /></template>
                     </CInput>
-                  </div>
-                  <!-- <div class="row">
-                    <CInput
-                      placeholder="Last Name"
-                      autocomplete="last_name"
-                      v-model="last_name"
-                      class="col"
-                      v-validate="'required|min:3|max:20'"
-                    >
-                      <template #prepend-content
-                        ><CIcon name="cil-user"
-                      /></template>
-                    </CInput>
-                  </div> -->
-
-                  <div class="row">
+                  </CRow>
+                  <CRow>
                     <CInput
                       placeholder="Email"
-                      autocomplete="primary_email"
+                      type="email"
                       v-model="primary_email"
-                      class="col"
                       prepend="@"
-                      name="primary_email"
+                      required
                     />
                     <CInput
                       placeholder="Password"
                       type="password"
                       v-model="password"
-                      class="col"
-                      name="password"
+                      required
                     >
                       <template #prepend-content
                         ><CIcon name="cil-lock-locked"
                       /></template>
-                      <!-- <div
-              v-if="submitted && errors.has('password')"
-              class="alert-danger"
-            >
-              {{ errors.first("password") }}
-            </div> -->
                     </CInput>
                     <CButton type="submit" color="success" block
                       >Create Account</CButton
                     >
-                  </div>
+                  </CRow>
                 </div>
               </CForm>
               <div>
@@ -232,20 +94,6 @@
                 </div>
               </div>
             </CCardBody>
-            <!-- <CCardFooter class="p-4">
-              <CRow>
-                <CCol col="6">
-                  <CButton block color="facebook">
-                    Facebook
-                  </CButton>
-                </CCol>
-                <CCol col="6">
-                  <CButton block color="twitter">
-                    Twitter
-                  </CButton>
-                </CCol>
-              </CRow>
-            </CCardFooter> -->
           </CCard>
         </CCol>
       </CRow>
@@ -311,6 +159,10 @@ export default {
   },
 
   methods: {
+    // validator(val){
+    //   return val ? val.length == 0 : false
+    // },
+
     handleRegister() {
       const user = {
         first_name: this.first_name,
@@ -320,7 +172,7 @@ export default {
         prefix_id: this.prefixSelectedValue,
         gender_id: this.genderSelectedValue,
       };
-      console.log(user)
+      console.log(user);
       this.message = "";
       this.submitted = true;
       this.$validator.validate().then((isValid) => {
@@ -346,29 +198,6 @@ export default {
 </script>
 
 <style scoped>
-label {
-  display: block;
-  margin-top: 10px;
-}
-
-.card-container.card {
-  max-width: 350px !important;
-  padding: 40px 40px;
-}
-
-.card {
-  background-color: #f7f7f7;
-  padding: 20px 25px 30px;
-  margin: 0 auto 25px;
-  margin-top: 50px;
-  -moz-border-radius: 2px;
-  -webkit-border-radius: 2px;
-  border-radius: 2px;
-  -moz-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  -webkit-box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
 .profile-img-card {
   width: 96px;
   height: 96px;

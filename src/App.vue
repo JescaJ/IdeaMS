@@ -3,50 +3,49 @@
   <!-- this is the view that loads the different components -->
   <CNavbar expandable="md" 
           color="dark">
-      <!-- <a href class="navbar-brand" @click.prevent>AIDEA</a> -->
-      <div class="navbar-nav mr-auto">
-        <li v-if="showUserBoard" class="nav-item">
-          <router-link to="/home" class="nav-link">
+      <CNavbarNav class="mr-auto">
+        <CNavItem v-if="showUserBoard">
+          <router-link to="/home">
             <font-awesome-icon icon="home"/>Home
           </router-link>
-        </li>
-        <li v-if="showAdminBoard" class="nav-item">
+        </CNavItem>
+        <CNavItem v-if="showAdminBoard">
           <router-link to="/dashboard" class="nav-link">Admin Board</router-link>
-        </li>
-        <li v-if="showUserBoard" class="nav-item">
+        </CNavItem>
+        <CNavItem v-if="showUserBoard">
           <router-link v-if="currentUser" to="/createIdea" class="nav-link">Create Idea</router-link>
-        </li>
-        <li v-if="showUserBoard" class="nav-item">
+        </CNavItem>
+        <CNavItem v-if="showUserBoard">
           <router-link v-if="currentUser" to="/ideas" class="nav-link">View Ideas</router-link>
-        </li>
-      </div>
+        </CNavItem>
+      </CNavbarNav>
 
-      <div v-if="!currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
+      <CNavbarNav class="ml-auto" v-if="!currentUser">
+        <CNavItem>
           <router-link to="/register" class="nav-link">
             <font-awesome-icon icon="user-plus" />Sign Up
           </router-link>
-        </li>
-        <li class="nav-item">
+        </CNavItem>
+        <CNavItem>
           <router-link to="/login" class="nav-link">
             <font-awesome-icon icon="sign-in-alt" />Login
           </router-link>
-        </li>
-      </div>
+        </CNavItem>
+      </CNavbarNav>
 
-      <div v-if="currentUser" class="navbar-nav ml-auto">
-        <li class="nav-item">
+      <CNavbarNav v-if="currentUser" class="ml-auto">
+        <CNavItem>
           <router-link to="/profile" class="nav-link">
             <font-awesome-icon icon="user" />
             {{ currentUser.fullname }}
           </router-link>
-        </li>
-        <li class="nav-item">
+        </CNavItem>
+        <CNavItem>
           <a class="nav-link" href @click.prevent="logOut">
             <font-awesome-icon icon="sign-out-alt" />LogOut
           </a>
-        </li>
-      </div>
+        </CNavItem>
+      </CNavbarNav>
   </CNavbar>
   <router-view></router-view> 
   </div>

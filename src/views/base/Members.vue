@@ -10,8 +10,7 @@
               variant="outline"
               square
               size="sm"
-              @click="viewMember(item), (warningModal = true)"
-            >
+              @click="viewMember(item), (warningModal = true)">
               Update
             </CButton>
           </td>
@@ -23,14 +22,13 @@
               variant="outline"
               square
               size="sm"
-              @click="confirmDelete(item), (deleteModal=true)"
-            >
+              @click="confirmDelete(item), (deleteModal=true)">
               Delete
             </CButton>
           </td>
         </template>
-      </CDataTable></CCardBody
-    >
+      </CDataTable>
+    </CCardBody>
      
     <!-- the modal for update -->
 
@@ -39,46 +37,31 @@
       :show.sync="warningModal"
       :no-close-on-backdrop="true"
       :centered="true"
-      size="lg"
-      ><CForm @submit.prevent="saveUpdatedMember(myMember)" v-if="!update">
+      size="lg">
+      <CForm @submit.prevent="saveUpdatedMember(myMember)" v-if="!update">
         <CInput type="hidden" :value="myMember.global_user_id" />
         <CInputRadioGroup
-              label="Roles"
-              horizontal
-              :options="myRoles"
-              :checked.sync="myMember.roles"
-            />
-        <!-- <div class="form-group row">
-					<label class="col-form-label col-4">Roles</label>
-					<div class="col-8">
-						<th:block th:each="role : ${listRoles}">
-							<input type="checkbox" th:field="*{roles}"
-								th:value="${role.serial_id}" th:text="${role.role_name}"
-								class="m-2" />
-						</th:block>
-					</div>
-				</div>
-				<div>
-					<button type="submit" class="btn btn-primary">Update Role</button>
-				</div>
-			</div> -->
-        <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;"
-          ><CIcon name="cil-check-circle" /> Submit</CButton
-        >
+          label="Roles"
+          horizontal
+          :options="myRoles"
+          :checked.sync="myMember.roles"/>
+        <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;">
+          <CIcon name="cil-check-circle" /> Submit
+        </CButton>
       </CForm>
       <div v-else>
-      <h3>User Updated successfully!</h3>
-    </div>
+        <h3>User Updated successfully!</h3>
+      </div>
       <template #footer>
-        <CButton @click="darkModal = false" color="danger" style="display: none"
-          >Discard</CButton
-        >
+        <CButton @click="darkModal = false" color="danger" style="display: none">
+          Discard
+        </CButton>
         <CButton
           @click="darkModal = false"
           color="success"
-          style="display: none"
-          >Accept</CButton
-        >
+          style="display: none">
+          Accept
+        </CButton>
       </template>
     </CModal>
 
@@ -86,32 +69,28 @@
     <!-- modal for delete -->
     <CModal
       title="Delete User"
-      :show.sync="deleteModal"
-      
-    >
-    <CForm @submit.prevent="deleteMember(myMemberDelete)" v-if="!submitted">
-     <p> Are you sure you want to delete this item?</p>
-      <CButton type="submit" size="sm" color="danger" style="float: right;"
-          ><CIcon name="cil-check-circle" /> Delete</CButton
-        >
-    </CForm>
-    <div v-else>
-      <h3>Deleted successfully!</h3>
-    </div>
+      :show.sync="deleteModal">
+      <CForm @submit.prevent="deleteMember(myMemberDelete)" v-if="!submitted">
+        <p> Are you sure you want to delete this item?</p>
+        <CButton type="submit" size="sm" color="danger" style="float: right;">
+          <CIcon name="cil-check-circle" /> Delete
+        </CButton>
+      </CForm>
+      <div v-else>
+        <h3>Deleted successfully!</h3>
+      </div>
       <template #footer>
-        <CButton @click="darkModal = false" color="danger" style="display: none"
-          >Discard</CButton
-        >
+        <CButton @click="darkModal = false" color="danger" style="display: none">
+          Discard
+        </CButton>
         <CButton
           @click="darkModal = false"
           color="success"
-          style="display: none"
-          >Accept</CButton
-        >
+          style="display: none">
+          Accept
+        </CButton>
       </template>
     </CModal>
-
-        
   </div>
 </template>
     
@@ -206,6 +185,8 @@ export default {
         axios
         .delete(`http://localhost:8080/user/delete/${myMemberDelete.global_user_id}`)
         .then((response) => {
+          const deletedIndex = this.members.findIndex(p => p.global_user_id === myMemberDelete.global_user_id)
+          this.members.splice(deletedIndex, 1)
         })
         .catch((e) => {
           console.log(e);

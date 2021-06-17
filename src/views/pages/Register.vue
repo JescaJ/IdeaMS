@@ -69,18 +69,18 @@
                   <template #prepend-content><CIcon name="cil-lock-locked"/></template>
                 </CInput>
                 </div>
-                <!-- <CInput
+                <CInput
                   placeholder="Repeat password"
                   type="password"
                   autocomplete="new-password"
                   class="mb-4"
                 >
                   <template #prepend-content><CIcon name="cil-lock-locked"/></template>
-                </CInput> -->
+                </CInput>
                 <CButton color="success" block>Create Account</CButton>
               </CForm>
             </CCardBody>
-            <!-- <CCardFooter class="p-4">
+            <CCardFooter class="p-4">
               <CRow>
                 <CCol col="6">
                   <CButton block color="facebook">
@@ -93,7 +93,7 @@
                   </CButton>
                 </CCol>
               </CRow>
-            </CCardFooter> -->
+            </CCardFooter>
           </CCard>
         </CCol>
       </CRow>
@@ -102,51 +102,8 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
-  name: 'Register',
-
-
-  data(){
-    return{
-      genders:[],
-      prefixes:[],
-      prefixValue:"",
-      genderValue:"",
-    };
-    
-  },
-  mounted: function () {
-    axios
-      .get("http://localhost:8080/list_prefix")
-      .then((response) => {
-        const prefixResults = response.data.map((prefix) => {
-          return {
-            value: prefix.prefix_id,
-            label: prefix.prefix_name,
-          };
-        });
-        this.prefixes = prefixResults;
-        // console.log(prefixResults);
-      })
-      .catch((error) => console.log(error));
-
-      //for the gender
-      axios
-      .get("http://localhost:8080/list_gender")
-      .then((response) => {
-        const genderResults = response.data.map((gender) => {
-          return {
-            value: gender.gender_id,
-            label: gender.gender_name,
-          };
-        });
-        this.genders = genderResults;
-        // console.log(genderResults);
-      })
-      .catch((error) => console.log(error));
-  },
-  
+  name: 'Register'
 }
 </script>

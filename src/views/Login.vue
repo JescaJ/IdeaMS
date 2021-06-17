@@ -1,61 +1,45 @@
 <template>
-  <div class="col-md-12">
-    <div class="card card-container">
-      <div style="text-align: center">
-      <h1>IdeaMS</h1>
-      <p class="text-muted">Welcome, Let's get started</p>
-      </div>
-      <form name="form" @submit.prevent="handleLogin">
-        <div class="form-group">
-          <label for="primary_email">Primary Email</label>
-          <input
-            v-model="user.primary_email"
-            v-validate="'required'"
-            type="text"
-            class="form-control"
-            name="primary_email"
-          />
-          <div
-            v-if="errors.has('primary_email')"
-            class="alert alert-danger"
-            role="alert"
-          >Email is required!</div>
-        </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input
-            v-model="user.password"
-            v-validate="'required'"
-            type="password"
-            class="form-control"
-            name="password"
-          />
-          <div
-            v-if="errors.has('password')"
-            class="alert alert-danger"
-            role="alert"
-          >Password is required!</div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary btn-block" :disabled="loading">
-            <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-            <span>Login</span>
-          </button>
-        </div>
-        <div class="form-group">
-          <div v-if="message" class="alert alert-danger" role="alert">{{message}}</div>
-        </div>
-      </form>
-      <div>
-        <br>
-        <br>
-        <br>
-      <!-- <p style="text-align:center;">New User? <a href="/register"><b>Sign Up</b></a></p> -->
-      <CLink to="/register">New User? Sign Up</CLink>
-    </div>
-    </div>
-    
-    
+  <div class="flex-row align-items-center">
+    <CContainer>
+      <CRow class="justify-content-center">
+        <CCol md="6">
+          <CCardGroup>
+            <CCard class="p-4">
+              <CCardBody>
+                <div style="text-align: center">
+                  <h1>IdeaMS</h1>
+                  <p class="text-muted">Welcome, Let's get started</p>
+                  </div>
+                <CForm @submit.prevent="handleLogin">
+                  <CInput
+                    placeholder="Primary Email"
+                    required
+                    v-model="user.primary_email"
+                  >
+                    <template #prepend-content><CIcon name="cil-user"/></template>
+                  </CInput>
+                  <CInput
+                    placeholder="Password"
+                    type="password"
+                    v-model="user.password"
+                    required
+                  >
+                    <template #prepend-content><CIcon name="cil-lock-locked"/></template>
+                  </CInput>
+                  <CRow>
+                    <CCol col="6" class="text-left">
+                      <CButton color="primary" class="px-4" type="submit">Login</CButton>
+                    </CCol>
+                  </CRow>
+                  <br>
+                  <CLink to="/register">New User? Sign Up</CLink>
+                </CForm>
+              </CCardBody>
+            </CCard>
+          </CCardGroup>
+        </CCol>
+      </CRow>
+    </CContainer>
   </div>
 </template>
 

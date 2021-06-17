@@ -48,32 +48,6 @@
                 pagination
               >
                 <CIcon name="cil-grid" /> Simple Table
-                <!-- <template #update="{ item }">
-                  <td class="py-2">
-                    <CButton
-                      color="primary"
-                      variant="outline"
-                      square
-                      size="sm"
-                      @click="viewIdea(item), (warningModal = true)"
-                    >
-                      Update
-                    </CButton>
-                  </td>
-                </template>
-                <template #delete="{ item }">
-                  <td class="py-2">
-                    <CButton
-                      color="primary"
-                      variant="outline"
-                      square
-                      size="sm"
-                      @click="confirmDelete(item), (deleteModal = true)"
-                    >
-                      Delete
-                    </CButton>
-                  </td>
-                </template> -->
               </CDataTable>
             </CCardBody>
           </CCard>
@@ -191,23 +165,7 @@ export default {
       fields: [
         { key: "idea_id" },
         { key: "idea_title" },
-        { key: "idea_description" },
-        // { key: "category_id", label: "Category" },
-        // { key: "global_user_id", label: "Created By" },
-        // {
-        //   key: "update",
-        //   label: "",
-        //   _style: "width:1%",
-        //   sorter: false,
-        //   filter: false,
-        // },
-        // {
-        //   key: "delete",
-        //   label: "",
-        //   _style: "width:1%",
-        //   sorter: false,
-        //   filter: false,
-        // },
+        { key: "idea_description" }
       ],
 
       warningModal: false,
