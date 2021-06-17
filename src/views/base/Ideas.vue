@@ -1,28 +1,27 @@
 <template>
   <div>
-    <!-- <form >
-					
-					<input type="text" name="keyword" value=""/>
-					&nbsp;
-					<input type="submit" value="Search"/>
-					&nbsp;
-					<input type="button" value="Clear" onclick="clearSearch()"/>
-				</form> -->
     <CCard>
       <CCardHeader>
         <slot name="header"> <CIcon name="cil-grid" /> Ideas </slot>
       </CCardHeader>
       <CCardBody>
+        <CInput
+          class="mr-sm-2 float-right"
+          placeholder="Search by title"
+          size="sm"
+          type="text"
+          v-model="search"
+        />
+                
         <CDataTable
-          :items="ideas"
+          :items="filteredIdeas"
           :hover="hover"
           :fields="fields"
           :border="border"
           :small="small"
           :items-per-page="small ? 10 : 7"
           pagination
-          @row-clicked="viewingIdea"
-        >
+          @row-clicked="viewingIdea">
           <CIcon name="cil-grid" /> Simple Table
           <template #update="{ item }">
             <td v-if="showAdminBoard" class="py-2">
@@ -31,8 +30,7 @@
                 variant="outline"
                 square
                 size="sm"
-                @click="viewIdea(item), (warningModal = true)"
-              >
+                @click="viewIdea(item), (warningModal = true)">
                 Update
               </CButton>
             </td>
@@ -44,8 +42,7 @@
                 variant="outline"
                 square
                 size="sm"
-                @click="confirmDelete(item), (deleteModal = true)"
-              >
+                @click="confirmDelete(item), (deleteModal = true)">
                 Delete
               </CButton>
             </td>
@@ -137,13 +134,11 @@
       :show.sync="viewingModal"
       :no-close-on-backdrop="true"
       :centered="true"
-      size="lg"
-    >
+      size="lg">
       <CForm
         @submit.prevent="addComment"
         v-if="!commented"
-        style="width: 700px; margin: 0 auto"
-      >
+        style="width: 700px; margin: 0 auto">
         <CInput type="hidden" :value="myViewIdea.idea_id" />
         <!-- <div class="d-inline p-2 bg-primary text-white">d-inline</div>
         <div class="d-inline p-2 bg-dark text-white">d-inline</div> -->
@@ -171,9 +166,15 @@
               />
             </div>
           </div>
+          <div style="float:right;">
+            <!-- {{myViewIdea}} -->
+              <CButton @click="viewIdea(myViewIdea), (warningModal = true)" size="sm" shape="pill" color="info" variant='outline' v-if="myViewIdea.created_by == currentUser.fullname">
+                Edit
+              </CButton>
+            </div>
           
           <br />
-          <CButton color="primary" @click="isShow = !isShow"
+          <CButton size="sm" shape="pill" color="info" variant='outline' @click="isShow = !isShow"
             >Add Comment
           </CButton>
           <br>
@@ -202,13 +203,13 @@
                 <!-- </CCard> -->
                 
           <br />
-          <div v-if="isShow" class="form-group row hidden-form">
-            <label class="col-form-label col-4">Comment</label>
+          <div v-if="isShow" >
             <div class="col-8">
               <CTextarea
+                label="Comment"
+                horizontal
                 rows="5"
                 cols="35"
-                class="form-control"
                 v-model="note_content"
               ></CTextarea>
             </div>
@@ -277,6 +278,7 @@ export default {
       myIdea: "",
       myIdeaDelete: "",
       myViewIdea: "",
+      search:"",
       fields: [
         { key: "idea_title" },
         { key: "idea_description" },
@@ -314,9 +316,15 @@ export default {
 
       return false;
     },
+    filteredIdeas(){
+      return this.ideas.filter((idea) => {
+        return idea.idea_title.match(this.search);
+      });
+    }
   },
   methods: {
     viewIdea(item) {
+      this.viewingModal = false
       this.myIdea = {
         idea_id: this.idea_id,
         idea_title: this.idea_title,
@@ -348,7 +356,11 @@ export default {
     deleteIdea(myIdeaDelete) {
       axios
         .delete(`http://localhost:8080/idea/delete/${myIdeaDelete.idea_id}`)
-        .then((response) => {})
+        .then((response) => {
+          // Logic to delete local state
+          const deletedIndex = this.filteredIdeas.findIndex(p => p.idea_id === myIdeaDelete.idea_id)
+          this.filteredIdeas.splice(deletedIndex, 1)
+        })
         .catch((e) => {
           console.log(e);
         });
@@ -364,6 +376,8 @@ export default {
         global_user_id: this.global_user_id,
       };
       this.myViewIdea = item;
+      console.log(this.myViewIdea)
+      console.log(this.currentUser)
     },
     addComment() {
       const myComment = {
@@ -384,6 +398,7 @@ export default {
         const ideasFetched = await axios.get(
           "http://localhost:8080/list_ideas/"
         );
+        console.log(ideasFetched)
         const categoriesFetched = await axios.get(
           "http://localhost:8080/list_category/"
         );
@@ -416,6 +431,8 @@ export default {
           };
         });
 
+        console.log(result)
+
         const results = commentsFetched.data.map((comment) => {
           return {
             idea_id: comment.idea_id,
@@ -437,6 +454,7 @@ export default {
         });
 
         this.comments = outputs;
+        console.log(this.comments)
 
         const output = result.map((res) => {
           return {
@@ -447,7 +465,8 @@ export default {
             created_by: res.created_by.filter((y) => y !== undefined)[0],
           };
         });
-        this.ideas = output;
+        this.ideas = output.sort((a,b) => b.idea_id - a.idea_id);
+        console.log(this.ideas)
       } catch (error) {
         console.log(error);
       }

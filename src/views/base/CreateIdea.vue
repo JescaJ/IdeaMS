@@ -41,14 +41,12 @@
     </div>
     <div v-else>
       <CModal
-      title="Update Idea"
       :show.sync="warningModal"
       :no-close-on-backdrop="true"
       :centered="true"
       size="lg"
       >
-      <h3>You submitted successfully!</h3>
-      <!-- <button class="btn btn-success" v-on:click="newIdea">Add</button> -->
+      <h4>You submitted successfully!</h4>
       </CModal>
     </div>
   </div>
@@ -103,6 +101,7 @@ export default {
       axios
         .post("http://localhost:8080/process_add_idea", idea)
         .then((response) => {
+          this.$router.push('/ideas');
         })
         .catch((e) => {
           console.log(e);

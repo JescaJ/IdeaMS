@@ -26,9 +26,8 @@
     block
     class="mb-2"
   /> -->
-  <h2 style="text-decoration:none;">AIDEA</h2>
+  <h2>IdeaMS</h2>
     </CSidebarBrand>
-
     <CRenderFunction flat :content-to-render="$options.nav"/>
     <CSidebarMinimizer
       class="d-md-down-none"

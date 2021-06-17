@@ -320,6 +320,7 @@ export default {
         prefix_id: this.prefixSelectedValue,
         gender_id: this.genderSelectedValue,
       };
+      console.log(user)
       this.message = "";
       this.submitted = true;
       this.$validator.validate().then((isValid) => {

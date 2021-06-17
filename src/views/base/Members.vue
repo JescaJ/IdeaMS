@@ -219,7 +219,7 @@ export default {
     axios
       .get("http://localhost:8080/list_users/")
       .then((response) => {
-        this.members = response.data;
+        this.members = response.data.sort((a,b) => b.global_user_id - a.global_user_id);
       })
       .catch((error) => console.log(error));
 

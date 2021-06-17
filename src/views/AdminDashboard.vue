@@ -48,7 +48,7 @@
                 pagination
               >
                 <CIcon name="cil-grid" /> Simple Table
-                <template #update="{ item }">
+                <!-- <template #update="{ item }">
                   <td class="py-2">
                     <CButton
                       color="primary"
@@ -73,7 +73,7 @@
                       Delete
                     </CButton>
                   </td>
-                </template>
+                </template> -->
               </CDataTable>
             </CCardBody>
           </CCard>
@@ -192,22 +192,22 @@ export default {
         { key: "idea_id" },
         { key: "idea_title" },
         { key: "idea_description" },
-        { key: "category_id", label: "Category" },
-        { key: "global_user_id", label: "Created By" },
-        {
-          key: "update",
-          label: "",
-          _style: "width:1%",
-          sorter: false,
-          filter: false,
-        },
-        {
-          key: "delete",
-          label: "",
-          _style: "width:1%",
-          sorter: false,
-          filter: false,
-        },
+        // { key: "category_id", label: "Category" },
+        // { key: "global_user_id", label: "Created By" },
+        // {
+        //   key: "update",
+        //   label: "",
+        //   _style: "width:1%",
+        //   sorter: false,
+        //   filter: false,
+        // },
+        // {
+        //   key: "delete",
+        //   label: "",
+        //   _style: "width:1%",
+        //   sorter: false,
+        //   filter: false,
+        // },
       ],
 
       warningModal: false,
@@ -229,11 +229,11 @@ export default {
     axios
       .get("http://localhost:8080/list_ideas/")
       .then((response) => {
-        var currentDate = new Date();
-            console.log(currentDate);
-        var formatted_date = new Date().toJSON().slice(0,10);
-            console.log(formatted_date);
-        this.ideas = response.data;
+        // var currentDate = new Date();
+        //     console.log(currentDate);
+        // var formatted_date = new Date().toJSON().slice(0,10);
+        //     console.log(formatted_date);
+        this.ideas = response.data.sort((a,b) => b.idea_id - a.idea_id);
         this.ideasNumber = this.ideas.length
         // this.ideas.forEach((idea,index) => {
         //   console.log(index)

@@ -2,7 +2,7 @@
   <div class="col-md-12">
     <div class="card card-container">
       <div style="text-align: center">
-      <h1>AIDEA</h1>
+      <h1>IdeaMS</h1>
       <p class="text-muted">Welcome, Let's get started</p>
       </div>
       <form name="form" @submit.prevent="handleLogin">
@@ -50,9 +50,11 @@
         <br>
         <br>
         <br>
-      <p style="text-align:center;">New User? <a href="/register"><b>Sign Up</b></a></p>
+      <!-- <p style="text-align:center;">New User? <a href="/register"><b>Sign Up</b></a></p> -->
+      <CLink to="/register">New User? Sign Up</CLink>
     </div>
     </div>
+    
     
   </div>
 </template>
