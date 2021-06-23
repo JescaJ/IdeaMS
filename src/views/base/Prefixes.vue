@@ -1,37 +1,48 @@
 <template>
   <div>
-    <CCardBody>
-      <CDataTable :items="prefixes" :fields="fields" :small="small" :items-per-page="small ? 10 : 7" pagination>
-        <CIcon name="cil-grid" /> Simple Table
-        <template #update="{ item }">
-          <td class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="viewPrefix(item), (warningModal = true)"
-            >
-              Update
-            </CButton>
-          </td>
-        </template>
-        <template #delete="{ item }">
-          <td class="py-2">
-            <CButton
-              color="primary"
-              variant="outline"
-              square
-              size="sm"
-              @click="confirmDelete(item), (deleteModal=true)"
-            >
-              Delete
-            </CButton>
-          </td>
-        </template>
-      </CDataTable></CCardBody
-    >
-     
+    <CCard>
+      <CCardHeader>
+        <slot name="header"> <CIcon name="cil-grid" /> Prefixes </slot>
+      </CCardHeader>
+      <CCardBody>
+        <CDataTable
+          :items="prefixes"
+          :fields="fields"
+          :small="small"
+          :items-per-page="small ? 10 : 7"
+          pagination
+        >
+          <CIcon name="cil-grid" /> Simple Table
+          <template #update="{ item }">
+            <td class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="viewPrefix(item), (warningModal = true)"
+              >
+                Update
+              </CButton>
+            </td>
+          </template>
+          <template #delete="{ item }">
+            <td class="py-2">
+              <CButton
+                color="primary"
+                variant="outline"
+                square
+                size="sm"
+                @click="confirmDelete(item), (deleteModal = true)"
+              >
+                Delete
+              </CButton>
+            </td>
+          </template>
+        </CDataTable></CCardBody
+      >
+    </CCard>
+
     <!-- the modal for update -->
 
     <CModal
@@ -59,13 +70,18 @@
           :placeholder="myPrefix.prefix_description"
           v-model="myPrefix.prefix_description"
         />
-        <CButton data-dismiss="modal" type="submit" size="sm" color="success" style="float: right;"
+        <CButton
+          data-dismiss="modal"
+          type="submit"
+          size="sm"
+          color="success"
+          style="float: right"
           ><CIcon name="cil-check-circle" /> Submit</CButton
         >
       </CForm>
       <div v-else>
-      <h3>You Updated successfully!</h3>
-    </div>
+        <h3>You Updated successfully!</h3>
+      </div>
       <template #footer>
         <CButton @click="darkModal = false" color="danger" style="display: none"
           >Discard</CButton
@@ -79,22 +95,17 @@
       </template>
     </CModal>
 
-
     <!-- modal for delete -->
-    <CModal
-      title="Delete Prefix"
-      :show.sync="deleteModal"
-      
-    >
-    <CForm @submit.prevent="deletePrefix(myPrefixDelete)" v-if="!submitted">
-     <p> Are you sure you want to delete this item?</p>
-      <CButton type="submit" size="sm" color="danger" style="float: right;"
+    <CModal title="Delete Prefix" :show.sync="deleteModal">
+      <CForm @submit.prevent="deletePrefix(myPrefixDelete)" v-if="!submitted">
+        <p>Are you sure you want to delete this item?</p>
+        <CButton type="submit" size="sm" color="danger" style="float: right"
           ><CIcon name="cil-check-circle" /> Delete</CButton
         >
-    </CForm>
-    <div v-else>
-      <h3>Deleted successfully!</h3>
-    </div>
+      </CForm>
+      <div v-else>
+        <h3>Deleted successfully!</h3>
+      </div>
       <template #footer>
         <CButton @click="darkModal = false" color="danger" style="display: none"
           >Discard</CButton
@@ -106,7 +117,6 @@
           >Accept</CButton
         >
       </template>
-      
     </CModal>
   </div>
 </template>
@@ -120,8 +130,8 @@ import axios from "axios";
 export default {
   name: "Prefixes",
   components: { CTableWrapper },
-  props:{
-        small: Boolean,
+  props: {
+    small: Boolean,
   },
   data() {
     return {
@@ -132,7 +142,7 @@ export default {
       submitted: false,
       prefixes: [],
       myPrefix: "",
-      myPrefixDelete:"",
+      myPrefixDelete: "",
       fields: [
         { key: "prefix_id" },
         { key: "prefix_name" },
@@ -168,16 +178,18 @@ export default {
     },
     saveUpdatedPrefix(myPrefix) {
       axios
-        .put(`http://localhost:8080/prefix/save/${myPrefix.prefix_id}`, myPrefix)
-        .then((response) => {
-        })
+        .put(
+          `http://localhost:8080/prefix/save/${myPrefix.prefix_id}`,
+          myPrefix
+        )
+        .then((response) => {})
         .catch((e) => {
           console.log(e);
         });
       this.update = true;
     },
-    confirmDelete(item){
-        this.myPrefixDelete = {
+    confirmDelete(item) {
+      this.myPrefixDelete = {
         prefix_id: this.prefix_id,
         prefix_name: this.prefix_name,
         prefix_description: this.prefix_description,
@@ -185,10 +197,11 @@ export default {
       this.myPrefixDelete = item;
     },
     deletePrefix(myPrefixDelete) {
-        axios
-        .delete(`http://localhost:8080/prefix/delete/${myPrefixDelete.prefix_id}`)
-        .then((response) => {
-        })
+      axios
+        .delete(
+          `http://localhost:8080/prefix/delete/${myPrefixDelete.prefix_id}`
+        )
+        .then((response) => {})
         .catch((e) => {
           console.log(e);
         });
@@ -196,7 +209,7 @@ export default {
     },
   },
 
-    // this is the function for returning all the ideas
+  // this is the function for returning all the ideas
   mounted: function () {
     axios
       .get("http://localhost:8080/list_prefix/")

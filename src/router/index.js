@@ -80,10 +80,7 @@ export const router = new Router({
   mode: 'hash', // https://router.vuejs.org/api/#mode
   linkActiveClass: 'active',
   scrollBehavior: () => ({ y: 0 }),
-  routes: configRoutes(),
-  //personal edits
-  
-
+  routes: configRoutes()
 })
 router.beforeEach((to, from, next) => {
   const publicPages = ['/login', '/register', '/home'];
