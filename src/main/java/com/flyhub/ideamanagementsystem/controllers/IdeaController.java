@@ -80,6 +80,12 @@ public class IdeaController {
 		return "idea_edit_form";
 	}
 	
+	@GetMapping("/idea/{idea_id}")
+	public Idea testError(@PathVariable("idea_id") int idea_id) {
+		
+		return ideaService.get(idea_id);
+	}
+	
 
 	@PutMapping("/ideas/save/{idea_id}")
 	public Idea update(@PathVariable("idea_id") int idea_id, @RequestBody Idea idea) {

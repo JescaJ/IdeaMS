@@ -32,9 +32,6 @@ public class IdeaService {
 	private NoteRepository noteRepo;
 	
 	@Autowired
-	private UserRepository userRepo;
-	
-	@Autowired
 	private CategoryRepository categoryRepo;
 
 
